@@ -1,18 +1,26 @@
 <template>
   <v-app>
     <v-main>
-      <router-view/>
+      <pageHeader />
+      <router-view />
+      <pageFooter/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-
+import "./assets/css/style.css";
+import pageHeader from "./components/Shared/pageHeader.vue";
+import pageFooter from "./components/Shared/pageFooter.vue";
 export default {
-  name: 'App',
+  name: "App",
+  components: {
+    pageHeader,
+    pageFooter
+  },
 
   data: () => ({
     //
   }),
-}
+};
 </script>

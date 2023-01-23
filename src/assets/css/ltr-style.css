@@ -1,0 +1,6 @@
+html[lang=en] .search .search-btn {
+    right: 0;
+  }
+  html[lang=ar] .search .search-btn {
+    left: 0;
+  }
