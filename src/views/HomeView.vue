@@ -1,6 +1,7 @@
 <template>
-  <div>home</div>
-  <div>solia</div>
+  <div>
+    {{ $t('message') }}
+  </div>
 </template>
 
 <script>
