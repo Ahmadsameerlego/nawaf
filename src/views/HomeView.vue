@@ -52,6 +52,7 @@ export default defineComponent({
     homeDetails,
     uploadAd,
     loginComponent
+    
   },
 });
 </script>
