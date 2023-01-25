@@ -22,10 +22,14 @@ dom.watch();
 
 // import axios
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/';
 axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // axios.defaults.headers.lang = sessionStorage.getItem('lang');
+
+// import sweat alert 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 // import i18n
@@ -34,12 +38,15 @@ import i18n from "./i18n";
 
 loadFonts();
 
+
+loadFonts()
+
+createApp(App).use(i18n).use(VueI18n)
 createApp(App)
-  .use(i18n)
-  .use(VueI18n)
   .use(router)
   .use(store)
   .use(vuetify)
+  .use(VueSweetalert2)
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(VueGoogleMaps, {
     load: {

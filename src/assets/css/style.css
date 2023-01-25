@@ -128,7 +128,9 @@
   input:focus::placeholder {
     color: transparent;
   }
-  
+  *::placeholder{
+    text-align: right !important;
+  }
   *::-moz-placeholder {
     color: #707070;
     font-size: 14px;
@@ -486,31 +488,31 @@
     text-decoration: underline !important;
   }
   
-  .owl-dots {
+  .swiper-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 12px;
   }
-  .owl-dots .owl-dot {
+  .swiper-pagination .swiper-pagination-bullet {
     border-radius: 50%;
     width: 16px;
     height: 16px;
   }
   @media screen and (max-width: 425px) {
-    .owl-dots .owl-dot {
+    .swiper-pagination .swiper-pagination-bullet {
       border-radius: 50%;
       width: 14px;
       height: 14px;
     }
   }
-  .owl-dots .owl-dot.active {
+  .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
     width: 80px;
     background-color: #010135 !important;
     border-radius: 11px;
   }
   @media screen and (max-width: 425px) {
-    .owl-dots .owl-dot.active {
+    .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
       width: 65px;
     }
   }
@@ -1799,14 +1801,14 @@
       margin-bottom: 20px;
     }
   }
-  .home-section .owl-dots {
+  .home-section .swiper-pagination {
     position: absolute !important;
     bottom: 20px;
     left: 0;
     width: 100%;
     z-index: 3;
   }
-  .home-section .owl-dots .owl-dot {
+  .home-section .swiper-pagination .swiper-pagination-bullet {
     background-color: #1F2548;
   }
   
@@ -1856,50 +1858,50 @@
     }
   }
   
-  .advertisements-section .title-inputs {
+  .explore-section .title-inputs {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .advertisements-section .ads-cards {
+  .explore-section .eplore-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 37.5px 25px;
   }
-  .advertisements-section .ads-cards .ads-card {
+  .explore-section .eplore-cards .explore-card {
     border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 9px rgb(0 0 0 / 31%);
     overflow: hidden;
     transition: all 0.3s ease;
   }
-  .advertisements-section .ads-cards .ads-card:hover {
+  .explore-section .eplore-cards .explore-card:hover {
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-head {
+  .explore-section .eplore-cards .explore-card .explore-card-head {
     height: 150px;
     overflow: hidden;
     border-radius: 8px;
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-head img {
+  .explore-section .eplore-cards .explore-card .explore-card-head img {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
        object-fit: cover;
     transition: all 0.3s ease;
   }
-  .advertisements-section .ads-cards .ads-card:hover .ads-card-head img {
+  .explore-section .eplore-cards .explore-card:hover .explore-card-head img {
     transform: scale(1.1) rotate(-3deg);
   }
   @media screen and (max-width: 576px) {
-    .advertisements-section .ads-cards .ads-card:hover .ads-card-head img {
+    .explore-section .eplore-cards .explore-card:hover .explore-card-head img {
       transform: scale(1.2) rotate(-3deg);
     }
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-body {
+  .explore-section .eplore-cards .explore-card .explore-card-body {
     padding: 15px;
     border-bottom: 1px solid #f0f0f0;
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-body .ads-title {
+  .explore-section .eplore-cards .explore-card .explore-card-body .ads-title {
     font-size: 19px;
     color: #3C3C3C;
     margin-bottom: 12px;
@@ -1909,44 +1911,44 @@
     white-space: nowrap;
   }
   @media screen and (max-width: 425px) {
-    .advertisements-section .ads-cards .ads-card .ads-card-body .ads-title {
+    .explore-section .eplore-cards .explore-card .explore-card-body .ads-title {
       font-size: 17px;
       margin-bottom: 10px;
     }
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-body .ads-city {
+  .explore-section .eplore-cards .explore-card .explore-card-body .ads-city {
     font-size: 14px;
     margin-bottom: 8px;
     min-height: 23px;
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-body .ads-price {
+  .explore-section .eplore-cards .explore-card .explore-card-body .ads-price {
     font-size: 14px;
     color: #010135;
     display: block;
     min-height: 23px;
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-footer {
+  .explore-section .eplore-cards .explore-card .explore-card-footer {
     padding: 8px 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 15px;
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-footer .profile {
+  .explore-section .eplore-cards .explore-card .explore-card-footer .profile {
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-footer .profile .profile-img {
+  .explore-section .eplore-cards .explore-card .explore-card-footer .profile .profile-img {
     border-radius: 50%;
     width: 30px;
     height: 30px;
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-footer .profile .profile-name {
+  .explore-section .eplore-cards .explore-card .explore-card-footer .profile .profile-name {
     font-size: 14px;
     color: #3C3C3C;
   }
-  .advertisements-section .ads-cards .ads-card .ads-card-footer .favorite-icon {
+  .explore-section .eplore-cards .explore-card .explore-card-footer .favorite-icon {
     color: #2ABDC7;
     font-size: 19px;
     cursor: pointer;
@@ -2317,10 +2319,10 @@
       border-radius: 10px;
     }
   }
-  .ads-carousel .owl-dots {
+  .ads-carousel .swiper-pagination {
     transform: translateY(20px);
   }
-  .ads-carousel .owl-dots .owl-dot {
+  .ads-carousel .swiper-pagination .swiper-pagination-bullet {
     background-color: #9f9f9f;
   }
   
