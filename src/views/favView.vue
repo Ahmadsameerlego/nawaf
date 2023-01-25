@@ -1,21 +1,21 @@
 <template>
   <!-- Start advertisements Section -->
-  <div class="advertisements-section main-padding">
+  <div class="explore-section main-padding">
     <div class="container">
-      <div class="ads-cards">
-        <div class="ads-card" v-for="fav,i in favs"  :key="fav.id">
+      <div class="eplore-cards">
+        <div class="explore-card" v-for="fav,i in favs"  :key="fav.id">
           <div class="card-container">
             <router-link to="/"></router-link>
-            <div class="ads-card-head">
+            <div class="explore-card-head">
               <img :src="fav.img" alt="" />
             </div>
-            <div class="ads-card-body">
+            <div class="explore-card-body">
               <h3 class="ads-title">{{ fav.title }}</h3>
               <p class="ads-city">{{ fav.location }}</p>
               <span class="ads-price">{{ fav.price }}</span>
             </div>
           </div>
-          <div class="ads-card-footer">
+          <div class="explore-card-footer">
             <a href="profile.html" class="profile">
               <img class="profile-img" :src="fav.smImg" alt="" />
               <span class="profile-name">{{ fav.auther }}</span>
