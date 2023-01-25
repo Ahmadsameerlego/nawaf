@@ -22,23 +22,25 @@
             </router-link>
 
             <li>
-              <router-link to="/" class="links-a">الرئيسية</router-link>
+              <router-link to="/" class="links-a" :class="{ active : $route.path === '/'}">الرئيسية</router-link>
             </li>
             <li>
-              <router-link to="/" class="links-a">الأقسام</router-link>
+              <router-link to="/depatments" class="links-a" :class="{ active : $route.path === '/depatments'}"
+                >الأقسام</router-link
+              >
             </li>
             <li>
-              <router-link to="/" class="links-a">المفضلة</router-link>
+              <router-link to="/favView" class="links-a" :class="{ active : $route.path === '/favView'}">المفضلة</router-link>
             </li>
             <li>
-              <router-link to="/" class="links-a">تواصل معنا</router-link>
+              <router-link to="/contactView" class="links-a" :class="{ active : $route.path === '/contactView'}">تواصل معنا</router-link>
             </li>
           </ul>
 
           <div class="mobile">
-            <div class="search-mobile"  ref="searchMobile">
+            <div class="search-mobile" ref="searchMobile">
               <div class="search-icons" @click="toggleSearch()">
-                <div class="search-i" >
+                <div class="search-i">
                   <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
                 <div class="search-i search-close">
@@ -88,8 +90,8 @@ export default {
   methods: {
     toggleBar() {
       // SideBar
-      const showSideBar = this.$refs.toggleIcon
-      const SideBar = this.$refs.ulBar
+      const showSideBar = this.$refs.toggleIcon;
+      const SideBar = this.$refs.ulBar;
 
       SideBar.classList.toggle("active");
       showSideBar.classList.toggle("active");
@@ -97,12 +99,13 @@ export default {
       // Show And Hide Search Navbar
     },
     toggleSearch() {
-      let searchIcon = this.$refs.searchMobile
-      let searchBox = this.$refs.navSearch
+      let searchIcon = this.$refs.searchMobile;
+      let searchBox = this.$refs.navSearch;
 
       searchBox.classList.toggle("active");
       searchIcon.classList.toggle("active");
     },
+    
   },
 };
 </script>
