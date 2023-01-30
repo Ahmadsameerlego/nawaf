@@ -23,7 +23,7 @@
 
           <swiper-slide v-for="cat in catsImages" :key="cat">
             
-            <router-link to='/' class="categories-item">
+            <router-link :to="'/catogryView/'+cat.id" class="categories-item">
               <div class="img-style-con">
                 <img
                   class="cat-img"
@@ -54,11 +54,12 @@ export default {
     data(){
         return{
             catsImages : [
-                {
+                {   id:1,
                     src : require('../../assets/imgs/categories-1.png'),
                     name : 'الكترونيات'
                 },
                 {
+                    id : 2,
                     src : require('../../assets/imgs/categories-1.png'),
                     name : 'الكترونيات'
                 },

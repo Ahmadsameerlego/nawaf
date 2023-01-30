@@ -5,6 +5,10 @@ import favView from "../views/favView";
 import contactView from "../views/contactView";
 import catogryView from "../views/catogryView";
 
+import uploadAds from '../views/uploadAd'
+import adsPayment from '../views/adsPayment.vue'
+import successAd from '../views/succesAd.vue'
+
 const routes = [
   {
     path: "/",
@@ -31,6 +35,21 @@ const routes = [
     name: "catogryView",
     component: catogryView,
   },
+  {
+    path : '/uploadAds',
+    name : 'uploadAds',
+    component : uploadAds
+  },
+  {
+    path:'/adsPayment',
+    name : 'adsPayment',
+    component : adsPayment
+  },
+  {
+    path : '/successAd',
+    name : 'successAd',
+    component : successAd
+  }
 ];
 
 const router = createRouter({

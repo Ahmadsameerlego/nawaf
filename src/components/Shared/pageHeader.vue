@@ -70,7 +70,7 @@
             data-bs-toggle="modal"
             data-bs-target="#loginModal"
           >
-            ارفع إعلانك
+            <router-link to="/uploadAds"> ارفع إعلانك </router-link>
           </button>
         </div>
       </div>
