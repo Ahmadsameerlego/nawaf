@@ -1,6 +1,6 @@
 <template>
   <!-- Start advertisements Section -->
-  <div class="advertisements-section main-padding">
+  <div class="explore-section main-padding">
     <div class="container">
       <div class="main-title media">
         <h3 class="main-tit-text">تصفح قسم الالكترونيات</h3>
@@ -25,27 +25,27 @@
           </form>
         </div>
       </div>
-      <div class="ads-cards">
-        <div class="ads-card" v-for="fav in favs" :key="fav.id">
+      <div class="eplore-cards">
+        <div class="explore-card" v-for="fav,i  in favs" :key="fav.id">
           <div class="card-container">
-            <router-link to="/"></router-link>
-            <div class="ads-card-head">
+            <router-link :to="{ name: 'catogryDetails' , params: { id: fav.id } }"></router-link>
+            <div class="explore-card-head">
               <img :src="fav.img" alt="" />
             </div>
-            <div class="ads-card-body">
+            <div class="explore-card-body">
               <h3 class="ads-title">{{ fav.title }}</h3>
               <p class="ads-city">{{ fav.location }}</p>
               <span class="ads-price">{{ fav.price }}</span>
             </div>
           </div>
-          <div class="ads-card-footer">
+          <div class="explore-card-footer">
             <a href="profile.html" class="profile">
               <img class="profile-img" :src="fav.smImg" alt="" />
               <span class="profile-name">{{ fav.auther }}</span>
             </a>
-            <div class="favorite-icon" ref="favoriteicon" @click="addHeart()">
-              <font-awesome-icon v-if="hearted" icon="fa-solid fa-heart" />
-              <font-awesome-icon v-if="!hearted" icon="fa-regular fa-heart" />
+            <div class="favorite-icon" ref="favoriteicon" @click="addHeart(i)">
+              <font-awesome-icon v-if="fav.hearted" icon="fa-solid fa-heart" />
+              <font-awesome-icon v-if="!fav.hearted" icon="fa-regular fa-heart" />
             </div>
           </div>
         </div>
@@ -63,11 +63,22 @@ export default defineComponent({
   data() {
     return {
       filterImg: require("../assets/imgs/icons8-slider-50.png"),
-      hearted: true,
+      
       favs: [
         // array
         {
           id: 1,
+          hearted: true,
+          title: "اعلان عن لاب توب",
+          img: require("../assets/imgs/ads2.png"),
+          location: "الرياض - السعودية",
+          price: "250 ر.س",
+          smImg: require("../assets/imgs/profile.jpg"),
+          auther: "عبدالرحمن سليمان",
+        },
+        {
+          id: 2,
+          hearted: true,
           title: "اعلان عن لاب توب",
           img: require("../assets/imgs/ads2.png"),
           location: "الرياض - السعودية",
@@ -79,8 +90,8 @@ export default defineComponent({
     };
   },
   methods: {
-    addHeart() {
-      this.hearted = !this.hearted;
+    addHeart(i) {
+      this.favs[i].hearted = !this.favs[i].hearted;
       console.log(this.hearted);
     },
   },

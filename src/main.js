@@ -32,8 +32,6 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 
-
-
 // import i18n
 import VueI18n from "vue-i18n";
 import i18n from "./i18n";
@@ -52,8 +50,9 @@ createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(VueGoogleMaps, {
     load: {
-      key: "AIzaSyAZXoCFShAcMoUJueo-IWyu6fI7s9jqn2Y",
+      key: "AIzaSyBNLoYGrbnQI_GMqHt6m0PSN9yA7Zvq7gA",
       // language: 'de',
+    
     },
   })
   .mount("#app");
