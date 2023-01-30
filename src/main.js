@@ -50,8 +50,9 @@ createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(VueGoogleMaps, {
     load: {
-      key: "AIzaSyAZXoCFShAcMoUJueo-IWyu6fI7s9jqn2Y",
+      key: "AIzaSyBNLoYGrbnQI_GMqHt6m0PSN9yA7Zvq7gA",
       // language: 'de',
+    
     },
   })
   .mount("#app");

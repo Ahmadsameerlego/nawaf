@@ -5,7 +5,7 @@
       <div class="eplore-cards">
         <div class="explore-card" v-for="fav,i in favs"  :key="fav.id">
           <div class="card-container">
-            <router-link to="/"></router-link>
+            <router-link :to="{ name: 'favDetails' , params: { id: fav.id } }"></router-link>
             <div class="explore-card-head">
               <img :src="fav.img" alt="" />
             </div>

@@ -5,7 +5,7 @@
     <GMapMap
       :center="center"
       :options="options"
-      :zoom="10"
+      :zoom="5"
       map-type-id="terrain"
       style="width: 100vw; height: 500px"
     >
