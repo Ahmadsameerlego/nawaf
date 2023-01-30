@@ -1016,15 +1016,16 @@
   }
   
   .hidden-img {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     position: relative;
-    flex-shrink: 0;
-    width: 90px;
-    height: 90px;
   }
   .hidden-img img {
     border-radius: 12px;
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 100px;
     -o-object-fit: cover;
        object-fit: cover;
   }
@@ -2440,7 +2441,7 @@
     align-items: center;
     gap: 12px;
   }
-  .upload-ads-img .ads-img-text .ads-text {
+  .upload-ads-img .ads-img-text .upload-text {
     color: #707070;
     font-size: 14px;
   }
@@ -2665,3 +2666,6 @@
   .edit-img .edit-overlay img {
     max-width: 30px;
   }/*# sourceMappingURL=main.css.map */
+  /* .modal-backdrop{
+    display: n;
+  } */

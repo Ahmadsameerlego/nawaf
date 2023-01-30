@@ -46,7 +46,12 @@
 
     </div>
   </div>
+
+  
   </section>
+
+    <addAdsPanner />
+
 </template>
 
 <script>
@@ -57,6 +62,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 // import required modules
 import { Autoplay ,Pagination } from "swiper";
+
+// import add advertise panner 
+import addAdsPanner from '../ads/addAdsPanner.vue'
 
 export default {
   data() {
@@ -96,6 +104,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
+    addAdsPanner
   },
   setup() {
         return {

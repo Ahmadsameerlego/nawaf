@@ -11,6 +11,10 @@ import ratingView from "../views/ratingView";
 import advertisementsView from "../views/advertisementsView";
 import notificationsView from "../views/notificationsView";
 
+import uploadAds from '../views/uploadAd'
+import adsPayment from '../views/adsPayment.vue'
+import successAd from '../views/succesAd.vue'
+
 const routes = [
   {
     path: "/",
@@ -67,6 +71,20 @@ const routes = [
     name: "notificationsView",
     component: notificationsView,
   },
+    path : '/uploadAds',
+    name : 'uploadAds',
+    component : uploadAds
+  },
+  {
+    path:'/adsPayment',
+    name : 'adsPayment',
+    component : adsPayment
+  },
+  {
+    path : '/successAd',
+    name : 'successAd',
+    component : successAd
+  }
 ];
 
 const router = createRouter({
