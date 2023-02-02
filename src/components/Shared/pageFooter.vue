@@ -5,9 +5,9 @@
       <div class="row footer-cards gy-5">
         <div class="col-lg-5 col-md-6 col-12">
           <div class="footer-logo">
-            <a href="index.html" class="foot-logo-img">
+            <router-link to="/" class="foot-logo-img">
               <img :src="logo" alt="" />
-            </a>
+            </router-link>
             <p class="footer-info">
               هذا النص هو مثال لنص يمكن ان يستخدم هذا النص هو مثال لنص يمكن ان
               يستخدم في نفس المساحةفي نفس المساحة
@@ -20,6 +20,7 @@
             <h3 class="footer-head"> {{ $t('footer.mainLinks') }} </h3>
             <ul class="footer-links row">
               <div class="col-lg-6">
+                
                 <router-link to="/" class="link"> {{ $t('footer.home') }} </router-link>
                 <router-link to="/" class="link"> {{ $t('footer.cats') }} </router-link>
                 <router-link to="/" class="link"> {{ $t('footer.upload') }} </router-link>

@@ -32,6 +32,9 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 
+
+
+
 // import i18n
 import VueI18n from "vue-i18n";
 import i18n from "./i18n";

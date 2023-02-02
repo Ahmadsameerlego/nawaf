@@ -107,11 +107,13 @@
   
   <!-- End Add Advertisements Section -->
   <editPassword />
+  <editNum />
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import editPassword from '../components/profile/editPassword.vue';
+import editNum from '../components/profile/editNum.vue';
 
 
 export default defineComponent({
@@ -133,7 +135,7 @@ export default defineComponent({
       this.uploaded = true;
     },
   },
-  components: {editPassword},
+  components: {editPassword , editNum},
 });
 </script>
 <style>

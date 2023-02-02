@@ -95,7 +95,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "favView",
+  name: "advertisementsView",
   data() {
     return {
       showtap1: true,

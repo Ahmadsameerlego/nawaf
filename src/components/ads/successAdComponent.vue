@@ -13,7 +13,7 @@
 
                                     <img :src="successPay" class="done-img my-5" alt="">
 
-                                    <a href="all-ads.html" class="main-btn up md mx-auto">اعلاناتي</a>
+                                    <router-link to="/advertisementsView" class="main-btn up md mx-auto">اعلاناتي</router-link>
                                 </div>
 
                             </div>

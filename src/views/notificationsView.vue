@@ -7,8 +7,8 @@
           <div class="not-cards"    v-if="notis.length >= 1">
             <div
               class="not-card active"
-           
-              v-for="noti in notis"
+              :class="{ showFalse : !noti.showNoti}"
+              v-for="noti,i in notis"
               :key="noti.id"
             >
               <div class="right-not">
@@ -19,7 +19,7 @@
               </div>
               <div class="left-not">
                 <span class="not-time">{{ noti.time }}</span>
-                <span class="not-delete" @click="removeNoti(item , index)">
+                <span class="not-delete" @click="removeNoti(i)">
                   <i class="fa-solid fa-trash-can delete-icon"></i>
                   إزالة
                 </span>
@@ -48,26 +48,31 @@ export default defineComponent({
           id: 1,
           time: "الان",
           title:
-            "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا الننص هو مثال لنص يمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نفس المساحة",
+            "111111111111111111111111111",
+            showNoti: true,
         },
         {
           id: 2,
           time: "الان",
           title:
-            "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا الننص هو مثال لنص يمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نفس المساحة",
+            "222222222222222222222222222222222222222222   ",
+            showNoti: true,
         },
         {
           id: 3,
           time: "الان",
           title:
-            "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا الننص هو مثال لنص يمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نفس المساحة",
+            "33333333333333333333333333333333",
+            showNoti: true,
         },
       ],
     };
   },
   methods: {
-    removeNoti(index) {
-        this.notis.splice(index , 1)
+    removeNoti(i) {
+        this.notis.splice(i , 1);
+        console.log(this.notis);
+        
     },
   },
 
