@@ -38,10 +38,10 @@
                             <div class="d-flex" >
                                       <div class="hidden-img" v-if="adsImages.length  <= 6">
                                         <div class="position-relative" v-for="(image, key) in adsImages" :key="key" >
-                                          <button class="remove-img text-white" type="button" @click="removeImage(key)">
+                                          <button class="remove-img text-white" type="button" @click="removeImage(image, key)">
                                             &times;
                                           </button>
-                                          <img class="preview img-thumbnail" v-bind:ref="'image' +parseInt( key )" /> 
+                                          <img class="preview img-thumbnail" :ref="'image'" /> 
 
                                         </div>
 
@@ -244,27 +244,45 @@ export default {
                 this.adsImagesName.push(selectedImages[i].name);
             }
 
-            for (let i=0; i<this.adsImages.length; i++)
-            {
-                    let reader = new FileReader(); //instantiate a new file reader
-                    reader.addEventListener('load', function(){
-                        this.$refs['image' + parseInt( i )][0].src = reader.result;
-                    }.bind(this), false);  //add event listener
 
-                reader.readAsDataURL(this.adsImages[i]);
-            }
-            if(this.adsImages.length > 6){
-              this.adsImages = []
-              this.showValid = true
-            }else{
-              this.showValid = false
-            }
+       
+
+              if(this.adsImages.length > 6){
+                this.adsImages = []
+                this.showValid = true
+                 
+
+              }else{
+                this.showValid = false
+              }
+
+              this.applyImage();
+
+
         },
 
         // remvoe image 
-        removeImage(key){
+        removeImage(image, key){
             this.adsImages.splice(key, 1);
+            this.applyImage();
+
         },
+
+
+            applyImage() {
+              for (let i = 0; i < this.adsImages.length; i++) {
+                let reader = new FileReader();
+                reader.onload = () => {
+                  this.$refs.image[i].src = reader.result;
+                };
+                reader.readAsDataURL(this.adsImages[i]);
+
+              
+              }
+                console.log(this.adsImages)
+                console.log( this.adsImages.length)
+            },
+
 
         // submit upload ads form 
         async uploadAdv(){

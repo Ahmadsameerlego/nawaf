@@ -7,7 +7,7 @@
             <div class="content-model-me">
 
                 <div class="modal-header">
-                <h2 class="section-title">ارفع صورة</h2>
+                <h2 class="section-title"> {{ $t('common.uploadImage') }} </h2>
                 </div>
 
                 <form action="" class="modal-form" ref="uploadForm">
@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="main-btn md up" type="button" data-bs-toggle="modal" data-bs-target="#doneModal" data-bs-dismiss="modal" aria-label="Close" @click.prevent="uploadAds()">إرسال الطلب</button>
+                        <button class="main-btn md up" type="button" data-bs-toggle="modal" data-bs-target="#doneModal" data-bs-dismiss="modal" aria-label="Close" @click.prevent="uploadAds()"> {{ $t('common.sendRequest') }} </button>
                     </div>
 
                 </form>
@@ -43,7 +43,7 @@
             <div class="content-model-me">
 
                 <div class="modal-header">
-                  <h2 class="section-title">تم إرسال الطلب للإدارة سيتم الرد عليك</h2>
+                  <h2 class="section-title"> {{ $t('common.sendSuc') }} </h2>
                 </div>
 
                 <div class="modal-body">
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="main-btn md up" type="submit" data-bs-toggle="modal" data-bs-target="#doneModal" data-bs-dismiss="modal" aria-label="Close">متابعة</button>
+                    <button class="main-btn md up" type="submit" data-bs-toggle="modal" data-bs-target="#doneModal" data-bs-dismiss="modal" aria-label="Close"> {{ $t('common.finish') }} </button>
                 </div>
 
             </div>

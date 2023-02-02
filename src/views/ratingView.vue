@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-lg-9 mx-auto">
           <div class="ratings section-style sec-padding">
-            <h2 class="section-title">تقييماتي</h2>
+            <h2 class="section-title"> {{ $t('nav.rates') }} </h2>
             <div class="rating-cards px-md-4 px-2">
               <div class="rating-card" v-for="rate in rates" :key="rate.id">
                 <img :src="rate.userImg" class="rate-img" alt="" />

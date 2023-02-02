@@ -20,14 +20,14 @@
 
         <div class="content-model-me">
           <div class="modal-header">
-            <h2 class="section-title">تغيير كلمة المرور</h2>
+            <h2 class="section-title"> {{ $t('contact.changePassTitle') }} </h2>
           </div>
 
           <form action="add-ads.html" class="modal-form">
             <div class="modal-body">
               <div class="inputs-container">
                 <div class="input-g">
-                  <label for="" class="main-label"> كلمة المرور الحالية </label>
+                  <label for="" class="main-label"> {{ $t('contact.currentPass') }} </label>
                   <div class="main-input">
                     <span class="pass-icon main-icon">
                       <i class="fa-regular fa-eye-slash"></i>
@@ -35,13 +35,13 @@
                     <input
                       type="password"
                       class="input-me"
-                      placeholder="أدخل كلمة المرور الحالية"
+                      :placeholder="$t('contact.enterCurrent')"
                     />
                   </div>
                 </div>
 
                 <div class="input-g">
-                  <label for="" class="main-label"> كلمة المرور الجديدة </label>
+                  <label for="" class="main-label"> {{ $t('contact.newPass') }} </label>
                   <div class="main-input">
                     <span class="pass-icon main-icon">
                       <i class="fa-regular fa-eye-slash"></i>
@@ -49,14 +49,14 @@
                     <input
                       type="password"
                       class="input-me"
-                      placeholder="أدخل كلمة المرور الجديدة"
+                      :placeholder="$t('contact.enterNew')"
                     />
                   </div>
                 </div>
 
                 <div class="input-g">
                   <label for="" class="main-label">
-                    تأكيد كلمة المرور الجديدة
+                    {{ $t('contact.confirmPass') }}
                   </label>
                   <div class="main-input">
                     <span class="pass-icon main-icon">
@@ -65,7 +65,7 @@
                     <input
                       type="password"
                       class="input-me"
-                      placeholder="أدخل كلمة المرور الجديدة مرة أخرى"
+                      :placeholder="$t('contact.enterConfirm')"
                     />
                   </div>
                 </div>
@@ -81,7 +81,7 @@
                 data-bs-dismiss="modal"
                 aria-label="Close"
               >
-                حفظ
+                {{ $t('contact.save') }}
               </button>
             </div>
           </form>

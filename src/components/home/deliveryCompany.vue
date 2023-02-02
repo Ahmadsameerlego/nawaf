@@ -2,8 +2,8 @@
   <div class="company-section main-padding">
     <div class="container">
       <div class="main-title">
-        <h3 class="main-tit-text">شركات شحن وتوصيل</h3>
-        <router-link to="/componiesView" class="all-anchor">الكل</router-link>
+        <h3 class="main-tit-text"> {{ $t('cats.deliveryCompans') }} </h3>
+        <a href="shipping-companies.html" class="all-anchor"> {{ $t('cats.all') }} </a>
       </div>
 
       <div class="row">

@@ -80,6 +80,10 @@ const routes = [
     path: "/uploadAds",
     name: "uploadAds",
     component: uploadAds,
+}
+    path : '/uploadAds',
+    name : 'uploadAds',
+    component : uploadAds
   },
   {
     path: "/adsPayment",

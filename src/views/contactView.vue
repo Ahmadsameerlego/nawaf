@@ -25,7 +25,7 @@
   <div class="contact-section">
     <div class="container">
       <div class="contact-content px-md-5 px-4 sec-padding">
-        <h2 class="section-title">تواصل معنا</h2>
+        <h2 class="section-title"> {{ $t('contact.title') }} </h2>
 
         <div class="row gy-5">
           <div class="col-md-6">
@@ -36,7 +36,7 @@
                     <input
                       type="text"
                       class="input-contact"
-                      placeholder="الاسم كاملاً"
+                      :placeholder="$t('contact.fullName')"
                     />
                   </div>
                 </div>
@@ -46,7 +46,7 @@
                     <input
                       type="email"
                       class="input-contact"
-                      placeholder="البريد الالكتروني"
+                      :placeholder="$t('contact.email')"
                     />
                   </div>
                 </div>
@@ -55,13 +55,13 @@
                   <div class="main-input">
                     <textarea
                       class="input-contact text-area"
-                      placeholder="نص الرسالة"
+                      :placeholder="$t('contact.messageText')"
                     ></textarea>
                   </div>
                 </div>
 
                 <div class="input-g">
-                  <button type="submit" class="main-btn md up">إرسال</button>
+                  <button type="submit" class="main-btn md up"> {{ $t('contact.send') }} </button>
                 </div>
               </div>
             </form>
@@ -76,7 +76,7 @@
                       <img :src="img1" alt="" />
                     </div>
                     <div class="contact-info">
-                      <span class="contact-name">البريد الألكتروني</span>
+                      <span class="contact-name"> {{ $t('contact.email') }} </span>
                       <p class="contact-text">example@info.com</p>
                     </div>
                   </div>
@@ -86,7 +86,7 @@
                       <img :src="img2" alt="" />
                     </div>
                     <div class="contact-info">
-                      <span class="contact-name">رقم الجوال</span>
+                      <span class="contact-name"> {{ $t('contact.phone') }} </span>
                       <p class="contact-text">9665215452452</p>
                     </div>
                   </div>
@@ -96,7 +96,7 @@
                       <img :src="img3" alt="" />
                     </div>
                     <div class="contact-info">
-                      <span class="contact-name">العنوان</span>
+                      <span class="contact-name"> {{ $t('contact.address') }} </span>
                       <p class="contact-text">شارع الملك فهد ، الرياض</p>
                     </div>
                   </div>

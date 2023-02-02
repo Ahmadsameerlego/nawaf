@@ -79,26 +79,14 @@
   .v-locale--is-ltr {
     direction: rtl !important;
 }
-  /* html[lang=en] body {
-    direction: ltr;
-    text-align: left;
-  } */
-  /* html[lang=ar] body {
-    direction: rtl;
-    text-align: right;
-  } */
+
   
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
   }
   
-  /* html[lang=en] input {
-    direction: ltr;
-  } */
-  /* html[lang=ar] input {
-    direction: rtl;
-  } */
+
   
   select {
     -webkit-appearance: none;
@@ -409,26 +397,6 @@
     max-height: 300px;
     overflow-y: auto;
   }
-  html[lang=en] .dropdown-m-container .dropdown-m {
-    right: 0;
-  }
-  html[lang=ar] .dropdown-m-container .dropdown-m {
-    left: 0;
-  }
-  @media screen and (max-width: 425px) {
-    html[lang=en] .dropdown-m-container .dropdown-m {
-      right: 50%;
-    }
-    html[lang=ar] .dropdown-m-container .dropdown-m {
-      left: 50%;
-    }
-    html[lang=en] .dropdown-m-container .dropdown-m {
-      transform: translateX(50%);
-    }
-    html[lang=ar] .dropdown-m-container .dropdown-m {
-      transform: translateX(-50%);
-    }
-  }
   .dropdown-m-container .dropdown-m::-webkit-scrollbar {
     width: 3px;
   }
@@ -538,6 +506,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     overflow: hidden;
+    min-width: 165px;
   }
   @media screen and (max-width: 576px) {
     .main-btn {
@@ -2518,25 +2487,11 @@
     width: 25px;
     height: 25px;
   }
-  html[lang=en] .pay-boxs .box .pay-label .radio-circle {
-    right: 18px;
-  }
+
   html[lang=ar] .pay-boxs .box .pay-label .radio-circle {
     left: 18px;
   }
-  @media screen and (max-width: 425px) {
-    .pay-boxs .box .pay-label .radio-circle {
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-    }
-    html[lang=en] .pay-boxs .box .pay-label .radio-circle {
-      right: 13px;
-    }
-    html[lang=ar] .pay-boxs .box .pay-label .radio-circle {
-      left: 13px;
-    }
-  }
+
   .pay-boxs .box input[type=radio]:checked + .pay-label {
     border-color: #2ABDC7;
   }
@@ -2552,15 +2507,7 @@
     width: 14px;
     height: 14px;
   }
-  html[lang=en] .pay-boxs .box input[type=radio]:checked + .pay-label .radio-circle:after {
-    right: 50%;
-  }
-  html[lang=ar] .pay-boxs .box input[type=radio]:checked + .pay-label .radio-circle:after {
-    left: 50%;
-  }
-  html[lang=en] .pay-boxs .box input[type=radio]:checked + .pay-label .radio-circle:after {
-    transform: translate(50%, -50%);
-  }
+
   html[lang=ar] .pay-boxs .box input[type=radio]:checked + .pay-label .radio-circle:after {
     transform: translate(-50%, -50%);
   }
@@ -2669,3 +2616,94 @@
   /* .modal-backdrop{
     display: n;
   } */
+
+
+
+  html[lang=en] .search .search-btn {
+    right: 0;
+  }
+  html[lang=ar] .search .search-btn {
+    left: 0;
+  }
+
+  html[lang=en] .dropdown-m-container .dropdown-m {
+    right: 0;
+  }
+  html[lang=ar] .dropdown-m-container .dropdown-m {
+    left: 0;
+  }
+  @media screen and (max-width: 425px) {
+    html[lang=en] .dropdown-m-container .dropdown-m {
+      right: 50%;
+    }
+    html[lang=ar] .dropdown-m-container .dropdown-m {
+      left: 50%;
+    }
+    html[lang=en] .dropdown-m-container .dropdown-m {
+      transform: translateX(50%);
+    }
+    html[lang=ar] .dropdown-m-container .dropdown-m {
+      transform: translateX(-50%);
+    }
+  }
+
+  html[lang=en] .pay-boxs .box input[type=radio]:checked + .pay-label .radio-circle:after {
+    right: 50%;
+  }
+  html[lang=ar] .pay-boxs .box input[type=radio]:checked + .pay-label .radio-circle:after {
+    left: 50%;
+  }
+  html[lang=en] .pay-boxs .box input[type=radio]:checked + .pay-label .radio-circle:after {
+    transform: translate(50%, -50%);
+  }
+
+  @media screen and (max-width: 425px) {
+    .pay-boxs .box .pay-label .radio-circle {
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+    }
+    html[lang=en] .pay-boxs .box .pay-label .radio-circle {
+      right: 13px;
+    }
+    html[lang=ar] .pay-boxs .box .pay-label .radio-circle {
+      left: 13px;
+    }
+  }
+
+  html[lang=en] .pay-boxs .box .pay-label .radio-circle {
+    right: 18px;
+  }
+
+
+  html[lang=ar] input {
+    direction: rtl;
+  }
+
+  html[lang=ar] body {
+    direction: rtl;
+    text-align: right;
+  }
+
+  html[lang=en] body {
+    direction: ltr;
+    text-align: left;
+  }
+
+  html[lang=en] input {
+    direction: ltr;
+
+    
+  }
+
+  
+  html[lang=en]  .v-locale--is-ltr {
+    direction: ltr !important;  
+    text-align: left !important;
+  }
+
+  html[lang=ar]  .v-locale--is-ltr {
+    direction: rtl !important;
+    text-align: right !important;
+}
+

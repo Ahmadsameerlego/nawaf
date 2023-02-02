@@ -1,3 +1,87 @@
 {
-    "message": "hello i18n !!"
-}
+    "nav" : {
+      "main" : "Home",
+      "cats" : "Categories",
+      "favs" : "Favorites",
+      "contact" : "Contact Us",
+      "search" : "search here",
+      "upload" : "upload advertisement",
+      "login" : "Login",
+      "profile" : "Profile",
+      "rates" : "Rates",
+      "ads" : "Advertisement",
+      "logout" : "Log Out",
+      "delete" : "Delete Account"
+
+    },
+
+    "common" : {
+        "more" : "more",
+        "uploadAds": "Add Panner",
+        "sendRequest" : "send request",
+        "uploadImage" : "upload image",
+        "finish" : "Finish",
+        "sendSuc" : "Your request has been sent to the management , Your request will be answered "
+    },
+    
+    "cats" : {
+        "browse" : "Browse Categories",
+        "all" : "All",
+        "browswAds" : "Browse Advertisement",
+        "search" : "search",
+        "filter" : "filter",
+        "mainDep" : "main department",
+        "subDep" : "sub department",
+        "city"  : "city",
+        "gender" : "type",
+        "delete" : "delete",
+        "deliveryCompans" : "delivery companies"
+
+    },
+
+    "footer": {
+        "mainLinks" : "Main Links",
+        "home" : "Home" ,
+        "cats" : "Categories",
+        "upload" : "Upload Ads" ,
+        "contact" : "Contact Us",
+        "terms" : "Terms & Conditions",
+        "followUs" : "Follow Us",
+        "facebook" : "Facebook",
+        "insta" :"Instagram",
+        "twitter" : "Twitter",
+        "youtube" : "Youtube",
+        "snap" : "Snapchat",
+        "nawaf" : "All Rights Reserved To NAWAF Website",
+        "awamer" : "Design & programming for Awamer El-Shabka"
+    
+    },
+
+    "contact" : {
+        "send" : "send",
+        "messageText" : "message text",
+        "email" : "email",
+        "fullName" : "full name",
+        "title" : "Contact Us",
+        "address" : "Address",
+        "phone" : "phone",
+        "save" : "save",
+        "confirmPass" : "confirm new Password",
+        "enterConfirm" : "enter new Password again",
+        "newPass" : "new Password",
+        "enterNew" : "enter new Password",
+        "enterCurrent" : "enter current password",
+        "currentPass" : "current password",
+        "changePassTitle" : "Change Password"
+    },
+
+    "profile" : {
+        "changeInfo" : "Edit Your Information",
+        "username" : "user name",
+        "email" : "email",
+        "phone" : "phone",
+        "saveChanges" : "Save Changes",
+        "changePass" : "Change Password"
+    }
+
+} 

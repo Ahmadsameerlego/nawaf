@@ -9,7 +9,7 @@
 
         <div class="links-container">
           <form action="" class="search nav-search" ref="navSearch">
-            <input type="text" placeholder="ابحث هنا" class="search-input" />
+            <input type="text" :placeholder="$t('nav.search')" class="search-input" />
             <button type="submit" class="search-btn">
               <!-- <i class="fa-solid fa-sliders"></i> -->
               <img :src="filterImg" alt="" />
@@ -26,7 +26,9 @@
                 to="/"
                 class="links-a"
                 :class="{ active: $route.path === '/' }"
-                >الرئيسية</router-link
+                >
+                  {{ $t('nav.main') }}  
+              </router-link
               >
             </li>
             <li>
@@ -34,7 +36,9 @@
                 to="/depatments"
                 class="links-a"
                 :class="{ active: $route.path === '/depatments' }"
-                >الأقسام</router-link
+                >                  
+                  {{ $t('nav.cats') }}  
+              </router-link
               >
             </li>
             <li>
@@ -42,7 +46,9 @@
                 to="/favView"
                 class="links-a"
                 :class="{ active: $route.path === '/favView' }"
-                >المفضلة</router-link
+                >
+                  {{ $t('nav.favs') }}    
+              </router-link
               >
             </li>
             <li>
@@ -50,7 +56,9 @@
                 to="/contactView"
                 class="links-a"
                 :class="{ active: $route.path === '/contactView' }"
-                >تواصل معنا</router-link
+                >
+                  {{ $t('nav.contact') }}    
+              </router-link
               >
             </li>
           </ul>
@@ -91,27 +99,27 @@
                 :class="{ 'active-drop': showYes }"
               >
                 <router-link to="/editProfileView" class="drop-link"
-                  >بياناتي</router-link
+                  > {{ $t('nav.profile') }} </router-link
                 >
                 <router-link to="/ratingView" class="drop-link"
-                  >تقييماتي</router-link
+                  >{{ $t('nav.rates') }}</router-link
                 >
                 <router-link to="/advertisementsView" class="drop-link"
-                  >إعلاناتي</router-link
+                  >{{ $t('nav.ads') }}</router-link
                 >
                 <router-link
                   to="/"
                   data-bs-toggle="modal"
                   data-bs-target="#alertModal"
                   class="drop-link"
-                  >تسجل خروج</router-link
+                  > {{ $t('nav.logout') }} </router-link
                 >
                 <router-link
                   to="/"
                   data-bs-toggle="modal"
                   data-bs-target="#alert2Modal"
                   class="drop-link"
-                  >حذف الحساب</router-link
+                  >{{ $t('nav.delete') }}</router-link
                 >
               </div>
             </div>
@@ -139,24 +147,29 @@
                     {{ noti.title }}</router-link
                   >
                 </div>
-                <router-link to="/notificationsView" class="more-anchor">المزيد</router-link>
+                <router-link to="/notificationsView" class="more-anchor"> {{ $t('common.more') }} </router-link>
               </div>
             </div>
-            <button class="lang-m-spe">AR</button>
+
+
+            <!-- <button class="">AR</button> -->
+            <button @click="changeLocale" class="lang-m-spe" >{{$i18n.locale == 'ar'?'En':'AR'}}</button>
+
           </div>
-          <!-- <a
+          
+          <a
             href="#"
             class="login-anchor"
             data-bs-toggle="modal"
             data-bs-target="#loginModal"
-            >تسجيل دخول</a
-          > -->
+            >     {{ $t('nav.login') }}    </a
+          >
           <button
             class="main-btn up"
             data-bs-toggle="modal"
             data-bs-target="#loginModal"
           >
-            <router-link to="/uploadAds"> ارفع إعلانك </router-link>
+            <router-link to="/uploadAds">   {{ $t('nav.upload') }}     </router-link>
           </button>
         </div>
       </div>
@@ -233,6 +246,20 @@ export default {
       this.showYes2 = false;
       event.stopPropagation();
     },
+    changeLocale(){
+        let lang = 'ar';
+        if(this.$i18n.locale == 'ar'){
+            lang = 'en';
+        }
+        if(sessionStorage.getItem('lang')){
+            sessionStorage.removeItem('lang');
+        }
+        sessionStorage.setItem('lang' ,lang);
+        location.reload();
+    },
+  },
+  mounted(){
+    console.log( this.$i18n )
   },
   components:{
     removeAccount ,

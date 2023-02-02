@@ -30,7 +30,7 @@
                     class="main-btn lg up"
                     data-bs-toggle="modal"
                     data-bs-target="#imgModal"
-                    >إضافة بانر إعلاني</a
+                    > {{ $t('common.uploadAds') }} </a
                   >
                 </div>
               </div>
