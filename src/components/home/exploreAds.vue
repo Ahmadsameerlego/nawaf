@@ -31,27 +31,6 @@
             <a href="ads-detailes.html"></a>
             <div class="explore-card-head">
               <img :src="card.user" alt="" />
-<div class="explore-section">
-        <div class="container">
-
-            <div class="main-title media">
-                <h3 class="main-tit-text"> {{ $t('cats.browswAds') }} </h3>
-
-                <div class="title-inputs">
-                    <form action="" class="search">
-                        <input type="text" :placeholder="$t('cats.search')" class="search-input">
-                        <button type="submit" class="search-icon">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </form>
-                    <form action="" class="search" data-bs-toggle="modal" data-bs-target="#filterModal">
-                        <input type="text" :placeholder="$t('cats.filter')" class="search-input">
-                        <button type="button" class="search-btn">
-                            <img :src="toggle" alt="">
-                        </button>
-                    </form>
-                </div>
-
             </div>
             <div class="explore-card-body">
               <h3 class="ads-title">{{ card.adsTittle }}</h3>
@@ -190,141 +169,7 @@
                               <label for="main3">ألعاب</label>
                             </div>
                           </div>
-        <!-- adsfilterModal -->
-        <div class="modal fade filter-modal" id="filterModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
 
-                <div class="content-model-me">
-
-                    <form action="" class="modal-form">
-                        <div class="modal-header">
-                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-main-tab" data-bs-toggle="pill" data-bs-target="#pills-main" type="button" role="tab" aria-controls="pills-main" aria-selected="true"> {{ $t('cats.mainDep') }} </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-sub-tab" data-bs-toggle="pill" data-bs-target="#pills-sub" type="button" role="tab" aria-controls="pills-sub" aria-selected="false"> {{ $t('cats.subDep') }}</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-city-tab" data-bs-toggle="pill" data-bs-target="#pills-city" type="button" role="tab" aria-controls="pills-city" aria-selected="false"> {{ $t('cats.city') }}</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-type-tab" data-bs-toggle="pill" data-bs-target="#pills-type" type="button" role="tab" aria-controls="pills-type" aria-selected="false"> {{ $t('cats.gender') }}</button>
-                                </li>
-                            </ul>
-                            
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-main" role="tabpanel" aria-labelledby="pills-main-tab" tabindex="0">
-                                    <div class="row">
-                                        <div class="col-md-8 mx-auto">
-                                            <div class="check-boxs">
-                                                <div class="row gy-3">
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="main" id="main">
-                                                            <label for="main">الكترونيات</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="main1" id="main1">
-                                                            <label for="main1">أزياء</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="main2" id="main2">
-                                                            <label for="main2">شنط</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="main3" id="main3">
-                                                            <label for="main3">ألعاب</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="main4" id="main4">
-                                                            <label for="main4">مطاعم</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="main5" id="main5">
-                                                            <label for="main5">فنادق</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="main6" id="main6">
-                                                            <label for="main6">اكسسوارات</label>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-sub" role="tabpanel" aria-labelledby="pills-sub-tab" tabindex="0">
-                                    <div class="row">
-                                        <div class="col-md-8 mx-auto">
-                                            <div class="check-boxs">
-                                                <div class="row gy-3">
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="sub1" id="sub1">
-                                                            <label for="sub1">الكترونيات</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="sub2" id="sub2">
-                                                            <label for="sub2">أزياء</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="sub3" id="sub3">
-                                                            <label for="sub3">شنط</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="sub4" id="sub4">
-                                                            <label for="sub4">ألعاب</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="sub5" id="sub5">
-                                                            <label for="sub5">مطاعم</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="check">
-                                                            <input type="checkbox" name="sub6" id="sub6">
-                                                            <label for="sub6">فنادق</label>
-                                                        </div>
-                                                    </div>
                           <div class="col-sm-4 col-6">
                             <div class="check">
                               <input type="checkbox" name="main4" id="main4" />
@@ -500,11 +345,6 @@
                             <div class="check">
                               <input type="checkbox" name="type2" id="type2" />
                               <label for="type2">مستعمل</label>
-
-                        <div class="modal-footer">
-                            <div class="buttons-m">
-                                <button class="main-btn dark md up" type="submit" data-bs-dismiss="modal" aria-label="Close"> {{ $t('cats.search') }} </button>
-                                <button class="main-btn transparent md up" type="submit" data-bs-dismiss="modal" aria-label="Close"> {{ $t('cats.delete') }} </button>
                             </div>
                           </div>
                         </div>

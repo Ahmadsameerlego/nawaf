@@ -3,7 +3,7 @@
     <div class="container">
       <div class="main-title">
         <h3 class="main-tit-text"> {{ $t('cats.deliveryCompans') }} </h3>
-        <a href="shipping-companies.html" class="all-anchor"> {{ $t('cats.all') }} </a>
+        <router-link to="/componiesView" class="all-anchor"> {{ $t('cats.all') }} </router-link>
       </div>
 
       <div class="row">
