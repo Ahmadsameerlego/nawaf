@@ -5,9 +5,9 @@
       <div class="row footer-cards gy-5">
         <div class="col-lg-5 col-md-6 col-12">
           <div class="footer-logo">
-            <a href="index.html" class="foot-logo-img">
+            <router-link to="/" class="foot-logo-img">
               <img :src="logo" alt="" />
-            </a>
+            </router-link>
             <p class="footer-info">
               هذا النص هو مثال لنص يمكن ان يستخدم هذا النص هو مثال لنص يمكن ان
               يستخدم في نفس المساحةفي نفس المساحة
@@ -24,7 +24,7 @@
                 <router-link to="/" class="link">الأقسام</router-link>
                 <router-link to="/" class="link">ارفع اعلان</router-link>
                 <router-link to="/" class="link">تواصل معنا</router-link>
-                <router-link to="/" class="link">الشروط والأحكام</router-link>
+                <router-link to="/conditionsView" class="link">الشروط والأحكام</router-link>
               </div>
               <div class="col-lg-6">
                 <router-link to="/" class="link">بياناتي</router-link>

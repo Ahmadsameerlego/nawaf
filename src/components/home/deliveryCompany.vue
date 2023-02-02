@@ -3,7 +3,7 @@
     <div class="container">
       <div class="main-title">
         <h3 class="main-tit-text">شركات شحن وتوصيل</h3>
-        <a href="shipping-companies.html" class="all-anchor">الكل</a>
+        <router-link to="/componiesView" class="all-anchor">الكل</router-link>
       </div>
 
       <div class="row">

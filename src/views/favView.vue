@@ -16,10 +16,10 @@
             </div>
           </div>
           <div class="explore-card-footer">
-            <a href="profile.html" class="profile">
+            <router-link :to="{ name: 'profileView' , params: { id: fav.id } }" class="profile">
               <img class="profile-img" :src="fav.smImg" alt="" />
               <span class="profile-name">{{ fav.auther }}</span>
-            </a>
+            </router-link>
             <div class="favorite-icon" ref="favoriteicon" @click="addHeart(i)">
               <font-awesome-icon v-if="fav.hearted" icon="fa-solid fa-heart" />
               <font-awesome-icon v-if="!fav.hearted" icon="fa-regular fa-heart" />
@@ -68,7 +68,7 @@ export default defineComponent({
   methods: {
     addHeart(i) {
       this.favs[i].hearted = !this.favs[i].hearted;
-      console.log(this.hearted);
+      console.log(i);
     },
   },
 

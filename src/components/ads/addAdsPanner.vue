@@ -16,7 +16,7 @@
                         <div class="upload-img my-4">
                             <input type="file" name="" accept="image/*" id="imgUpload" class="hidden-input img-upload-input" @change="uploadPanner">
                             <label for="imgUpload" class="label-img lg mx-auto">
-                                <img :src="camSrc" alt="" >
+                                <img :src="camSrc" alt="" :class="{wid : widthAll}" >
                             </label>
                             <div class="img-upload-show"></div>
                         </div>
@@ -48,7 +48,7 @@
 
                 <div class="modal-body">
 
-                    <img :src="done" alt="" class="done-img">
+                    <img :src="done" alt="" class="done-img" >
 
                 </div>
 
@@ -68,7 +68,8 @@ export default {
     data(){
         return{
             camSrc : require('../../assets/imgs/photo-camera.png'),
-            done : require('../../assets/imgs/done.gif')
+            done : require('../../assets/imgs/done.gif'),
+            widthAll: false , 
         }
     },
     methods : {
@@ -78,6 +79,8 @@ export default {
                 this.camSrc = e.target.result;
             };
             reader.readAsDataURL(event.target.files[0]);
+            this.widthAll = true 
+
         },
 
 
