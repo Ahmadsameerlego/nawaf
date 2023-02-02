@@ -20,7 +20,21 @@ export default {
   },
 
   data: () => ({
-    //
+    return : {
+      // lang : this.$i18n.locale
+    }
   }),
+
+  beforeCreate() {
+
+    if (sessionStorage.getItem("lang")) {
+      this.$i18n.locale = sessionStorage.getItem("lang");
+    }
+  },
+
+  mounted() {
+      document.querySelector("html").lang = sessionStorage.getItem("lang")
+  }
+
 };
 </script>

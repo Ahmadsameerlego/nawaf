@@ -3,17 +3,17 @@
         <div class="container">
 
             <div class="main-title media">
-                <h3 class="main-tit-text">تصفح الإعلانات</h3>
+                <h3 class="main-tit-text"> {{ $t('cats.browswAds') }} </h3>
 
                 <div class="title-inputs">
                     <form action="" class="search">
-                        <input type="text" placeholder="ابحث" class="search-input">
+                        <input type="text" :placeholder="$t('cats.search')" class="search-input">
                         <button type="submit" class="search-icon">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                     </form>
                     <form action="" class="search" data-bs-toggle="modal" data-bs-target="#filterModal">
-                        <input type="text" placeholder="فلتر حسب" class="search-input">
+                        <input type="text" :placeholder="$t('cats.filter')" class="search-input">
                         <button type="button" class="search-btn">
                             <img :src="toggle" alt="">
                         </button>
@@ -66,16 +66,16 @@
                         <div class="modal-header">
                             <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-main-tab" data-bs-toggle="pill" data-bs-target="#pills-main" type="button" role="tab" aria-controls="pills-main" aria-selected="true">قسم رئيسيي</button>
+                                <button class="nav-link active" id="pills-main-tab" data-bs-toggle="pill" data-bs-target="#pills-main" type="button" role="tab" aria-controls="pills-main" aria-selected="true"> {{ $t('cats.mainDep') }} </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-sub-tab" data-bs-toggle="pill" data-bs-target="#pills-sub" type="button" role="tab" aria-controls="pills-sub" aria-selected="false">قسم فرعي</button>
+                                <button class="nav-link" id="pills-sub-tab" data-bs-toggle="pill" data-bs-target="#pills-sub" type="button" role="tab" aria-controls="pills-sub" aria-selected="false"> {{ $t('cats.subDep') }}</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-city-tab" data-bs-toggle="pill" data-bs-target="#pills-city" type="button" role="tab" aria-controls="pills-city" aria-selected="false">المدينة</button>
+                                <button class="nav-link" id="pills-city-tab" data-bs-toggle="pill" data-bs-target="#pills-city" type="button" role="tab" aria-controls="pills-city" aria-selected="false"> {{ $t('cats.city') }}</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-type-tab" data-bs-toggle="pill" data-bs-target="#pills-type" type="button" role="tab" aria-controls="pills-type" aria-selected="false">النوع</button>
+                                <button class="nav-link" id="pills-type-tab" data-bs-toggle="pill" data-bs-target="#pills-type" type="button" role="tab" aria-controls="pills-type" aria-selected="false"> {{ $t('cats.gender') }}</button>
                                 </li>
                             </ul>
                             
@@ -295,8 +295,8 @@
 
                         <div class="modal-footer">
                             <div class="buttons-m">
-                                <button class="main-btn dark md up" type="submit" data-bs-dismiss="modal" aria-label="Close">بحث</button>
-                                <button class="main-btn transparent md up" type="submit" data-bs-dismiss="modal" aria-label="Close">حذف</button>
+                                <button class="main-btn dark md up" type="submit" data-bs-dismiss="modal" aria-label="Close"> {{ $t('cats.search') }} </button>
+                                <button class="main-btn transparent md up" type="submit" data-bs-dismiss="modal" aria-label="Close"> {{ $t('cats.delete') }} </button>
                             </div>
                         </div>
                     </form>

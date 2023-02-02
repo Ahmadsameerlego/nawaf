@@ -2,8 +2,8 @@
   <div class="home-categories main-padding">
     <div class="container">
       <div class="main-title">
-        <h3 class="main-tit-text">تصفح الأقسام</h3>
-        <a href="categories.html" class="all-anchor">الكل</a>
+        <h3 class="main-tit-text"> {{ $t('cats.browse') }} </h3>
+        <a href="categories.html" class="all-anchor"> {{ $t('cats.all') }} </a>
       </div>
 
       <div class="categories-carousel owl-carousel">

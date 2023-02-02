@@ -41,10 +41,10 @@ loadFonts();
 
 loadFonts()
 
-createApp(App).use(i18n).use(VueI18n)
 createApp(App)
   .use(router)
   .use(store)
+  .use(i18n).use(VueI18n)
   .use(vuetify)
   .use(VueSweetalert2)
   .component("font-awesome-icon", FontAwesomeIcon)

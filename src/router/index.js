@@ -71,6 +71,7 @@ const routes = [
     name: "notificationsView",
     component: notificationsView,
   },
+  {
     path : '/uploadAds',
     name : 'uploadAds',
     component : uploadAds

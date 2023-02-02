@@ -8,7 +8,7 @@
             <div class="row">
               <div class="col-lg-8 col-md-10 col-11 mx-auto">
                 <form action="" @submit.prevent="edit()">
-                  <h2 class="section-title">تعديل بياناتي</h2>
+                  <h2 class="section-title"> {{ $t('profile.changeInfo') }} </h2>
                   <div class="inputs-container">
                     <div class="upload-ads-img">
                       <div class="upload-img-container">
@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="input-g">
-                      <label for="" class="main-label"> اسم المستخدم </label>
+                      <label for="" class="main-label"> {{ $t('profile.username') }} </label>
                       <div class="main-input">
                         <input
                           type="text"
@@ -50,7 +50,7 @@
 
                     <div class="input-g">
                       <label for="" class="main-label">
-                        البريد الالكترونى
+                        {{ $t('profile.email') }}
                       </label>
                       <div class="main-input">
                         <input
@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="input-g">
-                      <label for="" class="main-label"> رقم الجوال </label>
+                      <label for="" class="main-label"> {{ $t('profile.phone') }} </label>
                       <div
                         class="main-input"
                         data-bs-toggle="modal"
@@ -84,7 +84,7 @@
                         type="submit"
                         class="main-btn dark xl mx-auto up mb-3"
                       >
-                        حفظ التعديلات
+                        {{ $t('profile.saveChanges') }}
                       </button>
                       <button
                         type="button"
@@ -92,7 +92,7 @@
                         data-bs-toggle="modal"
                         data-bs-target="#passwordModal"
                       >
-                        تغيير كلمة المرور
+                        {{ $t('profile.changePass') }}
                       </button>
                     </div>
                   </div>
@@ -104,6 +104,7 @@
       </div>
     </div>
   </div>
+  
   <!-- End Add Advertisements Section -->
   <editPassword />
 </template>

@@ -17,18 +17,18 @@
 
         <div class="col-lg-4 col-md-4 col-6">
           <div class="foot-content">
-            <h3 class="footer-head">روابط أساسية</h3>
+            <h3 class="footer-head"> {{ $t('footer.mainLinks') }} </h3>
             <ul class="footer-links row">
               <div class="col-lg-6">
-                <router-link to="/" class="link">الرئيسية</router-link>
-                <router-link to="/" class="link">الأقسام</router-link>
-                <router-link to="/" class="link">ارفع اعلان</router-link>
-                <router-link to="/" class="link">تواصل معنا</router-link>
-                <router-link to="/" class="link">الشروط والأحكام</router-link>
+                <router-link to="/" class="link"> {{ $t('footer.home') }} </router-link>
+                <router-link to="/" class="link"> {{ $t('footer.cats') }} </router-link>
+                <router-link to="/" class="link"> {{ $t('footer.upload') }} </router-link>
+                <router-link to="/" class="link"> {{ $t('footer.contact') }} </router-link>
+                <router-link to="/" class="link"> {{ $t('footer.terms') }} </router-link>
               </div>
               <div class="col-lg-6">
-                <router-link to="/" class="link">بياناتي</router-link>
-                <router-link to="/" class="link">المفضلة</router-link>
+                <router-link to="/" class="link"> {{ $t('nav.profile') }} </router-link>
+                <router-link to="/" class="link"> {{ $t('nav.favs') }} </router-link>
               </div>
             </ul>
           </div>
@@ -36,13 +36,13 @@
 
         <div class="col-lg-3 col-md-2 col-6">
           <div class="foot-content">
-            <h3 class="footer-head">تابعنا عبر</h3>
+            <h3 class="footer-head"> {{ $t('footer.followUs') }} </h3>
             <ul class="footer-links">
-              <a href="#" class="link">فيسبوك</a>
-              <a href="#" class="link">انستجرام</a>
-              <a href="#" class="link">تويتر</a>
-              <a href="#" class="link">يوتيوب</a>
-              <a href="#" class="link">سناب شات</a>
+              <a href="#" class="link"> {{ $t('footer.facebook') }} </a>
+              <a href="#" class="link"> {{ $t('footer.insta') }} </a>
+              <a href="#" class="link"> {{ $t('footer.twitter') }} </a>
+              <a href="#" class="link">  {{ $t('footer.youtube') }}</a>
+              <a href="#" class="link">  {{ $t('footer.snap') }}</a>
             </ul>
           </div>
         </div>
@@ -58,9 +58,9 @@
         <div class="col-md-10 mx-auto">
           <div class="copy">
             <a href="https://aait.sa/" target="_blank"
-              >تصميم وبرمجة مؤسسة أوامر الشبكة</a
+              > {{  $t('footer.awamer') }} </a
             >
-            <span>جميع الحقوق محفوظة لموقع نواف</span>
+            <span> {{ $t('footer.nawaf') }} </span>
           </div>
         </div>
       </div>
