@@ -6,12 +6,16 @@
         <div class="col-lg-9 mx-auto">
           <div class="ratings section-style sec-padding">
             <h2 class="section-title"> {{ $t('nav.rates') }} </h2>
-            <div class="rating-cards px-md-4 px-2">
+
+
+            <div class="rating-cards px-md-4 px-2" v-if="rates.length>0">
+
+
               <div class="rating-card" v-for="rate in rates" :key="rate.id">
-                <img :src="rate.userImg" class="rate-img" alt="" />
+                <img :src="rate.image" class="rate-img" alt="" />
                 <div class="rate-info">
                   <p class="rate-text">
-                    {{ rate.title }}
+                    {{ rate.comment }}
                   </p>
                   <div class="rate-foot">
                     <span class="user-name">{{ rate.name }}</span>
@@ -22,11 +26,19 @@
                       length="5"
                       size="58"
                       marginRight="2"
-                      v-model="rate.rating"
+                      v-model="rate.num_of_stars"
                     ></v-rating>
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div class="noDataFound" v-else>
+              <v-alert
+                color="info"
+                icon="$info"
+                title="لا تتوفر تقييمات"
+              ></v-alert>
             </div>
           </div>
         </div>
@@ -38,41 +50,30 @@
 
 <script>
 import { defineComponent } from "vue";
+import axios from 'axios'
 
 export default defineComponent({
   name: "raitingView",
   data() {
     return {
-      rates: [
-        // array
-        {
-          id: 1,
-          title:
-            "هذا النص هو مثال لنص يمكن ان يستخدم في نفس  يستخدم في نفس  يستخدم في نفس المساحة",
-          name: "عبدالرحمن سليمان",
-          userImg: require("../assets/imgs/user2.png"),
-          rating: 5,
-        },
-        {
-          id: 2,
-          title:
-            "هذا النص هو مثال لنص يمكن ان يستخدم في نفس يستخدم في نفس  يستخدم في نفس المساحة يستخدم في نفس  يستخدم في نفس المساحة",
-          name: "عبدالله زكريا",
-          userImg: require("../assets/imgs/user2.png"),
-          rating: 3,
-        },
-        {
-          id: 3,
-          title:
-            "هذا النص هو مثال لنص يمكن ان يستخدم في نفس  يستخدم في نفس  يستخدم في نفس المساحة",
-          name: "عبدالرحمن سليمان",
-          userImg: require("../assets/imgs/user2.png"),
-          rating: 1,
-        },
-      ],
+      rates : [],
+      pagination : {}
     };
   },
-  methods: {},
+  methods: {
+    // get rates 
+    async showRates(){
+      await axios.get('show-rates', {
+        headers:{
+            Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        this.rates = res.data.data.rates.data
+        this.pagination = res.data.data.pagination
+      } )
+    }
+  },
 
   components: {},
 });

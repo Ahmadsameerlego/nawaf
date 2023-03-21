@@ -12,7 +12,7 @@
                                     <h2 class="section-title">ارفع إعلانك</h2>
                                     <p class="pay-head">
                                          تكلفة نشر الإعلان :
-                                        <span class="pay-head-txt">250.00 ر.س</span>
+                                        <span class="pay-head-txt"> {{ adPrice }} </span>
                                     </p>
 
                                     <div class="pay-boxs">
@@ -111,26 +111,45 @@ export default {
             mada : require('../../assets/imgs/mada.png'),
             successPay : require('../../assets/imgs/alert.gif'), 
 
-
+            adPrice : '',
             paymentWay : '',
             // disabled : true
         }
     },
     methods:{
         async sendPayment(){
-            const fd = new FormData(this.$refs.paymentForm)
-            await axios.post('posts' , fd)
+            // const fd = new FormData(this.$refs.paymentForm)
+            await axios.get(`test-payment/${localStorage.getItem('random_token')}` , {
+                headers : {
+                    Authorization:  `Bearer ${localStorage.getItem('token')}`
+                }
+            })
             .then( (res)=>{
-                console.log(res)
-
-                // this.disabled = false
-                this.$router.push('/successAd')
+                if( res.data.key == "success" ){
+                    this.$swal({
+                        icon: 'success',
+                        title: res.data.msg,
+                        timer: 2000,
+                        showConfirmButton: false,
+                    });
+                    this.$router.push('/successAd')
+                }else{
+                    this.$swal({
+                        icon: 'error',
+                        title: res.data.msg,
+                        timer: 2000,
+                        showConfirmButton: false,
+                    });
+                }
                 
             } )
             .catch( (err)=>{
                 console.log(err)
             } )
         }
+    },
+    mounted(){
+        this.adPrice = localStorage.getItem('ad_price')
     }
 }
 </script>

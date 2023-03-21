@@ -5,12 +5,7 @@
         <h3 class="main-tit-text">تصفح الإعلانات</h3>
 
         <div class="title-inputs">
-          <form action="" class="search">
-            <input type="text" placeholder="ابحث" class="search-input" />
-            <button type="submit" class="search-icon">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </form>
+
           <form
             action=""
             class="search"
@@ -25,33 +20,41 @@
         </div>
       </div>
 
-      <div class="eplore-cards">
-        <div class="explore-card" v-for="(card,i) in adsCards" :key="card.id">
+      <div class="eplore-cards" v-if="filteredAds.length>0">
+        <div class="explore-card" v-for="(card) in filteredAds" :key="card.id">
           <div class="card-container">
             <a href="ads-detailes.html"></a>
             <div class="explore-card-head">
-              <img :src="card.user" alt="" />
+              <img :src="card.image" alt="" />
             </div>
             <div class="explore-card-body">
-              <h3 class="ads-title">{{ card.adsTittle }}</h3>
-              <p class="ads-city">{{ card.address }}</p>
-              <span class="ads-price">{{ card.price }} </span>
+              <h3 class="ads-title">{{ card.static_text }}  {{ card.name }}</h3>
+              <p class="ads-city">{{ card.city_name }}</p>
+              <span class="ads-price">{{ card.price }} {{ card.currency }} </span>
             </div>
           </div>
           <div class="explore-card-footer">
             <a href="profile.html" class="profile">
               <img class="profile-img" :src="card.user" alt="" />
-              <span class="profile-name">{{ card.cardOwner }} </span>
+              <span class="profile-name">{{ card.advertiser_name }} </span>
             </a>
-            <div class="favorite-icon" @click="addHeart(i)">
-              <font-awesome-icon v-if="card.hearted" icon="fa-solid fa-heart" />
+            <div class="favorite-icon" @click="addHeart(card.id)">
+              <font-awesome-icon v-if="card.fav_status==true" icon="fa-solid fa-heart" />
               <font-awesome-icon
-                v-if="!card.hearted"
+                v-if="card.fav_status==false"
                 icon="fa-regular fa-heart"
               />
+
             </div>
           </div>
         </div>
+      </div>
+      <div class="noDataFound" v-else>
+        <v-alert
+          color="info"
+          icon="$info"
+          title="لا توجد اعلانات"
+        ></v-alert>
       </div>
     </div>
   </div>
@@ -68,6 +71,7 @@
       <div class="modal-content">
         <div class="content-model-me">
           <form action="" class="modal-form">
+            <!-- modal header  -->
             <div class="modal-header">
               <ul class="nav nav-pills" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -129,8 +133,11 @@
               </ul>
             </div>
 
+            <!-- modal body  -->
             <div class="modal-body">
               <div class="tab-content" id="pills-tabContent">
+
+                <!-- categories to filter  -->
                 <div
                   class="tab-pane fade show active"
                   id="pills-main"
@@ -142,59 +149,22 @@
                     <div class="col-md-8 mx-auto">
                       <div class="check-boxs">
                         <div class="row gy-3">
-                          <div class="col-sm-4 col-6">
+
+                          <!-- single category to filter -->
+                          <div class="col-sm-4 col-6" v-for="category in categories_to_filter" :key="category.id">
                             <div class="check">
-                              <input type="checkbox" name="main" id="main" />
-                              <label for="main">الكترونيات</label>
+                              <input type="checkbox"  v-model="main" :value="category.id" :id="category.id"  :checked="category.status" />
+                              <label :for="category.id"> {{ category.name }} </label>
                             </div>
                           </div>
 
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="main1" id="main1" />
-                              <label for="main1">أزياء</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="main2" id="main2" />
-                              <label for="main2">شنط</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="main3" id="main3" />
-                              <label for="main3">ألعاب</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="main4" id="main4" />
-                              <label for="main4">مطاعم</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="main5" id="main5" />
-                              <label for="main5">فنادق</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="main6" id="main6" />
-                              <label for="main6">اكسسوارات</label>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                <!-- sub categories to filter  -->
                 <div
                   class="tab-pane fade"
                   id="pills-sub"
@@ -206,59 +176,22 @@
                     <div class="col-md-8 mx-auto">
                       <div class="check-boxs">
                         <div class="row gy-3">
-                          <div class="col-sm-4 col-6">
+
+                          <!-- single sub categories  -->
+                          <div class="col-sm-4 col-6" v-for="sub_category in sub_categories_to_filter" :key="sub_category.id">
                             <div class="check">
-                              <input type="checkbox" name="sub1" id="sub1" />
-                              <label for="sub1">الكترونيات</label>
+                              <input type="checkbox" v-model="subCat" :value="sub_category.id" :name="'sub1'+sub_category.id" :id="'sub1'+sub_category.id" :checked="sub_category.status" />
+                              <label :for="'sub1'+sub_category.id">{{ sub_category.name }}</label>
                             </div>
                           </div>
 
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub2" id="sub2" />
-                              <label for="sub2">أزياء</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub3" id="sub3" />
-                              <label for="sub3">شنط</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub4" id="sub4" />
-                              <label for="sub4">ألعاب</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub5" id="sub5" />
-                              <label for="sub5">مطاعم</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub6" id="sub6" />
-                              <label for="sub6">فنادق</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub7" id="sub7" />
-                              <label for="sub7">اكسسوارات</label>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                <!-- cities  -->
                 <div
                   class="tab-pane fade"
                   id="pills-city"
@@ -270,59 +203,21 @@
                     <div class="col-md-8 mx-auto">
                       <div class="check-boxs">
                         <div class="row gy-3">
-                          <div class="col-sm-4 col-6">
+                          
+                          <!-- single city to filter  -->
+                          <div class="col-sm-4 col-6" v-for="city in cities" :key="city.id">
                             <div class="check">
-                              <input type="checkbox" name="city1" id="city1" />
-                              <label for="city1">الرياض</label>
+                              <input type="checkbox" :name="'city'+city.id" :value="city.id" v-model="citiesSelected" :id="'city'+city.id" :checked="city.status" />
+                              <label :for="'city'+city.id"> {{city.name}} </label>
                             </div>
                           </div>
 
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city2" id="city2" />
-                              <label for="city2">الدمام</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city3" id="city3" />
-                              <label for="city3">جدة</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city4" id="city4" />
-                              <label for="city4">جدة</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city5" id="city5" />
-                              <label for="city5">الرياض</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city6" id="city6" />
-                              <label for="city6">الدمام</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city7" id="city7" />
-                              <label for="city7">الرياض</label>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
                 <div
                   class="tab-pane fade"
                   id="pills-type"
@@ -336,14 +231,14 @@
                         <div class="row gy-3">
                           <div class="col-sm-4 col-6">
                             <div class="check">
-                              <input type="checkbox" name="type1" id="type1" />
+                              <input type="checkbox" name="new" value="new" v-model="selectedStatus" id="type1" />
                               <label for="type1">جديد</label>
                             </div>
                           </div>
 
                           <div class="col-sm-4 col-6">
                             <div class="check">
-                              <input type="checkbox" name="type2" id="type2" />
+                              <input type="checkbox" name="reuse"  value="used" v-model="selectedStatus" id="type2" />
                               <label for="type2">مستعمل</label>
                             </div>
                           </div>
@@ -383,6 +278,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -410,14 +306,92 @@ export default {
           user: require("../../assets/imgs/profile.jpg"),
         },
       ],
+      main : [],
+      subCat : [],
+      citiesSelected : [],
+      selectedStatus : [],
+      catsIds : [],
+      catId : 'category_id[]',
+      filteredAds : []
     };
   },
-  methods: {
-    addHeart(i) {
-      this.adsCards[i].hearted = !this.adsCards[i].hearted;
-      // console.log(this.hearted);
+  watch:{
+    main(){
+      console.log(this.main)
+
+      this.adsFilter()
     },
+    subCat(){
+      console.log(this.subCat)
+
+      this.adsFilter()
+
+    },
+    citiesSelected(){
+      console.log(this.citiesSelected)
+
+      this.adsFilter()
+
+    },
+    selectedStatus(){
+      console.log(this.selectedStatus)
+
+      this.adsFilter()
+
+    }
   },
+  props:{
+    advertisements : Array,
+    sub_categories_to_filter : Array,
+    categories_to_filter : Array,
+    cities : Array
+  },
+  methods: {
+    async addHeart(i) {
+      
+      // console.log(this.hearted);
+      const fd = new FormData();
+      fd.append(`advertisement id`, i)
+      await axios.post(`favourite-advertisement`, fd , {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        if( res.data.key == "success" ){
+          this.$swal({
+              icon: 'success',
+              title: res.data.msg,
+              timer: 2000,
+              showConfirmButton: false,
+
+          });
+
+          setTimeout(() => {
+            location.reload()
+          }, 2000);
+        }else{
+          this.$swal({
+              icon: 'error',
+              title: res.data.msg,
+              timer: 2000,
+              showConfirmButton: false,
+
+          });        
+        }
+      } )
+    },
+
+    async adsFilter(){
+      await axios.get(`filter-advertisements?sub_category_id[]=${this.subCat}&city_id[]=${this.citiesSelected}&status[]=${this.selectedStatus}&category_id[]=${this.main}`)
+      .then( (res)=>{
+        console.log(res)
+      } )
+    }
+  },
+   mounted(){
+    this.filteredAds = this.advertisements
+   }
 };
 </script>
 

@@ -15,15 +15,15 @@
             :loop="true"
 
         >
-        <swiper-slide class="home-item" v-for="slider in sliders" :key="slider"> 
-          <img class="home-img" :src="slider.src" alt="" />
+        <swiper-slide class="home-item" v-for="slider in banners" :key="slider.id"> 
+          <img class="home-img" :src="slider.image" alt="" />
           <div class="container">
             <div class="row">
               <div class="col-lg-6">
                 <div class="home-content">
                   <p class="home-desc">
 
-                    {{ slider.desc }}
+                    {{ slider.details }}
                   </p>
                   <a
                     href="#"
@@ -69,37 +69,11 @@ import addAdsPanner from '../ads/addAdsPanner.vue'
 export default {
   data() {
     return {
-        sliders :  [
-            {
-                desc : `
-                                        هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل
-                    هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد
-                    الحروف التى يولدها التطبيق هذا النص هو مثال لنص يمكن أن
-                    يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص
-                    العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص
-                    الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق
-
-                `,
-                        src: require("../../assets/imgs/home-bg-2.png"),
-
-            },
-            {
-                desc : `
-                                        هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                    توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل
-                    هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد
-                    الحروف التى يولدها التطبيق هذا النص هو مثال لنص يمكن أن
-                    يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص
-                    العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص
-                    الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق
-
-                `,
-                        src: require("../../assets/imgs/home-bg-2.png"),
-
-            }
-        ]
+        
     };
+  },
+  props : {
+    banners : Array
   },
   components: {
     Swiper,

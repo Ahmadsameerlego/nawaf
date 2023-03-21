@@ -1,4 +1,7 @@
 <template>
+
+  <!-- loader -->
+  <loader v-if="loader" />
   <!-- Start advertisements Section -->
   <div class="explore-section main-padding">
     <div class="container">
@@ -6,12 +9,7 @@
         <h3 class="main-tit-text">تصفح قسم الالكترونيات</h3>
 
         <div class="title-inputs">
-          <form action="" class="search">
-            <input type="text" placeholder="ابحث" class="search-input" />
-            <button type="submit" class="search-icon">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </form>
+
           <form
             action=""
             class="search"
@@ -25,36 +23,61 @@
           </form>
         </div>
       </div>
-      <div class="eplore-cards">
-        <div class="explore-card" v-for="(fav, i) in favs" :key="fav.id">
+
+      <div class="eplore-cards" v-if="catsAds.length > 0">
+        <div class="explore-card" v-for="(fav, i) in catsAds" :key="fav.id">
           <div class="card-container">
             <router-link
               :to="{ name: 'catogryDetails', params: { id: fav.id } }"
             ></router-link>
             <div class="explore-card-head">
-              <img :src="fav.img" alt="" />
+              <img :src="fav.image" alt="" />
             </div>
             <div class="explore-card-body">
-              <h3 class="ads-title">{{ fav.title }}</h3>
-              <p class="ads-city">{{ fav.location }}</p>
-              <span class="ads-price">{{ fav.price }}</span>
+              <h3 class="ads-title">{{ fav.name }}</h3>
+              <p class="ads-city">{{ fav.city_name }}</p>
+              <span class="ads-price">{{ fav.price }} {{ fav.currency }} </span>
             </div>
           </div>
           <div class="explore-card-footer">
-            <a href="profile.html" class="profile">
-              <img class="profile-img" :src="fav.smImg" alt="" />
-              <span class="profile-name">{{ fav.auther }}</span>
-            </a>
+            <router-link :to="'/profileView/'+fav.advertiser_id" class="profile">
+              <img class="profile-img" :src="fav.advertiser_image" alt="" />
+              <span class="profile-name">{{ fav.advertiser_name }}</span>
+            </router-link>
             <div class="favorite-icon" ref="favoriteicon" @click="addHeart(i)">
-              <font-awesome-icon v-if="fav.hearted" icon="fa-solid fa-heart" />
+              <font-awesome-icon v-if="fav.fav_status==true" icon="fa-solid fa-heart" />
               <font-awesome-icon
-                v-if="!fav.hearted"
+                v-if="fav.fav_status==false"
                 icon="fa-regular fa-heart"
               />
             </div>
           </div>
         </div>
       </div>
+
+      <div class="noDataFound" v-else>
+        <v-alert
+          color="info"
+          icon="$info"
+          title="لا توجد اقسام لهذا المتجر"
+        ></v-alert>
+      </div>
+
+      <!-- pagination -->
+      <paginate
+          v-model="currentPageP"
+          :page-count="totalPagesP"
+          :click-handler="page => pageClickHandler(page)"
+          :prev-text="'Prev'"
+          :next-text="'Next'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"    
+          :no-li-surround="true"   
+          v-if="catsAds.length>0"        
+      >
+      </paginate>
+
+
     </div>
   </div>
   <!-- End advertisements Section -->
@@ -311,50 +334,119 @@
 
 <script>
 import { defineComponent } from "vue";
+import Paginate from 'vuejs-paginate-next';
+
+import loader from '../components/Shared/pageLoader.vue'
+
+
+import axios from 'axios';
 
 export default defineComponent({
   name: "catogryView",
   data() {
     return {
       filterImg: require("../assets/imgs/icons8-slider-50.png"),
+      catsAds : [],
+      currentPageP: 1,
+      perPageP: 10,
+      totalPagesP: 0,
+      loader : true,
+      adId : null
 
-      favs: [
-        // array
-        {
-          id: 1,
-          hearted: true,
-          title: "اعلان عن لاب توب",
-          img: require("../assets/imgs/ads2.png"),
-          location: "الرياض - السعودية",
-          price: "250 ر.س",
-          smImg: require("../assets/imgs/profile.jpg"),
-          auther: "عبدالرحمن سليمان",
-        },
-        {
-          id: 2,
-          hearted: true,
-          title: "اعلان عن لاب توب",
-          img: require("../assets/imgs/ads2.png"),
-          location: "الرياض - السعودية",
-          price: "250 ر.س",
-          smImg: require("../assets/imgs/profile.jpg"),
-          auther: "عبدالرحمن سليمان",
-        },
-      ],
     };
   },
+  created() {
+        this.totalPagesP = Math.ceil(this.catsAds.length / this.perPageP)
+  },
   methods: {
-    addHeart(i) {
-      this.favs[i].hearted = !this.favs[i].hearted;
-      console.log(this.hearted);
+    async addHeart() {
+      
+      // console.log(this.hearted);
+      const fd = new FormData();
+      fd.append(`advertisement id`, this.$route.params.id)
+      await axios.post(`favourite-advertisement`, fd , {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        if( res.data.key == "success" ){
+          this.$swal({
+              icon: 'success',
+              title: res.data.msg,
+              timer: 2000,
+              showConfirmButton: false,
+
+          });
+
+          setTimeout(() => {
+            location.reload()
+          }, 2000);
+          
+        }else{
+          this.$swal({
+              icon: 'error',
+              title: res.data.msg,
+              timer: 2000,
+              showConfirmButton: false,
+
+          });        
+        }
+      } )
+    },
+
+    async getCategoriesAds(){
+      await axios.get(`category/${this.$route.params.id}/advertisements` , {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        this.catsAds = res.data.data.advertisements.data;
+        this.adId = res.data.data.advertisements.id
+
+        this.totalPagesP = res.data.data.pagination.total_pages
+        this.perPageP = res.data.data.pagination.per_page
+        this.currentPageP = res.data.data.pagination.current_page
+
+        this.loader = false
+
+      } )
+    },
+
+    pageClickHandler(page) {
+        this.currentPageP = page
+        this.getCategoriesAds()
     },
   },
 
-  components: {},
+  components: {
+    Paginate,
+    loader
+  },
+
+  mounted(){
+    this.getCategoriesAds()
+  }
 });
 </script>
 <style>
+.pagination{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+.page-link.active{
+    background: #2abdc7 !important;
+    border: 1px solid #2abdc7 !important;
+}
 a {
   text-decoration: none !important;
+}
+.noDataFound{
+  width: 70%;
+  margin: auto;
 }
 </style>

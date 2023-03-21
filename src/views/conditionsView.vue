@@ -1,12 +1,12 @@
 <template>
+  <!-- loader  -->
+  <loader v-if="loader" />
   <!-- Start terms Section -->
   <div class="terms-section main-padding">
     <div class="container">
       <h2 class="section-title">الشروط والأحكام</h2>
       <div class="terms">
-        <p class="terms-text" v-for="term in terms" :key="term.id">
-          {{ term.title }}
-        </p>
+        <p class="terms-text" v-html="term"></p>
 
   
 
@@ -19,30 +19,34 @@
 
 <script>
 import { defineComponent } from "vue";
+import axios from 'axios'
+import loader from '../components/Shared/pageLoader.vue';
+
 
 export default defineComponent({
   name: "conditionView",
   data() {
     return {
-      terms: [
-        // array
-        {
-          id: 1,
-          title:
-            "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا الننص هو مثال لنص يمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نيمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نيمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي ن يمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نفس المساحة",
-        },
-        {
-          id: 2,
-          title:
-            "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا الننص هو مثال لنص يمكن ان يستخدم يمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نيمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نيمكن ان يستخدم  هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي ن هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحةفي نفس المساحة",
-        },
- 
-      ],
+      loader : true,
+      term : ''
     };
   },
-  methods: {},
+  methods: {
+    async getTerms(){
+      await axios.get('terms')
+      .then( (res)=>{
+        this.term = res.data.data.terms
+        this.loader = false
+      } )
+    }
+  },
+  mounted(){
+    this.getTerms()
+  },
 
-  components: {},
+  components: {
+    loader
+  },
 });
 </script>
 <style></style>

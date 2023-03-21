@@ -82,6 +82,23 @@
         "phone" : "phone",
         "saveChanges" : "Save Changes",
         "changePass" : "Change Password"
+    },
+    "validation" : {
+        "required" : "value is empty",
+        "email" : "wrong in email format"
+    },
+
+    "auth" : {
+      "login" : "Login",
+      "phone_mail" : "phone number / email",
+      "createAcc" : "create account",
+      "donotHaveAcc" : "do not have account ?",
+      "forgetPass" : "forget password?",
+      "passwordPlace" : "enter password",
+      "password" : "password",
+      "phonePlace" : "enter phone number / email"
+  
+
     }
 
 } 

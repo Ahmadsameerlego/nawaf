@@ -24,10 +24,10 @@
         >
           <swiper-slide
             class="home-item"
-            v-for="slider in sliders"
-            :key="slider"
+            v-for="slider in images"
+            :key="slider.id"
           >
-            <img class="home-img" :src="slider.src" alt="" />
+            <img class="home-img" :src="slider.images" alt="" />
           </swiper-slide>
         </swiper>
       </div>
@@ -45,24 +45,17 @@ import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper";
 
 export default {
-  data() {
+  data() {  
     return {
-      sliders: [
-        {
-          src: require("../../assets/imgs/ads5.webp"),
-        },
-        {
-          src: require("../../assets/imgs/ads5.webp"),
-        },
-        {
-          src: require("../../assets/imgs/ads5.webp"),
-        },
-      ],
+
     };
   },
   components: {
     Swiper,
     SwiperSlide,
+  },
+  props:{
+    images : Array
   },
   setup() {
     return {

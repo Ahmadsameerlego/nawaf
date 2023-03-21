@@ -1,7 +1,7 @@
 <template>
 
     <!-- login component  Modal -->
-    <div class="modal fade" id="loginModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal fade" v-show="loginModal" id="loginModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
 
@@ -12,7 +12,7 @@
             <div class="content-model-me">
 
                 <div class="modal-header">
-                  <h2 class="section-title">تسجيل دخول</h2>
+                  <h2 class="section-title"> {{ $t('auth.login') }}  </h2>
                 </div>
 
                 <!-- form  -->
@@ -22,16 +22,17 @@
                         <div class="inputs-container">
                             <div class="input-g">
                                 <label for="" class="main-label">
-                                    رقم الجوال / البريد الالكتروني
+                                    {{ $t('auth.phone_mail') }}
                                 </label>
                                 <div class="main-input">
-                                    <input type="text"  class="input-me" placeholder="أدخل رقم الجوال / البريد الالكتروني" name="email_phone" v-model="email_phone">
+                                    <input type="text"  class="input-me" :class="{ error : v$.phone_or_email.$error}" :placeholder="$t('auth.phonePlace')" name="phone_or_email" v-model="phone_or_email">
                                 </div>
+                                <span class="error" v-if="v$.phone_or_email.$error"> {{ $t('validation.required')}} </span>
                             </div>
     
                             <div class="input-g">
                                 <label for="" class="main-label">
-                                    كلمة المرور
+                                    {{ $t('auth.password') }}
                                 </label>
                                 <div class="main-input">
                                     <span class="pass-icon main-icon" @click="switchVisibility()">
@@ -40,24 +41,33 @@
 
                                         <font-awesome-icon icon="fa-solid fa-eye" v-else-if="eyeToggle" />
                                     </span>
-                                    <input :type="passwordFieldType" class="input-me" placeholder="أدخل كلمة المرور" name="password" v-model="password">
+                                    <input :type="passwordFieldType" class="input-me" :class="{ error : v$.password.$error}" :placeholder="$t('auth.passwordPlace')" name="password" v-model="password">
+                                    
+
                                 </div>
+                                <span class="error" v-if="v$.password.$error"> {{ $t('validation.required')}} </span>
+
                             </div>
                         </div>
 
                         <div class="anchor text-start">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#sendModal" class="forget-anchor">نسيت كلمة المرور؟</a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#sendModal" class="forget-anchor"> {{ $t('auth.forgetPass') }} </a>
                         </div>
 
                     </div>
 
                     <div class="modal-footer">
-                        <button class="main-btn md up" type="submit"  @click.prevent="login()" data-bs-dismiss="modal" aria-label="Close">تسجيل دخول</button>
+                        <button class="main-btn md up" type="submit"  @click.prevent="login()" :disabled="disabled" > 
+                            {{  $t('auth.login') }} 
+                            <div class="spinner-border" role="status" v-if="disabled">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
                     </div>
 
                     <div class="reg text-center">
                         <a href="#" class="reg-anchor" data-bs-toggle="modal" data-bs-target="#regModal" data-bs-dismiss="modal" aria-label="Close">
-                            ليس لديك حساب؟ <span>إنشاء حساب</span>
+                            {{ $t('auth.donotHaveAcc') }} <span>{{ $t('auth.createAcc') }}</span>
                         </a>
                     </div>
                 </form>
@@ -86,11 +96,27 @@ import { mapState , mapGetters , mapMutations } from 'vuex'
 import forgetPass from './forgetPassword.vue'
 import activatioCode from './activationCode.vue'
 import registerComponent from './regiesterComponent.vue'
+
+import useValidate from "@vuelidate/core"
+import { required  } from "@vuelidate/validators"
+
+
 export default {
     data(){
         return{
-            email_phone : '',
+            v$ : useValidate(),
+            phone_or_email : '',
             password : '',
+            device_type : "web",
+            disabled : false,
+            loginModal : false
+        }
+    },
+
+    validations(){
+        return{
+            phone_or_email : { required },
+            password : { required }
         }
     },
 
@@ -109,49 +135,87 @@ export default {
         
         // login function 
         async login(){
+
+
+            this.disabled = true
+
+            this.v$.$validate()
             
             // initialize formData 
             let fd = new FormData( this.$refs.loginForm );
 
-            // traditional way 
-            // fd.append( 'email_phone' , this.email_phone )
-            // fd.append( 'password' , this.password )
+            fd.append('device_id', sessionStorage.getItem('device_id'))
+            fd.append('device_type', this.device_type)
+
 
             // post with axios
-            await axios.post('posts', fd)
-            .then( (res)=>{
-                console.log(res)
+            if( this.v$.$error ){
 
-                // if success response 
-                if( res.status === 201  ){
-                    this.$swal({
-                        icon: 'success',
-                        title: 'login success',
-                        text: 'Welcome to home page',
-                    });
+                await axios.post('sign-in', fd)
+                .then( (res)=>{
 
-                    // save token in the session storage 
-                    // sessionStorage.setItem('token', response.data.token);
+                    // if success response 
+                    if( res.data.key == "success"  ){
+                        this.$swal({
+                            icon: 'success',
+                            title: res.data.msg,
+                            timer: 2000,
+                            showConfirmButton: false,
 
-                    // save the token in vuex 
-                    // this.$store.commit('setToken', response.data.token);
+                        });
 
-                 }
-                // if failed response 
-                else{
-                    this.$swal({
-                        icon: 'error',
-                        title: 'user not found',
-                    });
-                }
-            } )
-            .catch( (err)=>{
-                console.error(err)
-            } )
+
+                        this.loginModal = false
+                        document.querySelector('.modal-backdrop').style.display = "none"
+
+
+                        // let user = JSON.stringify(res.data.data.user)
+                        // localStorage.setItem('user', user);
+
+                        let token = res.data.data.token
+                        localStorage.setItem('token', token)
+
+
+                        // set the user as logged in 
+                        localStorage.setItem('IsLoggedIn', true);
+
+
+                        location.reload()
+
+                    }
+                    // if failed response 
+                    else{
+                        this.$swal({
+                            icon: 'error',
+                            title: res.data.msg,
+                            timer: 2000,
+                            showConfirmButton: false,
+
+                        });
+                    }
+
+
+                    this.disabled = false
+                } )
+                .catch( (err)=>{
+                    console.error(err)
+                } )
+            }else{
+                console.log('failed')
+            }
         },
 
         // show password function 
         ...mapMutations(["switchVisibility"])
+    },
+
+
+    mounted(){
+            this.loginModal = true
+            fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => sessionStorage.setItem('device_id', data.ip))
+            .catch(error => console.error(error));
     }
 }
 </script>
@@ -159,5 +223,15 @@ export default {
 <style scoped>
     a{
         color: #333 !important;
+    }
+</style>
+<style >
+    .error{
+        color:red;
+        font-size:12px;
+        transition:.3s all;
+    }
+    .error.errorShow{
+        transform: translateX(-10px);
     }
 </style>

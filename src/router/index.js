@@ -20,6 +20,8 @@ import republishAdd from "../views/republishAdd.vue";
 import componiesView from "../views/componiesView.vue";
 import notFoundView from "../components/NotFound/notFoundView";
 
+
+
 const routes = [
   {
     path: "/",
@@ -35,6 +37,7 @@ const routes = [
     path: "/favView",
     name: "favView",
     component: favView,
+    meta : { requiresAuth : true }
   },
   {
     path: "/contactView",
@@ -60,6 +63,7 @@ const routes = [
     path: "/editProfileView",
     name: "editProfileView",
     component: editProfileView,
+    meta:{ requiresAuth : true}
   },
   {
     path: "/ratingView",
@@ -80,10 +84,14 @@ const routes = [
     path: "/uploadAds",
     name: "uploadAds",
     component: uploadAds,
+    meta : { requiresAuth : true }
+
 },{
     path : '/uploadAds',
     name : 'uploadAds',
-    component : uploadAds
+    component : uploadAds,
+    meta : { requiresAuth : true }
+
   },
   {
     path: "/adsPayment",
@@ -130,5 +138,21 @@ const router = createRouter({
     window.scrollTo(0,0);
   }
 });
+
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if ( localStorage.getItem('IsLoggedIn') == 'false' ) {
+      next({ name: 'home' })
+    } else {
+      next() // go to wherever I'm going
+    }
+  } else {
+    next() // does not require auth, make sure to always call next()!
+  }
+})
+
 
 export default router;

@@ -3,17 +3,27 @@
   <nav class="navbar-m" @click="hideForce($event)">
     <div class="container">
       <div class="nav-content">
-        <a href="index.html" class="logo">
-          <img :src="logo" alt="" />
-        </a>
+        <router-link to="/" class="logo">
+          <img :src="'https://nawaaaf.com/public'+nav_and_footer_data.logo" alt="" />
+        </router-link>
 
         <div class="links-container">
-          <form action="" class="search nav-search" ref="navSearch">
-            <input type="text" :placeholder="$t('nav.search')" class="search-input" />
-            <button type="submit" class="search-btn">
-              <!-- <i class="fa-solid fa-sliders"></i> -->
-              <img :src="filterImg" alt="" />
-            </button>
+
+          <form class="search nav-search position-relative" ref="navSearch">
+              <input type="text" :placeholder="$t('nav.search')" class="search-input" v-model="searchBar" @input="searchAds()"/>
+              <button type="button" class="search-btn">
+                  <!-- <i class="fa-solid fa-sliders"></i> -->
+                  <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+
+              <div class="filteredSearch" v-if="showList">
+                  <ul v-if="searchItems.length>0">
+                      <li v-for="ad in searchItems" :key="ad.id" class="adName" @click="goToAd(ad.id, ad.name)"> {{ ad.name }} </li>
+                  </ul>
+                  <ul v-else>
+                      <li>لا توجد إعلانات</li>
+                  </ul>
+              </div>
           </form>
 
           <ul class="links" ref="ulBar">
@@ -46,6 +56,7 @@
                 to="/favView"
                 class="links-a"
                 :class="{ active: $route.path === '/favView' }"
+                @click="preventLogin()"
                 >
                   {{ $t('nav.favs') }}    
               </router-link
@@ -84,7 +95,9 @@
         </div>
 
         <div class="navbar-icons">
-          <div class="icons">
+
+
+          <div class="icons" v-if="loggedIn == 'true'">
             <div class="dropdown-m-container">
               <img
                 :src="userImg"
@@ -132,28 +145,40 @@
                 @click="toggleDropdown2($event)"
                 alt=""
               />
+
+              <!-- notification -->
+              <span class="count_notification"> {{ notyCount }} </span>
+
               <div
                 class="not-drop dropdown-m dropdown-active"
                 data-drop="not"
                 :class="{ 'active-drop': showYes2 }"
               >
-                <div>
-                  <router-link
-                    to="/"
-                    class="drop-text"
-                    v-for="noti in notifications"
-                    :key="noti.id"
-                  >
-                    {{ noti.title }}</router-link
-                  >
-                </div>
-                <router-link to="/notificationsView" class="more-anchor"> {{ $t('common.more') }} </router-link>
+                <!-- notification list  -->
+                <section v-if="slicedNotification.length>0" >
+                  <div>
+                    <router-link
+                      to="/"
+                      class="drop-text"
+                      v-for="noti in slicedNotification"
+                      :key="noti.id"
+                    >
+                      {{ noti.body }}
+                    </router-link
+                    >
+                  </div>
+                  <router-link to="/notificationsView" class="more-anchor"> {{ $t('common.more') }} </router-link>
+
+                </section>
+                <section v-else class="d-flex justify-content-center">
+                  <span class="text-center"> لا توجد اشعارات </span>
+                </section>
               </div>
             </div>
 
 
             <!-- <button class="">AR</button> -->
-            <button @click="changeLocale" class="lang-m-spe" >{{$i18n.locale == 'ar'?'En':'AR'}}</button>
+            <!-- <button @click="changeLocale" class="lang-m-spe" >{{$i18n.locale == 'ar'?'En':'AR'}}</button> -->
 
           </div>
           
@@ -162,14 +187,15 @@
             class="login-anchor"
             data-bs-toggle="modal"
             data-bs-target="#loginModal"
-            >     {{ $t('nav.login') }}    </a
-          >
+            v-else
+            >     {{ $t('nav.login') }}    
+            </a>
+
           <button
             class="main-btn up"
-            data-bs-toggle="modal"
-            data-bs-target="#loginModal"
+           
           >
-            <router-link to="/uploadAds">   {{ $t('nav.upload') }}     </router-link>
+            <router-link to="/uploadAds"  @click="preventLogin()">   {{ $t('nav.upload') }}     </router-link>
           </button>
         </div>
       </div>
@@ -192,26 +218,48 @@
  import regiesterComponent from "../auth/regiesterComponent.vue";
  import activationCode from "../auth/activationCode.vue";
  import loginComponent from "../auth/loginComponent.vue";
+
+ import axios from 'axios'
 export default {
  
   data() {
     return {
+      searchBar : null,
+      searchItems : [],
+      showList : false,
       showYes: false,
       showYes2: false,
       logo: require("../../assets/imgs/nawaf.png"),
       filterImg: require("../../assets/imgs/icons8-slider-60.png"),
       userImg: require("../../assets/imgs/user.png"),
       notiImg: require("../../assets/imgs/bell.png"),
+      loggedIn : null,
   
-      notifications: [
-        // array
-        { id: 1, title: "هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحة" },
-        { id: 2, title: "هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحة" },
-        { id: 3, title: "هذا النص هو مثال لنص يمكن ان يستخدم في نفس المساحة" },
-      ],
+      notifications: [],
+      slicedNotification : [],
+      nav_and_footer_data : {},
+      notyCount : ''
     };
   },
   methods: {
+
+    preventLogin(){
+      if( localStorage.getItem('IsLoggedIn') == "false" ){
+          this.$swal({
+              icon: 'error',
+              title: 'قم بتسجيل الدخول اولا',
+              timer: 3000,
+              showConfirmButton: false,
+
+          });
+      }
+    },
+
+    goToAd(id, name){
+      this.$router.push(`/catogryDetails/${id}`);
+      this.searchBar = name
+      this.showList = false
+    },
     toggleBar() {
       // SideBar
       const showSideBar = this.$refs.toggleIcon;
@@ -221,6 +269,17 @@ export default {
       showSideBar.classList.toggle("active");
 
       // Show And Hide Search Navbar
+    },
+    // search 
+    async searchAds(){
+        await axios.get(`search-advertisements?name=${this.searchBar}`)
+        .then( (res)=>{
+            if( res.data.key == "success" ){
+                this.showList = true
+                this.searchItems = res.data.data
+            }
+            
+        } )
     },
     toggleSearch() {
       let searchIcon = this.$refs.searchMobile;
@@ -257,9 +316,67 @@ export default {
         sessionStorage.setItem('lang' ,lang);
         location.reload();
     },
+
+
+    async getHomeLogo(){
+      await axios.get('home' , {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        this.nav_and_footer_data = res.data.data.nav_and_footer_data
+      } )
+      .catch( (err)=>{
+        console.error(err)
+      } )
+    },
+
+    // get notification count 
+    async getNotficationCount(){
+      await axios.get('count-notifications', {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        this.notyCount = res.data.data.count
+      } )
+
+    },
+    // get notification 
+    async getNotification(){
+      await axios.get(`notifications` , {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        this.notifications = res.data.data.notifications;
+        this.slicedNotification = this.notifications.slice(0,2);
+
+        console.log(this.notifications)
+        console.log(this.slicedNotification)
+      } )
+      .catch( (err)=>{
+        console.error(err)
+      } )
+    },
+  },
+  watch:{
+    searchBar(){
+      if( this.searchBar == '' ){
+        this.showList = false
+        console.log('dd')
+      }
+    }
   },
   mounted(){
-    console.log( this.$i18n )
+    this.getHomeLogo()
+    this.getNotficationCount()
+    this.getNotification()
+
+    this.loggedIn = localStorage.getItem('IsLoggedIn')
   },
   components:{
     removeAccount ,
@@ -282,5 +399,37 @@ a {
   color: #fff;
   padding: 10px 12px;
   border-radius: 5px 12px;
+}
+</style>
+<style lang="scss">
+.filteredSearch{
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    border-radius: 5px;
+    border: 1px solid #2abdc7;
+    padding: 10px 5px;
+    background-color: #fff;
+    top: 45px;
+    right:0;
+    overflow-y: auto;
+    z-index: 99;
+    li.adName{
+      border-bottom: 1px solid #dfdddd;
+      cursor: pointer;
+      padding-bottom: 8px;
+    }
+}
+.count_notification{
+    position: absolute;
+    background: #2abdc7;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 13px;
+    color: #fff;
+    right: 17px;
+    top: -4px;
 }
 </style>

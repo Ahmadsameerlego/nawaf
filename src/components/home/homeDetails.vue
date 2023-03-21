@@ -1,9 +1,9 @@
 <template>
       <div class="facts-section main-padding">
         <div class="container">
-            <h2 class="section-title tshadow">هذا النص هو مثال لنص يمكن أن يستبدل</h2>
+            <h2 class="section-title tshadow"> {{ title_2 }} </h2>
             <p class="facts-info">
-                هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى
+                {{ content_2 }}
             </p>
 
             <div class="row">
@@ -11,18 +11,18 @@
 
                     <div class="facts-cards">
                         <div class="fact-card">
-                            <img class="fact-img" :src="dat1" alt="">
-                            <p class="facts-num">1200+ مستخدم</p>
+                            <img class="fact-img" :src="'https://nawaaaf.com/public'+intro_user_image" alt="">
+                            <p class="facts-num"> {{ users_num }} </p>
                         </div>
         
                         <div class="fact-card">
-                            <img class="fact-img" :src="dat2" alt="">
-                            <p class="facts-num">1600+ كود خصم</p>
+                            <img class="fact-img" :src="'https://nawaaaf.com/public'+intro_advertiser_image" alt="">
+                            <p class="facts-num"> {{ advertisers_num }} </p>
                         </div>
         
                         <div class="fact-card">
-                            <img class="fact-img" :src="dat3" alt="">
-                            <p class="facts-num">1600+ إعلان</p>
+                            <img class="fact-img" :src="'https://nawaaaf.com/public'+intro_advertiserment_image" alt="">
+                            <p class="facts-num"> {{ advertisement_num }} </p>
                         </div>
                     </div>
 
@@ -40,6 +40,16 @@ export default {
             dat2 : require('../../assets/imgs/facts2.png'),
             dat3 : require('../../assets/imgs/facts3.png'),
         }
+    },
+    props : {
+        intro_advertiser_image : String,
+        intro_advertiserment_image : String,
+        intro_user_image : String,
+        title_2 : String,
+        content_2 : String,
+        advertisers_num : String,
+        advertisement_num : String,
+        users_num : String,
     }
 }
 </script>

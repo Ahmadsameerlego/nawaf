@@ -35,6 +35,7 @@
               data-bs-target="#done2Modal"
               data-bs-dismiss="modal"
               aria-label="Close"
+              @click="deleteAcc()"
             >
               نعم
             </button>
@@ -55,7 +56,7 @@
 
 <script>
 import { defineComponent } from "vue";
-
+import axios from 'axios'
 export default defineComponent({
   name: "removeAccountModal",
   data() {
@@ -63,7 +64,34 @@ export default defineComponent({
         logOutImg: require("../../assets/imgs/alert.gif"),
     };
   },
-  methods: {},
+  methods: {
+    async  deleteAcc(){
+      await axios.delete('delete-account', {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        if( res.data.key == "success" ){
+          this.$swal({
+              icon: 'success',
+              title: res.data.msg,
+              timer: 2000,
+              showConfirmButton: false,
+
+          });
+        }else{
+          this.$swal({
+              icon: 'error',
+              title: res.data.msg,
+              timer: 2000,
+              showConfirmButton: false,
+
+          });
+        }
+      } )
+    }
+  },
 
   components: {},
 });

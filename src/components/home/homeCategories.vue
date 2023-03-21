@@ -3,7 +3,7 @@
     <div class="container">
       <div class="main-title">
         <h3 class="main-tit-text"> {{ $t('cats.browse') }} </h3>
-        <a href="categories.html" class="all-anchor"> {{ $t('cats.all') }} </a>
+        <router-link to="/depatments" class="all-anchor"> {{ $t('cats.all') }} </router-link>
       </div>
 
       <div class="categories-carousel owl-carousel">
@@ -21,13 +21,13 @@
 
         >
 
-          <swiper-slide v-for="cat in catsImages" :key="cat">
+          <swiper-slide v-for="cat in categories" :key="cat.id">
             
             <router-link :to="'/catogryView/'+cat.id" class="categories-item">
               <div class="img-style-con">
                 <img
                   class="cat-img"
-                  :src="cat.src"
+                  :src="cat.image"
                   alt=""
                 />
               </div>
@@ -53,54 +53,11 @@ import { Autoplay } from "swiper";
 export default {
     data(){
         return{
-            catsImages : [
-                {   id:1,
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    id : 2,
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-                {
-                    src : require('../../assets/imgs/categories-1.png'),
-                    name : 'الكترونيات'
-                },
-            ]
+            
         }
+    },
+    props : {
+      categories : Array
     },
     components:{
         Swiper,

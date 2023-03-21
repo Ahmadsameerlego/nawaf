@@ -1,11 +1,12 @@
 <template>
+  <loader v-if="loader" />
   <!-- Start Categories Section -->
   <div class="categories-section main-padding">
     <div class="container">
       <div class="categories-con">
-        <router-link :to="{ name: 'catogryView' , params: { id: catogry.id } }" class="categories-card" v-for="catogry in catogries" :key="catogry.id">
-          <img class="catego-img" :src="catogry.img" alt="" />
-          <span class="catego-name">{{catogry.title}}</span>
+        <router-link :to="{ name: 'catogryView' , params: { id: catogry.id } }" class="categories-card" v-for="catogry in categories" :key="catogry.id">
+          <img class="catego-img" :src="catogry.image" alt="" />
+          <span class="catego-name">{{catogry.name}}</span>
         </router-link>
      
       </div>
@@ -17,20 +18,39 @@
 <script>
 import { defineComponent } from "vue";
 
+import axios from 'axios';
+
+import loader from '../components/Shared/pageLoader.vue'
+
+
 export default defineComponent({
   name: "departmentsView",
   data() {
     return {
-      catogries: [
-        // array
-        { id: 1 , title: "الكترونيات", img: require("../assets/imgs/categories-1.png") },
-        { id: 2 , title: " شرائح ", img: require("../assets/imgs/categories-1.png") },
-        { id: 3 , title: " العاب ", img: require("../assets/imgs/categories-1.png") },
-      ],
+      categories: [],
+      loader : true
     };
   },
 
-  components: {},
+  components: {
+    loader
+  },
+
+  methods:{
+    async getCategories(){
+      await axios.get('categories')
+      .then((res)=>{
+        this.categories = res.data.data
+
+        this.loader = false
+      })
+    }
+  },
+
+  mounted(){
+    this.getCategories()
+  }
+
 });
 </script>
 <style >

@@ -6,18 +6,22 @@
           <div class="row company-cards gy-4 gx-md-5">
             <div
               class="col-xl-2 col-lg-3 col-md-4 col-6"
-              v-for="company in companys"
-              :key="company"
+              v-for="company in companies"
+              :key="company.id"
             >
               <div class="company-card">
-                <img class="company-img" :src="company.compImage" alt="" />
+                <img class="company-img" :src="company.image" alt="" />
                 <div class="company-num">
-                  <img :src="company.telephone" alt="" />
-                  <span class="number"> {{ company.compPhone }} </span>
+                  <a :href="'tel:'+company.phone">
+                  <img :src="phoneImage" alt="" />
+                  <span class="number"> {{ company.phone }} </span>
+                  </a>
                 </div>
                 <div class="company-num">
-                  <img :src="company.whats" alt="" />
-                  <span class="number"> {{ company.compWhats }} </span>
+                  <a  :href="'https://api.whatsapp.com/send?phone='+company.whatsapp">
+                  <img :src="whatsAppImage" alt="" />
+                  <span class="number"> {{ company.whatsapp }} </span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -32,59 +36,14 @@
 export default {
   data() {
     return {
-      companys: [
-        {
-          telephone: require("../../assets/imgs/telephone.png"),
-          whats: require("../../assets/imgs/whatsapp.png"),
-          compImage: require("../../assets/imgs/company.png"),
-          compPhone: 966561215455,
-          compWhats: 966561215455,
-        },
-        {
-          telephone: require("../../assets/imgs/telephone.png"),
-          whats: require("../../assets/imgs/whatsapp.png"),
-          compImage: require("../../assets/imgs/company.png"),
-          compPhone: 966561215455,
-          compWhats: 966561215455,
-        },
-        {
-          telephone: require("../../assets/imgs/telephone.png"),
-          whats: require("../../assets/imgs/whatsapp.png"),
-          compImage: require("../../assets/imgs/company.png"),
-          compPhone: 966561215455,
-          compWhats: 966561215455,
-        },
-        {
-          telephone: require("../../assets/imgs/telephone.png"),
-          whats: require("../../assets/imgs/whatsapp.png"),
-          compImage: require("../../assets/imgs/company.png"),
-          compPhone: 966561215455,
-          compWhats: 966561215455,
-        },
-        {
-          telephone: require("../../assets/imgs/telephone.png"),
-          whats: require("../../assets/imgs/whatsapp.png"),
-          compImage: require("../../assets/imgs/company.png"),
-          compPhone: 966561215455,
-          compWhats: 966561215455,
-        },
-        {
-          telephone: require("../../assets/imgs/telephone.png"),
-          whats: require("../../assets/imgs/whatsapp.png"),
-          compImage: require("../../assets/imgs/company.png"),
-          compPhone: 966561215455,
-          compWhats: 966561215455,
-        },
-        {
-          telephone: require("../../assets/imgs/telephone.png"),
-          whats: require("../../assets/imgs/whatsapp.png"),
-          compImage: require("../../assets/imgs/company.png"),
-          compPhone: 966561215455,
-          compWhats: 966561215455,
-        },
-      ],
+            phoneImage : require('../../assets/imgs/telephone.png'),
+            whatsAppImage : require('../../assets/imgs/whatsapp.png'),
+
     };
   },
+  props:{
+    companies : Array
+  }
 };
 </script>
 

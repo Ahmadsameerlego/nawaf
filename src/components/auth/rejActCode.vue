@@ -1,12 +1,13 @@
 <template>
-      <div class="modal fade" id="codeModal1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal fade"  id="codeModal1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
 
-            <button type="button" class="close-model-btn" data-bs-dismiss="modal" aria-label="Close">
+            <div class="d-flex justify-content-end">
+              <button type="button" class="close-model-btn" data-bs-dismiss="modal" aria-label="Close">
                 <i class="fa-regular fa-circle-xmark"></i>
-            </button>
-
+              </button>
+            </div>
             <div class="content-model-me">
 
                 <div class="modal-header">
@@ -58,7 +59,7 @@ import VOtpInput from "vue3-otp-input";
 export default {
     data(){
         return{
-
+          showActModal : null
         }
     },
     methods: {
@@ -69,6 +70,12 @@ export default {
     },
     components:{
         VOtpInput
+    },
+    // props:{
+    //   activeCodeModal : Boolean
+    // },
+    mounted(){
+      this.showActModal = this.activeCodeModal
     },
     setup() {
       const otpInput = null;

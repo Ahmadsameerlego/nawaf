@@ -5,7 +5,7 @@
     <GMapMap
       :center="center"
       :options="options"
-      :zoom="5"
+      :zoom="12"
       map-type-id="terrain"
       style="width: 100vw; height: 500px"
     >
@@ -29,13 +29,15 @@
 
         <div class="row gy-5">
           <div class="col-md-6">
-            <form action="">
+            <form @submit.prevent="contactUs" ref="contactForm">
               <div class="inputs-container">
                 <div class="input-g">
                   <div class="main-input">
                     <input
                       type="text"
                       class="input-contact"
+                      v-model="contact.name"
+                      name ="name"
                       :placeholder="$t('contact.fullName')"
                     />
                   </div>
@@ -45,6 +47,8 @@
                   <div class="main-input">
                     <input
                       type="email"
+                      v-model="contact.email"
+                      name="email"
                       class="input-contact"
                       :placeholder="$t('contact.email')"
                     />
@@ -54,6 +58,8 @@
                 <div class="input-g">
                   <div class="main-input">
                     <textarea
+                      v-model="contact.message"
+                      name="message"
                       class="input-contact text-area"
                       :placeholder="$t('contact.messageText')"
                     ></textarea>
@@ -61,7 +67,11 @@
                 </div>
 
                 <div class="input-g">
-                  <button type="submit" class="main-btn md up"> {{ $t('contact.send') }} </button>
+                  <button type="submit" class="main-btn md up" :disabled="disabled"> {{ $t('contact.send') }}
+                    <div class="spinner-border" role="status" v-if="disabled">
+                            <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </button>
                 </div>
               </div>
             </form>
@@ -77,7 +87,7 @@
                     </div>
                     <div class="contact-info">
                       <span class="contact-name"> {{ $t('contact.email') }} </span>
-                      <p class="contact-text">example@info.com</p>
+                      <a :href="'mailto:'+email"><p class="contact-text"> {{ email }} </p></a>
                     </div>
                   </div>
 
@@ -87,7 +97,7 @@
                     </div>
                     <div class="contact-info">
                       <span class="contact-name"> {{ $t('contact.phone') }} </span>
-                      <p class="contact-text">9665215452452</p>
+                      <a :href="'tel:'+phone"><p class="contact-text"> {{ phone }} </p></a>
                     </div>
                   </div>
 
@@ -97,7 +107,7 @@
                     </div>
                     <div class="contact-info">
                       <span class="contact-name"> {{ $t('contact.address') }} </span>
-                      <p class="contact-text">شارع الملك فهد ، الرياض</p>
+                      <p class="contact-text"> {{ address }} </p>
                     </div>
                   </div>
                 </div>
@@ -114,6 +124,8 @@
 <script>
 import { defineComponent } from "vue";
 
+import axios from 'axios';
+
 export default defineComponent({
   //   components: { GMapMap },
   name: "departmentsView",
@@ -122,19 +134,99 @@ export default defineComponent({
       img1: require("../assets/imgs/email.png"),
       img2: require("../assets/imgs/phone-call.png"),
       img3: require("../assets/imgs/location.png"),
-      center: { lat: 24.746189966504275, lng: 46.87979460238138 },
+      center: { lat:0, lng: 0 },
       markers: [
         {
           position: {
-            lat: 24.746189966504275,
-            lng: 46.87979460238138,
+            lat: 0,
+            lng: 0,
           },
         },
       ],
-    };
+      google_key: '',
+      address : '',
+      phone : 0,
+      email : '',
+
+      disabled : false,
+      contact : {
+        name : '',
+        email : '',
+        message : ''
+      }
+
+
+    }
+  },
+
+  methods:{
+
+    // get current location 
+      geolocation () {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          this.markers[0].position = this.center
+        });
+      },
+
+      // get contact data 
+      async getContactData(){
+        await axios.get('contact-data')
+        .then( (res)=>{
+          this.phone = res.data.data.phone
+          this.email = res.data.data.email
+          this.address = res.data.data.address
+          this.google_key = res.data.data.google_key
+        } )
+      },
+
+      // post contact us 
+      async contactUs(){
+                  this.disabled = true
+
+        const fd = new FormData(this.$refs.contactForm);
+        await axios.post('contact-us', fd)
+        .then( (res)=>{
+          if( res.data.key == "success" ){
+             this.$swal({
+                  icon: 'success',
+                  title: res.data.msg,
+                  timer: 2000,
+                  showConfirmButton: false,
+
+              });
+
+              this.contact.name = ''
+              this.contact.email = ''
+              this.contact.message = ''
+          }else{
+             this.$swal({
+                icon: 'error',
+                title: res.data.msg,
+                timer: 2000,
+                showConfirmButton: false,
+
+            });
+          }
+          this.disabled = false
+        } )
+      }
+
+
+
   },
 
   components: {},
+
+  mounted(){
+    this.geolocation()
+
+    this.getContactData()
+  }
 });
 </script>
 <style scoped>

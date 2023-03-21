@@ -30,11 +30,14 @@
           <div class="modal-footer">
             <button
               class="main-btn red md up"
-              type="submit"
-              data-bs-dismiss="modal"
-              aria-label="Close"
+              :disabled="disabled"
+              type="button"
+              @click.prevent="signOut()"
             >
               نعم
+               <div class="spinner-border" role="status" v-if="disabled">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </button>
             <button
               class="main-btn md up"
@@ -54,15 +57,61 @@
 
 <script>
 import { defineComponent } from "vue";
+import axios from 'axios'
 
 export default defineComponent({
   name: "removeAccountModal",
   data() {
     return {
         logOutImg: require("../../assets/imgs/alert.gif"),
+        disabled : false
     };
   },
-  methods: {},
+  methods: {
+    async signOut(){
+      const fd = new FormData()
+      this.disabled = true
+
+      await axios.post('sign-out', fd , {
+        headers:{
+          'Authorization':  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+
+        if( res.data.key == "success" ){
+          this.$swal({
+              icon: 'success',
+              title: res.data.msg,
+              timer: 2000,
+              showConfirmButton: false,
+
+          });
+
+
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          localStorage.setItem('IsLoggedIn', 'false')
+
+          setTimeout(() => {
+            this.$router.push('/')
+            location.reload()
+          }, 2000);  
+
+
+        }else{
+          this.$swal({
+              icon: 'error',
+              title: res.data.msg,
+              timer: 2000,
+              showConfirmButton: false,
+
+          });
+        }
+        this.disabled = false
+      } )
+    }
+  },
 
   components: {},
 });

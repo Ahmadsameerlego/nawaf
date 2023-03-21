@@ -5,23 +5,18 @@
 
                 <div class="col-lg-6 col-md-0">
                     <div class="last-img">
-                        <img :src="adUploaded" alt="">
+                        <img :src="'https://nawaaaf.com/public'+intro_image" alt="">
                     </div>
                 </div>
 
                 <div class="col-lg-6 col-md-12">
                     <div class="last-content">
-                        <h2 class="section-title tshadow">هذا النص هو مثال لنص يمكن أن يستبدل</h2>
+                        <h2 class="section-title tshadow"> {{ title_1 }} </h2>
                         <p class="last-info">
-                            هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، 
-                            حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها 
-                            التطبيق هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة 
+                            {{ content_1 }}
                         </p>
-                        <p class="last-info">
-                            هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، 
-                            هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها
-                        </p>
-                        <a href="add-ads.html" class="main-btn up"> {{ $t('nav.upload') }} </a>
+                        
+                        <router-link to="/uploadAds" @click="preventLogin()" class="main-btn up"> {{ $t('nav.upload') }} </router-link>
                     </div>
                 </div>
             </div>
@@ -36,6 +31,24 @@ export default {
         return{
             adUploaded : require('../../assets/imgs/last-img.png')
         }
+    },
+    props : {
+        content_1 : String,
+        title_1 : String,
+        intro_image : String,
+    },
+    methods:{
+        preventLogin(){
+            if( localStorage.getItem('IsLoggedIn') == "false" ){
+                this.$swal({
+                    icon: 'error',
+                    title: 'قم بتسجيل الدخول اولا',
+                    timer: 3000,
+                    showConfirmButton: false,
+
+                });
+            }
+        },
     }
 }
 </script>

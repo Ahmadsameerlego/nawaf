@@ -1,4 +1,5 @@
 <template>
+  <laoder v-if="loader" />
   <!-- Start Add Advertisements Section -->
   <div class="add-ads main-padding">
     <div class="container">
@@ -7,7 +8,9 @@
           <div class="add-form section-style sec-padding">
             <div class="row">
               <div class="col-lg-8 col-md-10 col-11 mx-auto">
-                <form action="" @submit.prevent="edit()">
+
+
+                <form ref="updateProfile" @submit.prevent="editProfile()">
                   <h2 class="section-title"> {{ $t('profile.changeInfo') }} </h2>
                   <div class="inputs-container">
                     <div class="upload-ads-img">
@@ -15,7 +18,7 @@
                         <div class="upload-img">
                           <input
                             type="file"
-                            name=""
+                            name="image"
                             accept="image/*"
                             id="imgUpload"
                             @change="onFileChange"
@@ -24,8 +27,7 @@
                           <div class="img-upload-show">
                             <label for="imgUpload" class="label-img">
                               <img
-                                v-if="url"
-                                :src="url"
+                                :src="image"
                                 ref="currentimg"
                                 class="wid"
                                 :class="{ wid: uploaded }"
@@ -42,7 +44,8 @@
                         <input
                           type="text"
                           class="input-me"
-                          v-model="userEdit"
+                          v-model="name"
+                          name="name"
                           
                         />
                       </div>
@@ -56,7 +59,8 @@
                         <input
                           type="email"
                           class="input-me"
-                          v-model="emailEdit"
+                          v-model="email"
+                          name="email"
                           
                         />
                       </div>
@@ -72,7 +76,8 @@
                         <input
                           type="number"
                           class="input-me"
-                          v-model="numberEdit"
+                          v-model="full_phone"
+                          name="full_phone"
                       
                         />
                         <i class="fa-regular fa-pen-to-square main-icon"></i>
@@ -83,8 +88,12 @@
                       <button
                         type="submit"
                         class="main-btn dark xl mx-auto up mb-3"
+                        :disabled="disabled"
                       >
                         {{ $t('profile.saveChanges') }}
+                        <div class="spinner-border" role="status" v-if="disabled">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                       </button>
                       <button
                         type="button"
@@ -115,27 +124,87 @@ import { defineComponent } from "vue";
 import editPassword from '../components/profile/editPassword.vue';
 import editNum from '../components/profile/editNum.vue';
 
+import axios from 'axios';
+
+import laoder from '../components/Shared/pageLoader.vue'
+
 
 export default defineComponent({
   name: "EditProfile vue",
   data() {
     return {
-      url: require("../assets/imgs/user2.png"),
+      // url: require("../assets/imgs/user2.png"),
       uploaded: false,
-      userEdit : 'عبدالرحمن سليمان ',
-      emailEdit : 'solia@gmail.com',
-      numberEdit : '010928736',
+      name : '',
+      email : '',
+      full_phone : '',
+      image : null , 
+      user : {},
+      disabled : false,
+      loader : true
       
     };
   },
   methods: {
     onFileChange(e) {
       const file = e.target.files[0];
-      this.url = URL.createObjectURL(file);
+      this.image = URL.createObjectURL(file);
       this.uploaded = true;
     },
+
+    async getProfile(){
+      await axios.get('profile', {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        if( res.data.key == "success" ){
+          this.user = res.data.data
+          this.name = res.data.data.name
+          this.email = res.data.data.email
+          this.full_phone = res.data.data.full_phone
+          this.image = res.data.data.image
+
+          this.loader = false
+        }
+      } )
+    },
+
+    async editProfile(){
+      this.disabled = true
+      const fd = new FormData(this.$refs.updateProfile)
+      await axios.post(`update-profile?_method=put`, fd, {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        if( res.data.key == "success" ){
+                this.$swal({
+                    icon: 'success',
+                    title: res.data.msg,
+                    timer: 2000,
+                    showConfirmButton: false,
+
+                });
+        }else{
+                this.$swal({
+                    icon: 'error',
+                    title: res.data.msg,
+                    timer: 2000,
+                    showConfirmButton: false,
+
+                });
+        }
+        this.disabled = false
+      } )
+    }
   },
-  components: {editPassword , editNum},
+  components: {editPassword , editNum, laoder},
+  mounted(){
+    this.getProfile()
+  }
 });
 </script>
 <style>
