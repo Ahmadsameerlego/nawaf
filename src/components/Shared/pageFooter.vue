@@ -93,7 +93,7 @@ export default {
       } )
     },
     preventLogin(){
-      if( localStorage.getItem('IsLoggedIn') == "false" ){
+      if( localStorage.getItem('IsLoggedIn') == "false" || !localStorage.getItem('IsLoggedIn') ){
           this.$swal({
               icon: 'error',
               title: 'قم بتسجيل الدخول اولا',

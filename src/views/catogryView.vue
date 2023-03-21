@@ -28,7 +28,7 @@
         <div class="explore-card" v-for="(fav, i) in catsAds" :key="fav.id">
           <div class="card-container">
             <router-link
-              :to="{ name: 'catogryDetails', params: { id: fav.id } }"
+              :to="{ name: 'publicAds', params: { id: fav.id } }"
             ></router-link>
             <div class="explore-card-head">
               <img :src="fav.image" alt="" />

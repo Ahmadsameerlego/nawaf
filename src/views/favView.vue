@@ -122,13 +122,16 @@ export default defineComponent({
         }
       })
       .then( (res)=>{
-        this.favs = res.data.data.favourites.data;
-        
-        this.totalPagesP = res.data.data.pagination.total_pages
-        this.perPageP = res.data.data.pagination.per_page
-        this.currentPageP = res.data.data.pagination.current_page
+        if( res.data.key == "success" ){
+          this.favs = res.data.data.favourites.data;
+          
+          this.totalPagesP = res.data.data.pagination.total_pages
+          this.perPageP = res.data.data.pagination.per_page
+          this.currentPageP = res.data.data.pagination.current_page
 
-        this.loader = false
+          this.loader = false
+
+        } 
       } )
     },
 
@@ -145,7 +148,9 @@ export default defineComponent({
   },
 
   mounted(){
-    this.getFavs()
+    this.getFavs();
+
+    
   }
 });
 </script>

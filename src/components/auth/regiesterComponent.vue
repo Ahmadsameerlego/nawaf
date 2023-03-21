@@ -1,4 +1,7 @@
 <template>
+
+
+
     <div class="modal fade" v-show="regModal" id="regModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -124,65 +127,64 @@
     </div>
 
 
-        <v-dialog
-            v-model="dialog"
-            width="auto"
-            persistent
-            >
+    <v-dialog
+        v-model="dialog"
+        width="auto"
+        persistent
+        >
 
 
-            <v-card>
+        <v-card>
 
-                <div class="d-flex justify-content-end w-100">
-                    <button type="button" class="close-model-btn" style="font-size:22px" @click="dialog=false">
-                        <i class="fa-regular fa-circle-xmark"></i>
-                    </button>
+            <div class="d-flex justify-content-end w-100">
+                <button type="button" class="close-model-btn" style="font-size:22px" @click="dialog=false">
+                    <i class="fa-regular fa-circle-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-header">
+                <h2 class="section-title">كود التفعيل</h2>
+            </div>
+
+            <form  class="modal-form" @submit.prevent="sendOtp()">
+                <div class="modal-body">
+                    <h4 class="form-title">برجاء ادخال كود التفعيل المرسل إليك</h4>
+
+                    <div class="code-container">
+                        <v-otp-input
+                            ref="otpInput"
+                            input-classes="otp-input"
+                            separator=" "
+                            :num-inputs="6"
+                            :should-auto-focus="true"
+                            v-modal="otpInput"
+                            name="otpInput"
+                            :is-input-num="true"
+                            @on-change="handleOnChange"
+                            @on-complete="handleOnComplete"
+                            
+                        />                     
+                    </div>
+
                 </div>
 
-                <div class="modal-header">
-                  <h2 class="section-title">كود التفعيل</h2>
-                </div>
-
-                <form  class="modal-form" @submit.prevent="sendOtp()">
-                    <div class="modal-body">
-                        <h4 class="form-title">برجاء ادخال كود التفعيل المرسل إليك</h4>
-
-                        <div class="code-container">
-                            <v-otp-input
-                                ref="otpInput"
-                                input-classes="otp-input"
-                                separator=" "
-                                :num-inputs="6"
-                                :should-auto-focus="true"
-                                v-modal="otpInput"
-                                name="otpInput"
-                                :is-input-num="true"
-                                @on-change="handleOnChange"
-                                @on-complete="handleOnComplete"
-                                
-                            />                     
+                <div class="modal-footer">
+                    <button class="main-btn md up mx-auto" :disabled="disabled" type="submit" data-bs-dismiss="modal" aria-label="Close">
+                
+                        إرسال
+                        <div class="spinner-border" role="status" v-if="disabled">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button class="main-btn md up mx-auto" :disabled="disabled" type="submit" data-bs-dismiss="modal" aria-label="Close">
-                    
-                            إرسال
-                            <div class="spinner-border" role="status" v-if="disabled">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            </button>
-                    </div>
+                        </button>
+                </div>
 
 
-                    <div class="reg text-center">
-                        <button type="button" class="reg-anchor" :disabled="disabled" @click="resendCode()">لم تستلم الكود بعد ؟ <span>أعد إرسال الكود</span></button>
-                    </div>
-                </form>            
-            </v-card>
-        </v-dialog>
-
+                <div class="reg text-center">
+                    <button type="button" class="reg-anchor" :disabled="disabled" @click="resendCode()">لم تستلم الكود بعد ؟ <span>أعد إرسال الكود</span></button>
+                </div>
+            </form>            
+        </v-card>
+    </v-dialog>
 
 
 
@@ -198,7 +200,6 @@ import useValidate from "@vuelidate/core"
 import { required } from "@vuelidate/validators"
 
 import VOtpInput from "vue3-otp-input";
-
 
 
 
@@ -233,6 +234,8 @@ export default {
             password_confirmation : {  required },
 
         }
+    },
+    props:{
     },
     computed : {
         ...mapState(["eyeToggle"]),
@@ -310,20 +313,21 @@ export default {
             this.disabled = true
             const fd = new FormData();
 
-            fd.append('phone', localStorage.getItem('phone'))
-            fd.append('device_id', sessionStorage.getItem('device_id'))
-            fd.append('device_type', this.device_type)
-            fd.append('_method', this.method)
-
             let otpString = JSON.stringify(this.$refs.otpInput.otp.join(""));
             let otpsNumber = JSON.parse(otpString)
 
             fd.append('code', otpsNumber)
 
+            fd.append('phone', localStorage.getItem('phone'))
+            fd.append('device_id', 1234)
+            fd.append('device_type', this.device_type)
+            fd.append('_method', this.method)
+
 
             await axios.post('activate', fd)
             .then( (res)=>{
                 if( res.data.key == "success" ){
+                    
                     this.$swal({
                         icon: 'success',
                         title: res.data.msg,
@@ -332,17 +336,20 @@ export default {
 
                     });
 
-                    let user = JSON.stringify(res.data.data.user)
-                    localStorage.setItem('token' , res.data.data.user.token);
-                    localStorage.setItem('user' , user);
+                    // // let user = JSON.stringify(res.data.data.user);
+                    // let token = res.data.data.user.token
+                    // localStorage.setItem('token' , token);
+                    // console.log(token)
+                    // // localStorage.setItem('user' , user);
 
-                    localStorage.setItem('IsLoggedIn', true);
+                    // localStorage.setItem('IsLoggedIn', true);
                     this.dialog = false
 
-                    location.reload()
+                    // location.reload()
+                
 
-
-                }else{
+                }
+                else{
                     this.$swal({
                         icon: 'error',
                         title: res.data.msg,
@@ -390,7 +397,7 @@ export default {
         ...mapMutations(["switchVisibility1"])
     },
     components : {
-        VOtpInput
+        VOtpInput,
     },
     mounted(){
         this.regModal = true;
@@ -400,10 +407,7 @@ export default {
             .then(data => sessionStorage.setItem('device_id', data.ip))
             .catch(error => console.error(error));
 
-
-
-
-    },
+            },
     setup() {
       const otpInput = null;
 

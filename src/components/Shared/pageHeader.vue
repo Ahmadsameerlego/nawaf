@@ -111,13 +111,13 @@
                 data-drop="user"
                 :class="{ 'active-drop': showYes }"
               >
-                <router-link to="/editProfileView" class="drop-link"
+                <router-link @click="preventLogin()" to="/editProfileView" class="drop-link"
                   > {{ $t('nav.profile') }} </router-link
                 >
-                <router-link to="/ratingView" class="drop-link"
+                <router-link @click="preventLogin()" to="/ratingView" class="drop-link"
                   >{{ $t('nav.rates') }}</router-link
                 >
-                <router-link to="/advertisementsView" class="drop-link"
+                <router-link @click="preventLogin()" to="/advertisementsView" class="drop-link"
                   >{{ $t('nav.ads') }}</router-link
                 >
                 <router-link
@@ -125,6 +125,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#alertModal"
                   class="drop-link"
+                  v-if="hideLogOut"
                   > {{ $t('nav.logout') }} </router-link
                 >
                 <router-link
@@ -132,6 +133,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#alert2Modal"
                   class="drop-link"
+                  v-if="hideLogOut"
                   >{{ $t('nav.delete') }}</router-link
                 >
               </div>
@@ -238,13 +240,14 @@ export default {
       notifications: [],
       slicedNotification : [],
       nav_and_footer_data : {},
-      notyCount : ''
+      notyCount : 0,
+      hideLogOut : true
     };
   },
   methods: {
 
     preventLogin(){
-      if( localStorage.getItem('IsLoggedIn') == "false" ){
+      if( localStorage.getItem('IsLoggedIn') == "false"|| !localStorage.getItem('IsLoggedIn') ){
           this.$swal({
               icon: 'error',
               title: 'قم بتسجيل الدخول اولا',
@@ -253,7 +256,10 @@ export default {
 
           });
       }
+
     },
+
+    
 
     goToAd(id, name){
       this.$router.push(`/catogryDetails/${id}`);
@@ -377,6 +383,11 @@ export default {
     this.getNotification()
 
     this.loggedIn = localStorage.getItem('IsLoggedIn')
+
+
+    if( localStorage.getItem('notApproved') == 'true' ){
+      this.hideLogOut = false
+    }
   },
   components:{
     removeAccount ,

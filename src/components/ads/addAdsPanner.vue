@@ -119,23 +119,15 @@ export default {
         async uploadAds(){
             this.disabled = true
             const fd = new FormData(this.$refs.uploadForm)
-            await axios.post('sign-out', fd)
+            await axios.post('add-banner', fd)
             .then( (res)=>{
                 if( res.data.key == "success"  ){
-                    this.$swal({
-                        icon: 'success',
-                        title: res.data.msg,
-                        timer: 2000,
-                        showConfirmButton: false,
 
-                    });
 
                     this.adPanner = false
                     document.querySelector('.modal-backdrop').style.display = "none"
 
-                    setTimeout(() => {
                         this.dialog = true
-                    }, 2000);     
                     
                     
                     

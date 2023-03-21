@@ -85,7 +85,7 @@
     <activatioCode />
 
     <!-- register  -->
-    <registerComponent />
+    <registerComponent  />
 </template>
 
 <script>
@@ -109,7 +109,8 @@ export default {
             password : '',
             device_type : "web",
             disabled : false,
-            loginModal : false
+            loginModal : false,
+            dataDialog : null
         }
     },
 
@@ -183,6 +184,14 @@ export default {
                         location.reload()
 
                     }
+
+                    // else if( res.data.key == "needActive" ){
+                    //     this.dataDialog = true
+
+                    //     this.loginModal = false
+                    //     document.querySelector('.modal-backdrop').style.display = "none"
+
+                    // }
                     // if failed response 
                     else{
                         this.$swal({
@@ -216,6 +225,14 @@ export default {
             .then(response => response.json())
             .then(data => sessionStorage.setItem('device_id', data.ip))
             .catch(error => console.error(error));
+
+
+            this.dataDialog = this.dialog
+            console.log(this.dialog)
+            console.log(this.dataDialog)
+    },
+    props:{
+        dialog : Boolean
     }
 }
 </script>

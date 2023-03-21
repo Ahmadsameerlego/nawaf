@@ -19,14 +19,6 @@
 
                         <div class="inputs-container">
 
-                            <div class="input-g">
-                                <label for="" class="main-label">
-                                    كلمة المرور
-                                </label>
-                                <div class="main-input">
-                                    <input type="password" name="password" v-model="password" class="input-me" placeholder="أدخل كلمة المرور">
-                                </div>
-                            </div>
 
                             <div class="input-g">
                                 <label for="" class="main-label">
@@ -37,6 +29,14 @@
                                 </div>
                             </div>
 
+                            <div class="input-g">
+                                <label for="" class="main-label">
+                                    كلمة المرور
+                                </label>
+                                <div class="main-input">
+                                    <input type="password" name="password" v-model="password" class="input-me" placeholder="أدخل كلمة المرور">
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -231,6 +231,10 @@ export default {
 
                     // localStorage.setItem('IsLoggedIn', true);
                     this.dialog = false
+
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000);
 
 
                 }else{

@@ -87,10 +87,10 @@
                     </div>
 
                     <div class="input-g">
-                      <label for="" class="main-label"> مدة الإعلان </label>
+                      <label for="" class="main-label"> مدة الإعلان (المدة بالايام) </label>
                       <div class="main-input">
                         <input
-                          type="text"
+                          type="number"
                           class="input-me"
                           placeholder="أدخل مدة عرض الإعلان"
                           name="duration"
@@ -366,7 +366,19 @@ export default {
                 
                 this.$router.push('/adsPayment')
 
-              }else{
+              }else if( res.data.key == "needReActivation" ){
+                this.$swal({
+                    icon: 'error',
+                    title: res.data.msg,
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+
+                setTimeout(() => {
+                  this.$router.push('/editProfileView');
+                }, 2000);
+              }
+              else{
                 this.$swal({
                     icon: 'error',
                     title: res.data.msg,

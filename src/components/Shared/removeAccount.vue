@@ -30,10 +30,6 @@
           <div class="modal-footer">
             <button
               class="main-btn red md up"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#done2Modal"
-              data-bs-dismiss="modal"
               aria-label="Close"
               @click="deleteAcc()"
             >
@@ -80,6 +76,14 @@ export default defineComponent({
               showConfirmButton: false,
 
           });
+
+          
+          localStorage.removeItem('token')
+          localStorage.setItem('IsLoggedIn', 'false')
+          this.$router.push('/');
+          setTimeout(() => {  
+            location.reload();
+          }, 2000);
         }else{
           this.$swal({
               icon: 'error',

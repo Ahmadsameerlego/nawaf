@@ -19,6 +19,7 @@ import profileView from "../views/profileView.vue";
 import republishAdd from "../views/republishAdd.vue";
 import componiesView from "../views/componiesView.vue";
 import notFoundView from "../components/NotFound/notFoundView";
+import publicAds from '../views/publicAds.vue'
 
 
 
@@ -74,6 +75,7 @@ const routes = [
     path: "/advertisementsView",
     name: "advertisementsView",
     component: advertisementsView,
+    meta:{ requiresAuth : true}
   },
   {
     path: "/notificationsView",
@@ -128,6 +130,11 @@ const routes = [
     name: "notFoundView",
     component: notFoundView,
   },
+  {
+    path : '/publicAds/:id',
+    name : 'publicAds',
+    component :     publicAds
+  }
 ];
 
 
@@ -144,7 +151,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if ( localStorage.getItem('IsLoggedIn') == 'false' ) {
+    if ( localStorage.getItem('IsLoggedIn') == 'false' || !localStorage.getItem('IsLoggedIn') ) {
       next({ name: 'home' })
     } else {
       next() // go to wherever I'm going
@@ -153,6 +160,8 @@ router.beforeEach((to, from, next) => {
     next() // does not require auth, make sure to always call next()!
   }
 })
+
+
 
 
 export default router;

@@ -13,6 +13,7 @@
                                     <p class="pay-head">
                                          تكلفة نشر الإعلان :
                                         <span class="pay-head-txt"> {{ adPrice }} </span>
+                                        <span>ر.س</span>
                                     </p>
 
                                     <div class="pay-boxs">

@@ -212,6 +212,7 @@ export default defineComponent({
       advertisement : {},
       images : [],
 
+        priceString: '',
       reuseAd : false , 
       newAd : false ,
       contact_method : '',
@@ -269,6 +270,19 @@ export default defineComponent({
 
         this.name = res.data.data.advertisement.name
         this.price = res.data.data.advertisement.price
+
+
+
+      // var a=this.priceString
+      // a=a.replace(/\,/g,''); // 1125, but a string, so convert it to number
+      // a=parseInt(a,10);
+
+
+        // parseInt(this.price)
+        // this.price = parseFloat(this.priceString.replace(/,/g, '')) 
+
+        //         console.log(this.price)
+
         this.details = res.data.data.advertisement.details
         this.duration = res.data.data.advertisement.duration
         this.contact_method = res.data.data.advertisement.contact_method
@@ -346,7 +360,23 @@ export default defineComponent({
               showConfirmButton: false,
 
           });
-        }else{
+          localStorage.setItem('random_token', res.data.data.random_token)
+          localStorage.setItem('ad_price', res.data.data.advertisement_cost)
+          this.$router.push('/adsPayment')
+
+        }else if( res.data.key == "needReActivation" ){
+                this.$swal({
+                    icon: 'error',
+                    title: res.data.msg,
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+
+                setTimeout(() => {
+                  this.$router.push('/editProfileView');
+                }, 2000);
+        }
+        else{
           this.$swal({
               icon: 'error',
               title: res.data.msg,

@@ -76,8 +76,8 @@
                         <input
                           type="number"
                           class="input-me"
-                          v-model="full_phone"
-                          name="full_phone"
+                          v-model="phone"
+                          name="phone"
                       
                         />
                         <i class="fa-regular fa-pen-to-square main-icon"></i>
@@ -138,6 +138,7 @@ export default defineComponent({
       name : '',
       email : '',
       full_phone : '',
+      phone : '',
       image : null , 
       user : {},
       disabled : false,
@@ -164,6 +165,7 @@ export default defineComponent({
           this.name = res.data.data.name
           this.email = res.data.data.email
           this.full_phone = res.data.data.full_phone
+          this.phone = res.data.data.phone
           this.image = res.data.data.image
 
           this.loader = false
@@ -188,6 +190,10 @@ export default defineComponent({
                     showConfirmButton: false,
 
                 });
+
+                setTimeout(() => {
+                  this.$router.push('/')
+                }, 2000);
         }else{
                 this.$swal({
                     icon: 'error',
