@@ -51,6 +51,11 @@ import Paginate from "vuejs-paginate-next";
 import VueI18n from "vue-i18n";
 import i18n from "./i18n";
 
+// import aos scroll animation
+// import AOS from 'aos'
+import 'aos/dist/aos.css'
+
+
 loadFonts();
 
 
@@ -65,6 +70,7 @@ createApp(App)
   .use(vuetify)
   .use(VueSweetalert2)
   .use(Paginate)
+  // .use(AOS)
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(VueGoogleMaps, {
     load: {
@@ -72,5 +78,6 @@ createApp(App)
       // language: 'de',
     
     },
+
   })
   .mount("#app");

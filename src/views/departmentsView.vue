@@ -4,7 +4,7 @@
   <div class="categories-section main-padding">
     <div class="container">
       <div class="categories-con">
-        <router-link :to="{ name: 'catogryView' , params: { id: catogry.id } }" class="categories-card" v-for="catogry in categories" :key="catogry.id">
+        <router-link @click="storeDepartName(catogry.name)" :to="{ name: 'catogryView' , params: { id: catogry.id } }" class="categories-card" v-for="catogry in categories" :key="catogry.id">
           <img class="catego-img" :src="catogry.image" alt="" />
           <span class="catego-name">{{catogry.name}}</span>
         </router-link>
@@ -28,7 +28,8 @@ export default defineComponent({
   data() {
     return {
       categories: [],
-      loader : true
+      loader : true,
+      catsIds : []
     };
   },
 
@@ -37,18 +38,29 @@ export default defineComponent({
   },
 
   methods:{
+    storeDepartName(name){
+      localStorage.setItem('departmentName', name)
+    },
     async getCategories(){
       await axios.get('categories')
       .then((res)=>{
         this.categories = res.data.data
-
+        this.$store.dispatch('categories', this.categories)
         this.loader = false
+
+        for( let i = 0 ; i < this.categories.length ; i++ ){
+          this.catsIds.push(this.categories[i].id)
+        }
+        localStorage.setItem('catsIds', this.catsIds)
+
       })
     }
   },
-
-  mounted(){
+  beforeMount(){
     this.getCategories()
+  },
+  mounted(){
+
   }
 
 });

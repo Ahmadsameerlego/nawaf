@@ -233,7 +233,16 @@ export default defineComponent({
   mounted(){
     this.getCategoryDetails()
 
-    this.removeAd = true
+    this.removeAd = true;
+
+
+    let id = this.$route.params.id
+    let catsAdsIds = localStorage.getItem('catsAdsIds');
+    if( !catsAdsIds.includes(id) ){
+      this.$router.push({name:'notFoundView'})
+    }
+    
+
   }
 });
 </script>

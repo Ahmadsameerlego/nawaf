@@ -74,8 +74,8 @@
             v-model="currentPageP"
             :page-count="totalPagesP"
             :click-handler="page => pageClickHandler(page)"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
+            :prev-text="'السابق'"
+            :next-text="'التالي'"
             :container-class="'pagination'"
             :page-class="'page-item'"    
             :no-li-surround="true"   
@@ -136,8 +136,8 @@
             v-model="currentPage"
             :page-count="totalPages"
             :click-handler="page => pageClickHandler2(page)"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
+            :prev-text="'السابق'"
+            :next-text="'التالي'"
             :container-class="'pagination'"
             :page-class="'page-item'"    
             :no-li-surround="true"   
@@ -182,6 +182,10 @@ export default defineComponent({
       perPage: 10,
       totalPages: 0,
 
+      catsAdsIds : [],
+      catsAdsIds2 : [],
+
+
 
     };
   },
@@ -213,7 +217,7 @@ export default defineComponent({
           });
 
           setTimeout(() => {
-            location.reload()
+            this.getActiveAds()
           }, 2000);
         }else{
           this.$swal({
@@ -245,7 +249,7 @@ export default defineComponent({
           });
 
           setTimeout(() => {
-            location.reload()
+            this.getFinishedAds()
           }, 2000);
         }else{
           this.$swal({
@@ -271,7 +275,7 @@ export default defineComponent({
     async getActiveAds(){
       await axios.get('active-advertisement', {
           headers:{
-            Authorization:  `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           }
       })
       .then( (res)=>{
@@ -281,6 +285,11 @@ export default defineComponent({
         this.currentPageP = res.data.data.pagination.current_page
 
         this.loader = false
+
+        for( let i = 0 ; i < this.activeAds.length ; i++ ){
+          this.catsAdsIds.push(this.activeAds[i].id)
+        }
+
       } )
     },
 
@@ -302,6 +311,10 @@ export default defineComponent({
         this.perPage = res.data.data.pagination.per_page
         this.currentPage = res.data.data.pagination.current_page
 
+        for( let i = 0 ; i < this.finishedAds.length ; i++ ){
+          this.catsAdsIds2.push(this.finishedAds[i].id)
+        }
+        localStorage.setItem('catsIdsAds', this.catsAdsIds.concat(this.catsAdsIds2))
       } )
     },
 

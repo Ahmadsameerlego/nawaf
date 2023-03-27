@@ -116,7 +116,7 @@
   
   <!-- End Add Advertisements Section -->
   <editPassword />
-  <editNum />
+  <editNum @uploadProfile="updateProfile()" />
 </template>
 
 <script>
@@ -147,6 +147,9 @@ export default defineComponent({
     };
   },
   methods: {
+    updateProfile(){
+      this.getProfile()
+    },
     onFileChange(e) {
       const file = e.target.files[0];
       this.image = URL.createObjectURL(file);
@@ -192,7 +195,7 @@ export default defineComponent({
                 });
 
                 setTimeout(() => {
-                  this.$router.push('/')
+                  this.getProfile()
                 }, 2000);
         }else{
                 this.$swal({

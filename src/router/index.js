@@ -126,10 +126,11 @@ const routes = [
     component: componiesView,
   },
   {
-    path: '/:pathMatch(.*)*',
+    path: '/:catchAll(.*)*',
     name: "notFoundView",
     component: notFoundView,
   },
+  
   {
     path : '/publicAds/:id',
     name : 'publicAds',
@@ -159,6 +160,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next() // does not require auth, make sure to always call next()!
   }
+
 })
 
 

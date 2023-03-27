@@ -85,7 +85,7 @@
     <activatioCode />
 
     <!-- register  -->
-    <registerComponent  />
+    <registerComponent :dataDialog="dataDialog"  />
 </template>
 
 <script>
@@ -110,7 +110,7 @@ export default {
             device_type : "web",
             disabled : false,
             loginModal : false,
-            dataDialog : null
+            dataDialog : false
         }
     },
 
@@ -185,13 +185,25 @@ export default {
 
                     }
 
-                    // else if( res.data.key == "needActive" ){
-                    //     this.dataDialog = true
+                    else if( res.data.key == "needActive" ){
+                        this.$swal({
+                            icon: 'error',
+                            title: res.data.msg,
+                            timer: 2000,
+                            showConfirmButton: false,
 
-                    //     this.loginModal = false
-                    //     document.querySelector('.modal-backdrop').style.display = "none"
+                        });
 
-                    // }
+                        
+
+                        this.loginModal = false
+                        document.querySelector('.modal-backdrop').style.display = "none";
+
+                        setTimeout(() => {
+                            this.dataDialog = true
+                        }, 2000);
+
+                    }
                     // if failed response 
                     else{
                         this.$swal({

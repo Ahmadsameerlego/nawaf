@@ -6,7 +6,7 @@
   <div class="explore-section main-padding">
     <div class="container">
       <div class="main-title media">
-        <h3 class="main-tit-text">تصفح قسم الالكترونيات</h3>
+        <h3 class="main-tit-text">تصفح قسم {{ departmentName }}</h3>
 
         <div class="title-inputs">
 
@@ -24,8 +24,9 @@
         </div>
       </div>
 
-      <div class="eplore-cards" v-if="catsAds.length > 0">
-        <div class="explore-card" v-for="(fav, i) in catsAds" :key="fav.id">
+      <section v-if="catsAds.length>0">
+        <div class="eplore-cards" v-if="showAds1">
+        <div class="explore-card" v-for="(fav) in catsAds" :key="fav.id">
           <div class="card-container">
             <router-link
               :to="{ name: 'publicAds', params: { id: fav.id } }"
@@ -44,7 +45,7 @@
               <img class="profile-img" :src="fav.advertiser_image" alt="" />
               <span class="profile-name">{{ fav.advertiser_name }}</span>
             </router-link>
-            <div class="favorite-icon" ref="favoriteicon" @click="addHeart(i)">
+            <div class="favorite-icon" ref="favoriteicon" @click="addHeart(fav.id)">
               <font-awesome-icon v-if="fav.fav_status==true" icon="fa-solid fa-heart" />
               <font-awesome-icon
                 v-if="fav.fav_status==false"
@@ -55,21 +56,64 @@
         </div>
       </div>
 
-      <div class="noDataFound" v-else>
-        <v-alert
-          color="info"
-          icon="$info"
-          title="لا توجد اقسام لهذا المتجر"
-        ></v-alert>
+      <div  v-if="showAds2">
+        <section class="eplore-cards" v-if="filteredAds.length>0" >
+          <div class="explore-card" v-for="(card) in filteredAds" :key="card.id">
+            <div class="card-container">
+              <router-link :to="{ name: 'publicAds', params: { id: card.id } }"></router-link>
+              <div class="explore-card-head">
+                <img :src="card.image" alt="" />
+              </div>
+              <div class="explore-card-body">
+                <h3 class="ads-title">{{ card.static_text }}  {{ card.name }}</h3>
+                <p class="ads-city">{{ card.city_name }}</p>
+                <span class="ads-price">{{ card.price }} {{ card.currency }} </span>
+              </div>
+            </div>
+            <div class="explore-card-footer">
+              <router-link :to="'/profileView/'+card.advertiser_id" class="profile">
+                <img class="profile-img" :src="card.advertiser_image" alt="" />
+                <span class="profile-name">{{ card.advertiser_name }} </span>
+              </router-link>
+              <div class="favorite-icon" @click="addHeart(card.id)">
+                <font-awesome-icon v-if="card.fav_status==true" icon="fa-solid fa-heart" />
+                <font-awesome-icon
+                  v-if="card.fav_status==false"
+                  icon="fa-regular fa-heart"
+                />
+
+              </div>
+            </div>
+          </div>
+
+        </section>
+        <section v-else>
+          <v-alert
+          type="info"
+          class="noFound"
+          >
+           لا توجد إعلانات
+          </v-alert>
+        </section>
       </div>
+      </section>
+
+      <section v-else>
+          <v-alert
+          type="info"
+          class="noFound"
+          >
+           لا توجد إعلانات
+          </v-alert>
+        </section>
 
       <!-- pagination -->
       <paginate
           v-model="currentPageP"
           :page-count="totalPagesP"
           :click-handler="page => pageClickHandler(page)"
-          :prev-text="'Prev'"
-          :next-text="'Next'"
+          :prev-text="'السابق'"
+          :next-text="'التالي'"
           :container-class="'pagination'"
           :page-class="'page-item'"    
           :no-li-surround="true"   
@@ -106,7 +150,7 @@
                     type="button"
                     role="tab"
                     aria-controls="pills-sub"
-                    aria-selected="false"
+                    aria-selected="true"
                   >
                     قسم فرعي
                   </button>
@@ -145,6 +189,7 @@
             <div class="modal-body">
               <div class="tab-content" id="pills-tabContent">
             
+                <!-- sub categories to filter  -->
                 <div
                   class="tab-pane fade show active"
                   id="pills-sub"
@@ -156,59 +201,22 @@
                     <div class="col-md-8 mx-auto">
                       <div class="check-boxs">
                         <div class="row gy-3">
-                          <div class="col-sm-4 col-6">
+
+                          <!-- single sub categories  -->
+                          <div class="col-sm-4 col-6" v-for="sub_category in sub_categories_to_filter" :key="sub_category.id">
                             <div class="check">
-                              <input type="checkbox" name="sub1" id="sub1" />
-                              <label for="sub1">الكترونيات</label>
+                              <input type="checkbox" v-model="subCat" :value="sub_category.id" :name="'sub1'+sub_category.id" :id="'sub1'+sub_category.id" :checked="sub_category.status" />
+                              <label :for="'sub1'+sub_category.id">{{ sub_category.name }}</label>
                             </div>
                           </div>
 
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub2" id="sub2" />
-                              <label for="sub2">أزياء</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub3" id="sub3" />
-                              <label for="sub3">شنط</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub4" id="sub4" />
-                              <label for="sub4">ألعاب</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub5" id="sub5" />
-                              <label for="sub5">مطاعم</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub6" id="sub6" />
-                              <label for="sub6">فنادق</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="sub7" id="sub7" />
-                              <label for="sub7">اكسسوارات</label>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                <!-- cities  -->
                 <div
                   class="tab-pane fade"
                   id="pills-city"
@@ -220,59 +228,21 @@
                     <div class="col-md-8 mx-auto">
                       <div class="check-boxs">
                         <div class="row gy-3">
-                          <div class="col-sm-4 col-6">
+                          
+                          <!-- single city to filter  -->
+                          <div class="col-sm-4 col-6" v-for="city in cities" :key="city.id">
                             <div class="check">
-                              <input type="checkbox" name="city1" id="city1" />
-                              <label for="city1">الرياض</label>
+                              <input type="checkbox" :name="'city'+city.id" :value="city.id" v-model="citiesSelected" :id="'city'+city.id" :checked="city.status" />
+                              <label :for="'city'+city.id"> {{city.name}} </label>
                             </div>
                           </div>
 
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city2" id="city2" />
-                              <label for="city2">الدمام</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city3" id="city3" />
-                              <label for="city3">جدة</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city4" id="city4" />
-                              <label for="city4">جدة</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city5" id="city5" />
-                              <label for="city5">الرياض</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city6" id="city6" />
-                              <label for="city6">الدمام</label>
-                            </div>
-                          </div>
-
-                          <div class="col-sm-4 col-6">
-                            <div class="check">
-                              <input type="checkbox" name="city7" id="city7" />
-                              <label for="city7">الرياض</label>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <!-- status  -->
                 <div
                   class="tab-pane fade"
                   id="pills-type"
@@ -286,14 +256,14 @@
                         <div class="row gy-3">
                           <div class="col-sm-4 col-6">
                             <div class="check">
-                              <input type="checkbox" name="type1" id="type1" />
+                              <input type="checkbox" name="new" value='"new"' v-model="selectedStatus" id="type1" />
                               <label for="type1">جديد</label>
                             </div>
                           </div>
 
                           <div class="col-sm-4 col-6">
                             <div class="check">
-                              <input type="checkbox" name="type2" id="type2" />
+                              <input type="checkbox" name="used"  value='"used"' v-model="selectedStatus" id="type2" />
                               <label for="type2">مستعمل</label>
                             </div>
                           </div>
@@ -302,6 +272,8 @@
                     </div>
                   </div>
                 </div>
+
+
               </div>
             </div>
 
@@ -309,7 +281,7 @@
               <div class="buttons-m">
                 <button
                   class="main-btn dark md up"
-                  type="submit"
+                  type="button"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 >
@@ -317,11 +289,11 @@
                 </button>
                 <button
                   class="main-btn transparent md up"
-                  type="submit"
+                  type="button"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 >
-                  حذف
+                  إلغاء
                 </button>
               </div>
             </div>
@@ -345,25 +317,52 @@ export default defineComponent({
   name: "catogryView",
   data() {
     return {
+      departmentName : '',
       filterImg: require("../assets/imgs/icons8-slider-50.png"),
       catsAds : [],
       currentPageP: 1,
       perPageP: 10,
       totalPagesP: 0,
       loader : true,
-      adId : null
+      adId : null,
+      sub_categories_to_filter : [],
+      cities : [],
+      subCat : [],
+      citiesSelected : [],
+      selectedStatus : [],
+      showAds1 : true,
+      showAds2 : false,
+      filteredAds : [],
+      catsAdsIds : [],
 
     };
+  },
+  watch : {
+    subCat(){
+
+      this.adsFilter()
+
+    },
+    citiesSelected(){
+
+      this.adsFilter()
+
+    },
+    selectedStatus(){
+
+      this.adsFilter()
+
+    }
   },
   created() {
         this.totalPagesP = Math.ceil(this.catsAds.length / this.perPageP)
   },
   methods: {
-    async addHeart() {
+    async addHeart(adId) {
       
       // console.log(this.hearted);
       const fd = new FormData();
-      fd.append(`advertisement id`, this.$route.params.id)
+      fd.append(`advertisement id`, adId)
       await axios.post(`favourite-advertisement`, fd , {
         headers:{
           Authorization:  `Bearer ${localStorage.getItem('token')}`
@@ -380,7 +379,7 @@ export default defineComponent({
           });
 
           setTimeout(() => {
-            location.reload()
+            this.getCategoriesAds()
           }, 2000);
           
         }else{
@@ -394,7 +393,7 @@ export default defineComponent({
         }
       } )
     },
-
+    // get data 
     async getCategoriesAds(){
       await axios.get(`category/${this.$route.params.id}/advertisements` , {
         headers:{
@@ -403,7 +402,8 @@ export default defineComponent({
       })
       .then( (res)=>{
         this.catsAds = res.data.data.advertisements.data;
-        this.adId = res.data.data.advertisements.id
+        this.adId = res.data.data.advertisements.data.id;
+
 
         this.totalPagesP = res.data.data.pagination.total_pages
         this.perPageP = res.data.data.pagination.per_page
@@ -411,13 +411,58 @@ export default defineComponent({
 
         this.loader = false
 
+
+        for( let i = 0 ; i < this.catsAds.length ; i++ ){
+          this.catsAdsIds.push(this.catsAds[i].id)
+        }
+        localStorage.setItem('catsAdsIds', this.catsAdsIds)
+
+
       } )
     },
-
+    // pagination click 
     pageClickHandler(page) {
         this.currentPageP = page
         this.getCategoriesAds()
     },
+
+    // checkboxes filter 
+    async adsFilter(){
+      await axios.get(`filter-advertisements/${this.$route.params.id}?sub_category_id=[${this.subCat}]&city_id=[${this.citiesSelected}]&status=[${this.selectedStatus}]&category_id=[${this.main}]` , {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+          this.filteredAds = res.data.data
+          console.log( this.filteredAds )
+          
+          if(  this.subCat.length == 0 && this.citiesSelected.length == 0 && this.selectedStatus.length == 0 ){
+              this.showAds1 = true;
+              this.showAds2 = false;
+          }else{
+            this.showAds1 = false ;
+            this.showAds2 = true;
+          }       
+
+      } )
+    },
+
+
+    // get sub categories and cities 
+    async getHome(){
+      await axios.get('home', {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        this.sub_categories_to_filter = res.data.data.sub_categories_to_filter ; 
+        this.cities = res.data.data.cities ; 
+
+      } )
+    }
+
   },
 
   components: {
@@ -426,7 +471,18 @@ export default defineComponent({
   },
 
   mounted(){
-    this.getCategoriesAds()
+    this.getCategoriesAds();
+    this.getHome()
+
+    this.departmentName = localStorage.getItem('departmentName')
+
+
+    let id = this.$route.params.id
+    let catsIds = localStorage.getItem('catsIds');
+      if( !catsIds.includes(id) ){
+        this.$router.push({name:'notFoundView'})
+      }
+    
   }
 });
 </script>

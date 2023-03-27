@@ -74,7 +74,9 @@ export default defineComponent({
       } )
     }
   },
-
+  mounted(){
+    this.showRates()
+  },
   components: {},
 });
 </script>

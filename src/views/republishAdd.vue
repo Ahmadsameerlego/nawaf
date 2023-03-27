@@ -16,35 +16,86 @@
                         <span class="ads-text">بحد اقصى 6 صور</span>
                       </span>
                       <div class="upload-img-container">
-                        <div class="img-upload-show">
-                          <div
-                            class="edit-box"
-                            v-for="imgUp,i in images"
-                            :key="imgUp.id"
-                          >
-                            <input
-                              type="file"
-                              accept="image/*"
-                              @change="onFileChange($event , i)"
-                              name="image[]"
-                              :id="'imgUpload' + i"
-                              class="hidden-input img-edit-input"
-                            />
-                            <label
-                              :for="'imgUpload' + i"
-                              class="edit-img"
-                            >
-                              <img
-                                :src="imgUp.images"
-                                alt=""
-                                class="edited-img"
-                                :class="{ wid: uploaded }"
-                              />
-                              <span class="edit-overlay">
-                                <img :src="edit" alt="" />
-                              </span>
+
+                        <!-- upload images  -->
+                        <div class="upload-img" v-if="images.length<5">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            id="imgUpload"
+                            class="hidden-input places-imgs-input"
+                            @change="uploadAdImages($event.target)"
+                          />
+                          <div class="img-upload-show" >
+                            <label for="imgUpload" class="label-img" >
+                              <img  :src="camImage" alt="" v-bind:ref="'image' +parseInt( key )" />
                             </label>
                           </div>
+                        </div>
+
+
+                        <div class="img-upload-show">
+                        
+
+                        <div class="img-upload-show mt-4" v-if="adsImages.length<=6">
+                            <div class="d-flex" >
+                                      <div class="hidden-img">
+                                        <div class="position-relative" v-for="(image, key) in adsImages" :key="key" >
+                                          <button class="remove-img text-white" type="button" @click="removeImage(image, key)">
+                                            &times;
+                                          </button>
+                                          <img class="preview img-thumbnail" :ref="'image'" /> 
+
+                                        </div>
+
+                                      </div>
+
+                                    <!-- already uploaded images  -->
+                                    <div
+                                        class="uploadedImage"
+                                        v-for="imgUp,i in images"
+                                        :key="imgUp.id"
+                                      >
+                                        <input
+                                          type="file"
+                                          accept="image/*"
+                                          @change="onFileChange($event , i)"
+                                          name="image[]"
+                                          :id="'imgUpload' + i"
+                                          class="hidden-input img-edit-input"
+                                        />
+                                        <label
+                                          :for="'imgUpload' + i"
+                                          class="edit-img"
+                                        >
+                                        
+                                          <img
+                                            :src="imgUp.images"
+                                            alt=""
+                                            class="edited-img"
+                                            :class="{ wid: uploaded }"
+                                          />
+                                          <span class="edit-overlay">
+                                            <img :src="edit" alt="" />
+                                          </span>
+                                        </label>
+                                    </div>
+
+
+                            </div>
+                            <div v-if="showValid" class="imageAlert">    
+                              <v-alert type="error">
+                                  غير مسموح بأكثر من 6 صور 
+                              </v-alert>    
+                            </div>
+
+                        </div>
+
+
+                          
+
+
                         </div>
                       </div>
                     </div>
@@ -206,6 +257,7 @@ export default defineComponent({
   name: "republishAdd",
   data() {
     return {
+      camImage : require('../assets/imgs/photo-camera.png'),
       subID : null,
       edit: require("../assets/imgs/edit.png"),
 
@@ -237,7 +289,16 @@ export default defineComponent({
       subCategories : [],
       catSeletedId : null,
       subCatId : null,
-      uploadedImages : []
+      uploadedImages : [],
+      changed_images_id : null,
+
+      changed_images_ids : [],
+
+
+      // images previewed 
+            adsImages : [],
+            adsImagesName : [],
+            showValid : false,
     };
   },
   computed : {
@@ -248,15 +309,73 @@ export default defineComponent({
         },
   },
   methods: {
-    onFileChange(event , i) {
-      const file = event.target.files[0];
-      console.log(event.target.files[0]);
-      this.images[i].images = URL.createObjectURL(file);
-      this.uploadedImages =this.images[i].images
-      this.uploaded = true;
+
+    // image preview 
+    uploadAdImages(file){
+
+
+        // preview operation 
+        let selectedImages = file.files ;
+
+        for( let i = 0 ; i < selectedImages.length ; i++ ){
+            this.adsImages.push( selectedImages[i] )
+            this.adsImagesName.push(selectedImages[i].name);
+        }
+
+
+    
+
+          if(this.adsImages.length > 6){
+            this.adsImages = []
+            this.showValid = true
+              
+
+          }else{
+            this.showValid = false
+          }
+
+          this.applyImage();
+
+
+    },
+
+    // remvoe image 
+    removeImage(image, key){
+        this.adsImages.splice(key, 1);
+        this.applyImage();
+
     },
 
 
+    applyImage() {
+      for (let i = 0; i < this.adsImages.length; i++) {
+        let reader = new FileReader();
+        reader.onload = () => {
+          this.$refs.image[i].src = reader.result;
+        };
+        reader.readAsDataURL(this.adsImages[i]);
+      }
+    },
+
+    onFileChange(event , i) {
+      const file = event.target.files[0];
+      // console.log(event.target.files[0]);
+      this.images[i].images = URL.createObjectURL(file);
+
+      // changed image 
+      this.uploadedImages =this.images[i].images;
+
+      // changed images id 
+      this.changed_images_id = this.images[i].id;
+      console.log(this.changed_images_id)
+      // changed images ids 
+      this.changed_images_ids.push(this.changed_images_id)
+      console.log(this.changed_images_ids)
+
+      this.uploaded = true;
+    },
+
+    // get repost data 
     async getRepostAds(){
       await axios.get(`repost-advertisement/${localStorage.getItem('adId')}/repost` , {
           headers:{
@@ -267,6 +386,7 @@ export default defineComponent({
         this.advertisement = res.data.data.advertisement
 
         this.images = res.data.data.advertisement.images;
+        // console.log(this.images.length)
 
         this.name = res.data.data.advertisement.name
         this.price = res.data.data.advertisement.price
@@ -334,17 +454,28 @@ export default defineComponent({
     async repostAd(){
         this.disabled = true
         const fd = new FormData( this.$refs.uploadAdForm );
+
+        // append city id 
         fd.append('city_id', this.city_id)
+        // append ad id 
         fd.append('id',localStorage.getItem('adId'))
+        // append sub_ad id 
         if( this.sub_category_id == '' )[
           fd.append('sub_category_id', this.subID)
         ]
 
-        // for (var i = 0; i < this.images.length; i++) {
-        //     this.imags = this.images[i]
-        // }
-          // fd.append('image[]' ,this.uploadedImages )
-          // console.log(this.imags)
+        // append new images 
+        for (var i = 0; i < this.adsImages.length; i++) {
+            this.imags = this.adsImages[i]
+            fd.append('image[]' ,this.imags )
+        }
+
+        // append changed images ids
+        for ( var x = 0 ; x < this.changed_images_ids.length ; x++ ){
+          fd.append('changed_images_id[]', this.changed_images_ids)
+        }
+
+
 
       await axios.post('repost', fd ,{
           headers : {
@@ -413,6 +544,7 @@ export default defineComponent({
     // for( let i = 0 ; i < this.categories.length ; i++ ){
 
     // }
+
   }
 });
 </script>
@@ -420,5 +552,14 @@ export default defineComponent({
 .categories-con .categories-card {
   text-decoration: none;
   color: #262626;
+}
+.uploadedImage{
+    border: 1px solid #dee2e6;
+    padding: 2px;
+    margin: 0 12px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

@@ -12,6 +12,8 @@ export default createStore({
     passwordFieldType1: "password",
     passwordFieldType2: "password",
 
+    categories : []
+
   },
   getters: {
     eyeToggle : ( state ) => state.eyeToggle,
@@ -21,6 +23,12 @@ export default createStore({
     passwordFieldType : (state) => state.passwordFieldType,
     passwordFieldType1 : (state) => state.passwordFieldType1,
     passwordFieldType2 : (state) => state.passwordFieldType2,
+
+
+    // getCategoryById: state => id => {
+    //   return state.categories.find(category => category.id === id)
+    // }
+
   },
   mutations: {
 
@@ -42,21 +50,10 @@ export default createStore({
       state.eyeToggle2 = !state.eyeToggle2
     },
 
-    // // show login alert 
-    // preventLogin(){
-    //   if( localStorage.getItem('IsLoggedIn') == "false" ){
-    //     this.$swal({
-    //         icon: 'error',
-    //         title: 'قم يتسجيل الدخول اولا',
-    //         timer: 3000,
-    //         showConfirmButton: false,
-
-    //     });
-    //   }
-    // }
 
   },
   actions: {
+    
   },
   modules: {
   }

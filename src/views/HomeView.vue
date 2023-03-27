@@ -8,16 +8,16 @@
     <homeCarousal :banners="banners"  />
 
     <!-- page parts  -->
-    <homeCates :categories="categories" />
+    <homeCates :categories="categories" data-aos="zoom-in" />
 
     <!-- explore ads   -->
-    <expolerAds :advertisements="advertisements" :sub_categories_to_filter="sub_categories_to_filter" :categories_to_filter="categories_to_filter" :cities="cities"/>
+    <expolerAds @reloadData="reloadata()" :advertisements="advertisements" :sub_categories_to_filter="sub_categories_to_filter" :categories_to_filter="categories_to_filter" :cities="cities"/>
 
     <!-- delivery company  -->
-    <deliveryCompany :shipping_companies="shipping_companies" />
+    <deliveryCompany data-aos="flip-left" :shipping_companies="shipping_companies" />
 
     <!-- home details  -->
-    <homeDetails :advertisers_num="advertisers_num"  :advertisement_num="advertisement_num"  :users_num="users_num" :content_2="content_2" :title_2="title_2" :intro_user_image="intro_user_image" :intro_advertiserment_image="intro_advertiserment_image" :intro_advertiser_image="intro_advertiser_image" />
+    <homeDetails data-aos="zoom-in"  :advertisers_num="advertisers_num"  :advertisement_num="advertisement_num"  :users_num="users_num" :content_2="content_2" :title_2="title_2" :intro_user_image="intro_user_image" :intro_advertiserment_image="intro_advertiserment_image" :intro_advertiser_image="intro_advertiser_image" />
 
     <!-- upload ad  -->
     <uploadAd :intro_image="intro_image" :title_1="title_1" :content_1="content_1" />
@@ -41,6 +41,10 @@ import loginComponent from '../components/auth/loginComponent.vue';
 
 
 import axios from 'axios';
+
+
+import AOS from "aos";
+
 
 
 import loader from '../components/Shared/pageLoader.vue'
@@ -96,6 +100,9 @@ export default defineComponent({
   },
 
   methods:{
+    reloadata(){
+      this.getHome()
+    },
     async getHome(){
       await axios.get('home', {
         headers:{
@@ -149,8 +156,14 @@ export default defineComponent({
       } )
     }
   },
+  beforeMount(){
+        this.getHome();
+
+  },
   mounted(){
-    this.getHome()
+    // AOS.init();
+window.removeEventListener('scroll', AOS.init());
+
   }
 });
 </script>

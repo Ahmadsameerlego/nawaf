@@ -11,17 +11,17 @@
 
                     <div class="facts-cards">
                         <div class="fact-card">
-                            <img class="fact-img" :src="'https://nawaaaf.com/public'+intro_user_image" alt="">
+                            <img class="fact-img" :src="intro_user_image" alt="">
                             <p class="facts-num"> {{ users_num }} </p>
                         </div>
         
                         <div class="fact-card">
-                            <img class="fact-img" :src="'https://nawaaaf.com/public'+intro_advertiser_image" alt="">
+                            <img class="fact-img" :src="intro_advertiser_image" alt="">
                             <p class="facts-num"> {{ advertisers_num }} </p>
                         </div>
         
                         <div class="fact-card">
-                            <img class="fact-img" :src="'https://nawaaaf.com/public'+intro_advertiserment_image" alt="">
+                            <img class="fact-img" :src="intro_advertiserment_image" alt="">
                             <p class="facts-num"> {{ advertisement_num }} </p>
                         </div>
                     </div>

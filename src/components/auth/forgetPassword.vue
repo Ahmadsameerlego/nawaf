@@ -76,6 +76,7 @@
                         <v-otp-input
                             ref="otpInput"
                             input-classes="otp-input"
+                            style="flex-direction:row-reverse"
                             separator=" "
                             :num-inputs="6"
                             :should-auto-focus="true"

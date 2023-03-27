@@ -4,12 +4,12 @@
     <div class="container">
       <div class="nav-content">
         <router-link to="/" class="logo">
-          <img :src="'https://nawaaaf.com/public'+nav_and_footer_data.logo" alt="" />
+          <img :src="nav_and_footer_data.logo" alt="" />
         </router-link>
 
         <div class="links-container">
 
-          <form class="search nav-search position-relative" ref="navSearch">
+          <section class="search nav-search position-relative" ref="navSearch">
               <input type="text" :placeholder="$t('nav.search')" class="search-input" v-model="searchBar" @input="searchAds()"/>
               <button type="button" class="search-btn">
                   <!-- <i class="fa-solid fa-sliders"></i> -->
@@ -24,7 +24,7 @@
                       <li>لا توجد إعلانات</li>
                   </ul>
               </div>
-          </form>
+          </section>
 
           <ul class="links" ref="ulBar">
             <router-link to="/" class="logo d-lg-none">
@@ -169,12 +169,14 @@
                     </router-link
                     >
                   </div>
-                  <router-link to="/notificationsView" class="more-anchor"> {{ $t('common.more') }} </router-link>
 
                 </section>
                 <section v-else class="d-flex justify-content-center">
                   <span class="text-center"> لا توجد اشعارات </span>
                 </section>
+                
+                <router-link to="/notificationsView" class="more-anchor"> {{ $t('common.more') }} </router-link>
+
               </div>
             </div>
 
@@ -264,7 +266,16 @@ export default {
     goToAd(id, name){
       this.$router.push(`/catogryDetails/${id}`);
       this.searchBar = name
-      this.showList = false
+      this.showList = false;
+
+      
+
+      if( this.$route.path.includes('catogryDetails')  ){
+        // setTimeout(() => {
+        //     location.reload()
+        // }, 10);
+        localStorage.setItem('currentAd', 'true')
+      }
     },
     toggleBar() {
       // SideBar
@@ -359,7 +370,7 @@ export default {
       })
       .then( (res)=>{
         this.notifications = res.data.data.notifications;
-        this.slicedNotification = this.notifications.slice(0,2);
+        this.slicedNotification = this.notifications.slice(0,3);
 
         console.log(this.notifications)
         console.log(this.slicedNotification)
@@ -426,10 +437,14 @@ a {
     overflow-y: auto;
     z-index: 99;
     li.adName{
-      border-bottom: 1px solid #dfdddd;
       cursor: pointer;
       padding-bottom: 8px;
+      &:not(:last-of-type){
+      border-bottom: 1px solid #dfdddd;
+
+      }
     }
+
 }
 .count_notification{
     position: absolute;

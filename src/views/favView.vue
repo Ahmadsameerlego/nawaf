@@ -46,8 +46,8 @@
           v-model="currentPageP"
           :page-count="totalPagesP"
           :click-handler="page => pageClickHandler(page)"
-          :prev-text="'Prev'"
-          :next-text="'Next'"
+          :prev-text="'السابق'"
+          :next-text="'التالي'"
           :container-class="'pagination'"
           :page-class="'page-item'"    
           :no-li-surround="true"   
@@ -101,7 +101,7 @@ export default defineComponent({
           });
 
           setTimeout(() => {
-            location.reload()
+            this.getFavs()
           }, 2000);
           
         }else{
@@ -115,6 +115,8 @@ export default defineComponent({
         }
       } )
     },
+
+    // get fav 
     async getFavs(){
       await axios.get('show-favourites', {
         headers:{

@@ -80,7 +80,12 @@
                                                 </div>
 
                                                 <div class="modal-footer">
-                                                    <button class="main-btn md up" @click.prevent.stop="sendPayment()" data-bs-dismiss="modal">استمرار</button>
+                                                    <button class="main-btn md up" :disabled="disabled" @click.prevent.stop="sendPayment()" data-bs-dismiss="modal"
+                                                    >استمرار
+                                                    <div class="spinner-border" role="status" v-if="disabled">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    </button>
                                                 </div>
 
                                             </div>
@@ -114,11 +119,13 @@ export default {
 
             adPrice : '',
             paymentWay : '',
+            disabled : false
             // disabled : true
         }
     },
     methods:{
         async sendPayment(){
+            this.disabled = true
             // const fd = new FormData(this.$refs.paymentForm)
             await axios.get(`test-payment/${localStorage.getItem('random_token')}` , {
                 headers : {
@@ -142,6 +149,7 @@ export default {
                         showConfirmButton: false,
                     });
                 }
+                this.disabled = false
                 
             } )
             .catch( (err)=>{

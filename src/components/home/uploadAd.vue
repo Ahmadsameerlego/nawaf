@@ -5,7 +5,7 @@
 
                 <div class="col-lg-6 col-md-0">
                     <div class="last-img">
-                        <img :src="'https://nawaaaf.com/public'+intro_image" alt="">
+                        <img :src="intro_image" alt="">
                     </div>
                 </div>
 

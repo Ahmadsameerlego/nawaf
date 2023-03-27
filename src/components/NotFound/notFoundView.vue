@@ -10,7 +10,7 @@
             </div>
 
             <div class="contant_box_404">
-              <h3 class="h2">دخلت صفحة غلط يا صاحبي</h3>
+              <h3 class="h2">يبدو أن الصفحة التي تريدها غير موجودة</h3>
 
               <router-link to="/" class="link_404">العودة للرئيسية</router-link>
             </div>

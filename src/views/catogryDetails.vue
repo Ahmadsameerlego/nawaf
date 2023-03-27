@@ -9,7 +9,7 @@
   <div class="ads-detailes sec-padding mt-3">
     <div class="container">
       <div class="main-title">
-        <h3 class="main-tit-text lg">{{ advertisement.static_text }}  {{  advertisement.name }} {{ advertisement.price }} {{ advertisement.currency }} </h3>
+        <h3 class="main-tit-text lg">{{ advertisement.static_text }}  {{  advertisement.name }} <span style="font-size:16px">({{ advertisement.price }} {{ advertisement.currency }})</span> </h3>
         <div class="ads-type">
           {{ advertisement.status_for_show }}
           <img :src="newImg" alt="" />
@@ -244,6 +244,20 @@ export default defineComponent({
     this.getCategoryDetails()
 
     this.removeAd = true
+
+    let id = this.$route.params.id
+    let catsIds = localStorage.getItem('catsIdsAds');
+      if( !catsIds.includes(id) ){
+        this.$router.push({name:'notFoundView'})
+      }
+    
+
+  },
+  updated(){
+    if( localStorage.getItem('currentAd') == 'true' ){
+      this.getCategoryDetails()
+    }
+    // this.getCategoryDetails()
   }
 });
 </script>

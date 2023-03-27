@@ -1987,6 +1987,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    width: 150px;
   }
   .company-cards .company-card .company-num img {
     width: 30px;
@@ -1994,6 +1995,7 @@
     -o-object-fit: cover;
        object-fit: cover;
     border-radius: 5px;
+    margin-left: 10px;
   }
   @media screen and (max-width: 1280px) {
     .company-cards .company-card .company-num img {

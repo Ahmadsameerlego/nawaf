@@ -10,6 +10,7 @@
 
                 <!-- form  -->
                 <form ref="uploadAdForm" enctype="multipart/form-data">
+
                   <h2 class="section-title">ارفع إعلانك</h2>
                   <div class="inputs-container">
                     <div class="upload-ads-img">
@@ -221,7 +222,6 @@ export default {
     data(){
         return{
             camImage : require('../../assets/imgs/photo-camera.png'),
-
             // form inputs 
             productStatus : '',
             contact_method : '',
@@ -315,19 +315,15 @@ export default {
         },
 
 
-          applyImage() {
-            for (let i = 0; i < this.adsImages.length; i++) {
-              let reader = new FileReader();
-              reader.onload = () => {
-                this.$refs.image[i].src = reader.result;
-              };
-              reader.readAsDataURL(this.adsImages[i]);
-
-            
-            }
-              console.log(this.adsImages)
-              console.log( this.adsImages.length)
-          },
+        applyImage() {
+          for (let i = 0; i < this.adsImages.length; i++) {
+            let reader = new FileReader();
+            reader.onload = () => {
+              this.$refs.image[i].src = reader.result;
+            };
+            reader.readAsDataURL(this.adsImages[i]);
+          }
+        },
 
 
         // submit upload ads form 
@@ -339,11 +335,12 @@ export default {
 
 
             for (var i = 0; i < this.adsImages.length; i++) {
-                this.imags = this.adsImages[i]
+                this.imags = this.adsImages[i];
+                fd.append('image[]' , this.imags )
             }
-              fd.append('image[]' ,this.imags )
             
-              console.log(this.imags)
+            // console.log(this.imags)
+            
 
             await axios.post('add-advertisement', fd, {
               headers : {

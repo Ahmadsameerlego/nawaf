@@ -6,7 +6,7 @@
         <div class="col-lg-5 col-md-6 col-12">
           <div class="footer-logo">
             <router-link to="/" class="foot-logo-img">
-              <img :src="'https://nawaaaf.com/public'+nav_and_footer_data.logo" alt="" />
+              <img :src="nav_and_footer_data.logo" alt="" />
             </router-link>
             <p class="footer-info">
               {{ nav_and_footer_data.content_in_footer }}

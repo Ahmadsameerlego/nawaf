@@ -20,10 +20,12 @@
         </div>
       </div>
 
-      <div class="eplore-cards" v-if="filteredAds.length>0">
-        <div class="explore-card" v-for="(card) in filteredAds" :key="card.id">
+      <div class="eplore-cards" v-if="showAds1">
+        <div class="explore-card" v-for="(card) in advertisements" :key="card.id">
           <div class="card-container">
-            <a href="ads-detailes.html"></a>
+            <router-link
+              :to="{ name: 'publicAds', params: { id: card.id } }"
+            ></router-link>
             <div class="explore-card-head">
               <img :src="card.image" alt="" />
             </div>
@@ -34,10 +36,10 @@
             </div>
           </div>
           <div class="explore-card-footer">
-            <a href="profile.html" class="profile">
-              <img class="profile-img" :src="card.user" alt="" />
+            <router-link :to="'/profileView/'+card.advertiser_id" class="profile">
+              <img class="profile-img" :src="card.advertiser_image" alt="" />
               <span class="profile-name">{{ card.advertiser_name }} </span>
-            </a>
+            </router-link>
             <div class="favorite-icon" @click="addHeart(card.id)">
               <font-awesome-icon v-if="card.fav_status==true" icon="fa-solid fa-heart" />
               <font-awesome-icon
@@ -49,12 +51,45 @@
           </div>
         </div>
       </div>
-      <div class="noDataFound" v-else>
-        <v-alert
-          color="info"
-          icon="$info"
-          title="لا توجد اعلانات"
-        ></v-alert>
+      <div  v-if="showAds2" class="eplore-cards">
+        <section v-if="filteredAds.length>0" >
+          <div class="explore-card" v-for="(card) in filteredAds" :key="card.id">
+            <div class="card-container">
+              <router-link :to="{ name: 'publicAds', params: { id: card.id } }"></router-link>
+              <div class="explore-card-head">
+                <img :src="card.image" alt="" />
+              </div>
+              <div class="explore-card-body">
+                <h3 class="ads-title">{{ card.static_text }}  {{ card.name }}</h3>
+                <p class="ads-city">{{ card.city_name }}</p>
+                <span class="ads-price">{{ card.price }} {{ card.currency }} </span>
+              </div>
+            </div>
+            <div class="explore-card-footer">
+              <router-link :to="'/profileView/'+card.advertiser_id" class="profile">
+                <img class="profile-img" :src="card.advertiser_image" alt="" />
+                <span class="profile-name">{{ card.advertiser_name }} </span>
+              </router-link>
+              <div class="favorite-icon" @click="addHeart(card.id)">
+                <font-awesome-icon v-if="card.fav_status==true" icon="fa-solid fa-heart" />
+                <font-awesome-icon
+                  v-if="card.fav_status==false"
+                  icon="fa-regular fa-heart"
+                />
+
+              </div>
+            </div>
+          </div>
+
+        </section>
+        <section v-else>
+          <v-alert
+          type="info"
+          class="noFound"
+          >
+           لا توجد إعلانات
+          </v-alert>
+        </section>
       </div>
     </div>
   </div>
@@ -217,7 +252,7 @@
                     </div>
                   </div>
                 </div>
-
+                <!-- status  -->
                 <div
                   class="tab-pane fade"
                   id="pills-type"
@@ -231,14 +266,14 @@
                         <div class="row gy-3">
                           <div class="col-sm-4 col-6">
                             <div class="check">
-                              <input type="checkbox" name="new" value="new" v-model="selectedStatus" id="type1" />
+                              <input type="checkbox" name="new" value='"new"' v-model="selectedStatus" id="type1" />
                               <label for="type1">جديد</label>
                             </div>
                           </div>
 
                           <div class="col-sm-4 col-6">
                             <div class="check">
-                              <input type="checkbox" name="reuse"  value="used" v-model="selectedStatus" id="type2" />
+                              <input type="checkbox" name="used"  value='"used"' v-model="selectedStatus" id="type2" />
                               <label for="type2">مستعمل</label>
                             </div>
                           </div>
@@ -254,19 +289,19 @@
               <div class="buttons-m">
                 <button
                   class="main-btn dark md up"
-                  type="submit"
                   data-bs-dismiss="modal"
+                  type="button"
                   aria-label="Close"
                 >
                   بحث
                 </button>
                 <button
                   class="main-btn transparent md up"
-                  type="submit"
                   data-bs-dismiss="modal"
+                  type="button"
                   aria-label="Close"
                 >
-                  حذف
+                  الغاء
                 </button>
               </div>
             </div>
@@ -312,29 +347,30 @@ export default {
       selectedStatus : [],
       catsIds : [],
       catId : 'category_id[]',
-      filteredAds : []
+      filteredAds : [],
+      result : [],
+      showAds : [],
+      filteredShow : [],
+      showAds1 : true,
+      showAds2 : false
     };
   },
   watch:{
     main(){
-      console.log(this.main)
-
+      
       this.adsFilter()
     },
     subCat(){
-      console.log(this.subCat)
 
       this.adsFilter()
 
     },
     citiesSelected(){
-      console.log(this.citiesSelected)
 
       this.adsFilter()
 
     },
     selectedStatus(){
-      console.log(this.selectedStatus)
 
       this.adsFilter()
 
@@ -347,6 +383,7 @@ export default {
     cities : Array
   },
   methods: {
+    // add remove fav 
     async addHeart(i) {
       
       // console.log(this.hearted);
@@ -368,7 +405,7 @@ export default {
           });
 
           setTimeout(() => {
-            location.reload()
+            this.$emit('reloadData')
           }, 2000);
         }else{
           this.$swal({
@@ -381,18 +418,44 @@ export default {
         }
       } )
     },
-
+    // checkboxes filter 
     async adsFilter(){
-      await axios.get(`filter-advertisements?sub_category_id[]=${this.subCat}&city_id[]=${this.citiesSelected}&status[]=${this.selectedStatus}&category_id[]=${this.main}`)
+      await axios.get(`filter-advertisements?sub_category_id=[${this.subCat}]&city_id=[${this.citiesSelected}]&status=[${this.selectedStatus}]&category_id=[${this.main}]`, {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
       .then( (res)=>{
-        console.log(res)
+          this.filteredAds = res.data.data
+          
+          if( this.main.length == 0 && this.subCat.length == 0 && this.citiesSelected.length == 0 && this.selectedStatus.length == 0 ){
+              this.showAds1 = true;
+              this.showAds2 = false;
+          }else{
+            this.showAds1 = false ;
+            this.showAds2 = true;
+          }       
+
       } )
     }
   },
+  beforeMount(){
+  },
    mounted(){
-    this.filteredAds = this.advertisements
-   }
+    // console.log(this.showAds)
+// this.showAds = this.advertisements; 
+    // this.adsFilter()
+  },
+  updated(){
+             
+  }
 };
 </script>
 
-<style></style>
+<style>
+  .tab-pane{
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+</style>

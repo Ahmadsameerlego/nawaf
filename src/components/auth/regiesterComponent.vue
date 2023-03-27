@@ -154,6 +154,7 @@
                         <v-otp-input
                             ref="otpInput"
                             input-classes="otp-input"
+                            style="flex-direction:row-reverse"
                             separator=" "
                             :num-inputs="6"
                             :should-auto-focus="true"
@@ -203,6 +204,7 @@ import VOtpInput from "vue3-otp-input";
 
 
 
+
 export default {
     data(){
         return{
@@ -225,6 +227,11 @@ export default {
             
         }
     },
+    updated(){
+        if( this.dialog == false ){
+            this.dialog = this.dataDialog
+        }
+    },
     validations(){
         return{
             name : { required },
@@ -236,6 +243,7 @@ export default {
         }
     },
     props:{
+        dataDialog : Boolean
     },
     computed : {
         ...mapState(["eyeToggle"]),

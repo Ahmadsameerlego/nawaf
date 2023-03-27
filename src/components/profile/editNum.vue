@@ -34,7 +34,11 @@
                                     كلمة المرور
                                 </label>
                                 <div class="main-input">
-                                    <input type="password" name="password" v-model="password" class="input-me" placeholder="أدخل كلمة المرور">
+                                    <span class="pass-icon main-icon"  @click="switchVisibility()">
+                                        <font-awesome-icon icon="fa-solid fa-eye-slash" v-if="!eyeToggle"/>
+                                        <font-awesome-icon icon="fa-solid fa-eye" v-else-if="eyeToggle" />
+                                    </span>
+                                    <input :type="passwordFieldType" name="password" v-model="password" class="input-me" placeholder="أدخل كلمة المرور">
                                 </div>
                             </div>
                         </div>
@@ -86,6 +90,7 @@
                               ref="otpInput"
                               input-classes="otp-input"
                               separator=" "
+                              style="flex-direction:row-reverse"
                               :num-inputs="6"
                               :should-auto-focus="true"
                               v-modal="otpInput"
@@ -120,8 +125,9 @@
 
 <script>
 import axios from "axios";
-import { mapMutations } from "vuex";
 import VOtpInput from "vue3-otp-input";
+import { mapState , mapMutations , mapGetters } from 'vuex'
+
 
 export default {
   data() {
@@ -136,7 +142,13 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+        ...mapState(["eyeToggle"]),
+        ...mapGetters(["eyeToggle"]),
+        ...mapState(["passwordFieldType"]),
+        ...mapGetters(["passwordFieldType"]),
+
+  },
   components: {VOtpInput},
   methods: {
     // edit phone method
@@ -233,7 +245,7 @@ export default {
                     this.dialog = false
 
                     setTimeout(() => {
-                        location.reload()
+                        this.$emit('uploadProfile')
                     }, 2000);
 
 

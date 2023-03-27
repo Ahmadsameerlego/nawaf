@@ -58,8 +58,8 @@
             v-model="currentPageP"
             :page-count="totalPagesP"
             :click-handler="page => pageClickHandler1(page1)"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
+            :prev-text="'السابق'"
+            :next-text="'التالي'"
             :container-class="'pagination'"
             :page-class="'page-item'"    
             :no-li-surround="true"   
@@ -112,8 +112,8 @@
                   v-model="currentPageP"
                   :page-count="totalPagesP"
                   :click-handler="page => pageClickHandler(page)"
-                  :prev-text="'Prev'"
-                  :next-text="'Next'"
+                  :prev-text="'السابق'"
+                  :next-text="'التالي'"
                   :container-class="'pagination'"
                   :page-class="'page-item'"    
                   :no-li-surround="true"   
@@ -144,8 +144,7 @@
                   </div>
                 </div>
                 <v-rating
-                  half-increments
-                  color="gray"
+                  color="orange"
                   length="5"
                   size="54"
                   name="num_of_stars"
@@ -194,7 +193,8 @@ export default defineComponent({
       totalPages: 0,
       disabled : false,
       advertiserName : '',
-      advertiserImage : null
+      advertiserImage : null,
+      comment : ''
 
     };
   },
@@ -227,7 +227,7 @@ export default defineComponent({
           });
 
           setTimeout(() => {
-              location.reload()
+              this.getUserAds()
           }, 2000);
 
         }else{
@@ -241,7 +241,7 @@ export default defineComponent({
         }
       } )
     },
-
+    // get ads 
     async getUserAds(){
       await axios.get(`user/${this.$route.params.id}/advertisements` , {
         headers:{
@@ -277,7 +277,7 @@ export default defineComponent({
         this.currentPage = page1
         this.getUserAds()
     },
-
+    // rate user 
     async rateUser(){
         this.disabled = true
 
@@ -298,7 +298,14 @@ export default defineComponent({
               showConfirmButton: false,
 
           });
-          location.reload()
+
+          // update data 
+          setTimeout(() => {
+              this.getUserAds()
+
+              this.comment = '';
+              this.num_of_stars = '';
+          }, 2000);
         }else{
           this.$swal({
               icon: 'error',
