@@ -1,8 +1,8 @@
 <template>
   <!-- Start map Section -->
-  <div class="map-section">
+  <!-- <div class="map-section"> -->
     <!-- <div id="map" style="width: 100%; height: 500px"></div> -->
-    <GMapMap
+    <!-- <GMapMap
       :center="center"
       :options="options"
       :zoom="12"
@@ -18,7 +18,7 @@
         @click="center = m.position"
       />
     </GMapMap>
-  </div>
+  </div> -->
   <!-- End map Section -->
 
   <!-- Start Contact Section -->

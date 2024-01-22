@@ -30,7 +30,7 @@
                     class="main-btn lg up"
                     data-bs-toggle="modal"
                     data-bs-target="#imgModal"
-                    > {{ $t('common.uploadAds') }} </a
+                    > {{ baner_text }} </a
                   >
                 </div>
               </div>
@@ -65,15 +65,34 @@ import { Autoplay ,Pagination } from "swiper";
 
 // import add advertise panner 
 import addAdsPanner from '../ads/addAdsPanner.vue'
-
+import axios from 'axios';
 export default {
   data() {
     return {
-        
+      baner_text : ''  
     };
+  },
+  methods:{
+    async getHomeLogo(){
+      await axios.get('home' , {
+        headers:{
+          Authorization:  `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then( (res)=>{
+        this.baner_text = res.data.data.baner_text ;
+
+      } )
+      .catch( (err)=>{
+        console.error(err)
+      } )
+    },
   },
   props : {
     banners : Array
+  },
+  mounted(){
+    this.getHomeLogo();
   },
   components: {
     Swiper,

@@ -2568,7 +2568,8 @@
     background-color: #fff;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    transform: translateY(-100px);
+    margin-top: 30px;
+    /* transform: translateY(-100px); */
   }
   .contact-section .contact-content .contact-information .contact-item {
     margin-bottom: 40px;

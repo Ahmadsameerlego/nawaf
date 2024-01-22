@@ -30,7 +30,7 @@ dom.watch();
 
 // import axios
 import axios from 'axios';
-axios.defaults.baseURL = 'https://nawaaaf.com/api/';
+axios.defaults.baseURL = 'https://nawaaaf.com/dashboard/api/';
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');   
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // axios.defaults.headers.lang = sessionStorage.getItem('lang');

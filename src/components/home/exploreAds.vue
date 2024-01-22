@@ -36,10 +36,15 @@
             </div>
           </div>
           <div class="explore-card-footer">
-            <router-link :to="'/profileView/'+card.advertiser_id" class="profile">
+            <router-link :to="'/profileView/'+card.advertiser_id" class="profile" v-if="card.user_id!==''">
               <img class="profile-img" :src="card.advertiser_image" alt="" />
               <span class="profile-name">{{ card.advertiser_name }} </span>
             </router-link>
+
+            <div class="profile " v-else>
+              <span class="profile-name"> إعلان إدارى </span>
+            </div>
+            
             <div class="favorite-icon" @click="addHeart(card.id)">
               <font-awesome-icon v-if="card.fav_status==true" icon="fa-solid fa-heart" />
               <font-awesome-icon

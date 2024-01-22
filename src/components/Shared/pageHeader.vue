@@ -199,7 +199,7 @@
             class="main-btn up"
            
           >
-            <router-link to="/uploadAds"  @click="preventLogin()">   {{ $t('nav.upload') }}     </router-link>
+            <router-link to="/uploadAds"  @click="preventLogin()">   {{ad_text }}     </router-link>
           </button>
         </div>
       </div>
@@ -243,11 +243,11 @@ export default {
       slicedNotification : [],
       nav_and_footer_data : {},
       notyCount : 0,
-      hideLogOut : true
+      hideLogOut : true,
+      ad_text: ''
     };
   },
   methods: {
-
     preventLogin(){
       if( localStorage.getItem('IsLoggedIn') == "false"|| !localStorage.getItem('IsLoggedIn') ){
           this.$swal({
@@ -260,9 +260,6 @@ export default {
       }
 
     },
-
-    
-
     goToAd(id, name){
       this.$router.push(`/catogryDetails/${id}`);
       this.searchBar = name
@@ -342,7 +339,9 @@ export default {
         }
       })
       .then( (res)=>{
-        this.nav_and_footer_data = res.data.data.nav_and_footer_data
+        this.nav_and_footer_data = res.data.data.nav_and_footer_data ;
+        this.ad_text = res.data.data.ad_text ;
+
       } )
       .catch( (err)=>{
         console.error(err)

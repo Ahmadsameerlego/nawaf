@@ -18,6 +18,11 @@
                             <textarea class="form-control" name="details" v-model="details" id="exampleFormControlTextarea1" rows="3" placeholder="اكتب هنا"></textarea>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">السعر</label>
+                            <input type="number" name="price" class="form-control" v-model="price" placeholder="يرجى اضافة السعر">
+                        </div>
+
                         <div class="upload-img my-4">
                             <input type="file" name="image" accept="image/*" id="imgUpload" class="hidden-input img-upload-input" @change="uploadPanner">
                             <label for="imgUpload" class="label-img lg mx-auto">

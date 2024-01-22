@@ -87,7 +87,7 @@
                       </div>
                     </div>
 
-                    <div class="input-g">
+                    <!-- <div class="input-g">
                       <label for="" class="main-label"> مدة الإعلان (المدة بالايام) </label>
                       <div class="main-input">
                         <input
@@ -98,7 +98,7 @@
                           v-model="duration"
                         />
                       </div>
-                    </div>
+                    </div> -->
                     <!-- القسم الرئيسيي -->
                     <div class="input-g">
                       <label for="" class="main-label"> القسم الرئيسي </label>
@@ -153,6 +153,13 @@
 
 
 
+                      </div>
+
+                      <div class="mt-3">
+                        <span> لا توجد مدينة ؟ 
+                          <span class="addCity" data-bs-toggle="modal"
+                          data-bs-target="#addCity">اضف مدينة</span> 
+                        </span>
                       </div>
                     </div>
 
@@ -212,6 +219,54 @@
       </div>
     </div>
   </div>
+
+
+
+  <div class="modal fade"  id="addCity" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+
+            <button type="button" class="close-model-btn" data-bs-dismiss="modal" aria-label="Close">
+                <i class="fa-regular fa-circle-xmark"></i>
+            </button>
+
+            <div class="content-model-me">
+
+                <div class="modal-header">
+                  <h2 class="section-title">إضافة مدينة</h2>
+                </div>
+
+                <form action="" class="modal-form" ref="sendCode">
+                    <div class="modal-body">
+
+                        <div class="inputs-container">
+
+                            <div class="input-g">
+                                <label for="" class="main-label">
+                                    اسم المدينة
+                                </label>
+                                <div class="main-input">
+                                    <input type="text" class="input-me" placeholder="أدخل اسم المدينة" name="city_name" v-model="city_name">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="main-btn md up blabla" @click.prevent="addNewCity">
+                            إرسال
+                            
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+          </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -235,6 +290,7 @@ export default {
 
             imags : [],
             loader : true , 
+            addCity : false ,
 
 
 
@@ -256,7 +312,8 @@ export default {
             // loading pagination handle 
             regionQuery : null ,
 
-            disabled : false
+            disabled : false,
+            city_name : ''
 
 
 
@@ -277,7 +334,40 @@ export default {
     },
     methods:{
         
+      async addNewCity(){
+        const fd = new FormData();
+        fd.append('name', this.city_name)
+        await axios.post('new-city' , fd , {
+          headers : {
+              Authorization:  `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        .then( (res)=>{
+          if( res.data.key == "success" ){
+                 this.$swal({
+                    icon: 'success',
+                    title: res.data.msg,
+                    timer: 2000,
+                    showConfirmButton: false,
 
+                });
+                document.getElementById('addCity').style.display = 'none';
+                document.querySelector('.modal-backdrop').style.display = 'none';
+                setTimeout(() => {
+                  this.getCities();
+                }, 1000);
+            }
+            else{
+              this.$swal({
+                  icon: 'error',
+                  title: res.data.msg,
+                  timer: 2000,
+                  showConfirmButton: false,
+              });
+            }
+
+        } )
+      },
         // image preview 
         uploadAdImages(file){
 
@@ -359,7 +449,10 @@ export default {
                 });
                 
                 localStorage.setItem('random_token', res.data.data.random_token)
-                localStorage.setItem('ad_price', res.data.data.advertisement_cost)
+                localStorage.setItem('ad_price', res.data.data.advertisement_cost);
+                localStorage.setItem('ad_taxt', res.data.data.AdvertisingTax);
+                localStorage.setItem('ad_total', res.data.data.final_total);
+                localStorage.setItem('ad_text', res.data.data.payment_text);
                 
                 this.$router.push('/adsPayment')
 
@@ -442,5 +535,9 @@ export default {
 .imageAlert{
   color: red;
   display: flex;
+}
+.addCity{
+  color: #2ABDC7;
+  cursor: pointer;
 }
 </style>

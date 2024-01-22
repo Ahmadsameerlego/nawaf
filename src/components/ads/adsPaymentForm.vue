@@ -16,8 +16,27 @@
                                         <span>ر.س</span>
                                     </p>
 
+                                    <p class="pay-head border-bottom pb-3">
+                                         قيمة الضريبة المضافة :
+                                        <span class="pay-head-txt"> {{ adTax }} </span>
+                                        <span>ر.س</span>
+                                    </p>
+
+                                    <p class="pay-head ">
+                                         الاجمالي :
+                                        <span class="pay-head-txt"> {{ adToal }} </span>
+                                        <span>ر.س</span>
+                                    </p>
+
                                     <div class="pay-boxs">
 
+                                        <div class="box">
+                                            <span class="pay-label d-flex justify-content-center">
+                                                <span class="pay-text text-center">
+                                                    {{ adText }}
+                                                </span>
+                                            </span>
+                                        </div>
                                         <div class="box">
                                             <input type="radio" name="paymentWay" id="visa" value="visa" v-model="paymentWay">
                                             <label for="visa" class="pay-label">
@@ -64,7 +83,7 @@
                                     
                                     <!-- Alert Pay Modal -->
                                     <div class="modal fade done" id="alertPayModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                                        <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal- modal-dialog-centered">
                                         <div class="modal-content">
 
                                             <div class="content-model-me">
@@ -119,7 +138,10 @@ export default {
 
             adPrice : '',
             paymentWay : '',
-            disabled : false
+            disabled : false,
+            adToal : '',
+            adText : '',
+            adTax : ''
             // disabled : true
         }
     },
@@ -158,7 +180,11 @@ export default {
         }
     },
     mounted(){
-        this.adPrice = localStorage.getItem('ad_price')
+        this.adPrice = localStorage.getItem('ad_price');
+        this.adTax = localStorage.getItem('ad_taxt');
+        this.adToal = localStorage.getItem('ad_total');
+        this.adText = localStorage.getItem('ad_text');
+
     }
 }
 </script>
