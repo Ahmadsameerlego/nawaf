@@ -75,6 +75,13 @@
 
                                     </div>
 
+                                    <div class="d-flex align-items-center">
+                                        <input type="checkbox" class="">
+                                        <router-link to="/buyPrivacy" class="mx-3 buy-policy" style="border-bottom:2px solid #0d6efd">
+                                            أوافق على سياسة الشراء
+                                        </router-link>
+                                    </div>
+
                                     <div class="input-g">
                                         <button type="button" class="main-btn md up mx-auto" data-bs-toggle="modal" data-bs-target="#alertPayModal"  data-bs-dismiss="modal">استمرار</button>
                                     </div>

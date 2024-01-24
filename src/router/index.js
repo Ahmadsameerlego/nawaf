@@ -19,11 +19,18 @@ import profileView from "../views/profileView.vue";
 import republishAdd from "../views/republishAdd.vue";
 import componiesView from "../views/componiesView.vue";
 import notFoundView from "../components/NotFound/notFoundView";
-import publicAds from '../views/publicAds.vue'
+import publicAds from '../views/publicAds.vue';
+
+import buyPrivacy from '../views/buyPrivacy.vue'
 
 
 
 const routes = [
+  {
+    path : '/buyPrivacy',
+    name : 'buyPrivacy',
+    component  : buyPrivacy
+  },
   {
     path: "/",
     name: "home",

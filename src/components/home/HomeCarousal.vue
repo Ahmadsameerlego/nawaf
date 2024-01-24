@@ -6,12 +6,9 @@
         <swiper
             :pagination="pagination" 
             :modules="modules" 
-                :navigation="true"
+            :navigation="true"
             class="mySwiper"      
-            :autoplay="{
-                delay: 3500,
-                disableOnInteraction: false,
-            }"
+            
             :loop="true"
 
         >
@@ -60,8 +57,10 @@ import {  Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 
 import "swiper/css/pagination";
+import 'swiper/css/navigation';
+
 // import required modules
-import { Autoplay ,Pagination } from "swiper";
+import { Pagination , Navigation} from "swiper";
 
 // import add advertise panner 
 import addAdsPanner from '../ads/addAdsPanner.vue'
@@ -105,7 +104,7 @@ export default {
             clickable: true,
         },
 
-        modules: [Pagination, Autoplay],
+        modules: [Pagination , Navigation],
     };
 
   },

@@ -43,6 +43,19 @@
                   </div>
                 </div>
 
+
+                <div class="input-g">
+                  <div class="main-input">
+                    <input
+                      type="number"
+                      class="input-contact"
+                      v-model="contact.phone"
+                      name ="phone"
+                      placeholder="رقم الهاتف"
+                    />
+                  </div>
+                </div>
+
                 <div class="input-g">
                   <div class="main-input">
                     <input
@@ -203,6 +216,7 @@ export default defineComponent({
               this.contact.name = ''
               this.contact.email = ''
               this.contact.message = ''
+              this.contact.phone = ''
           }else{
              this.$swal({
                 icon: 'error',

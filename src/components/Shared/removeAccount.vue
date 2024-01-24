@@ -19,8 +19,11 @@
         </button>
 
         <div class="content-model-me">
-          <div class="modal-header">
-            <h2 class="section-title">هل تود بالفعل حذف الحساب؟</h2>
+          <div class="modal-header d-flex flex-column ">
+            <h2 class="section-title mb-3">هل تود بالفعل حذف الحساب؟</h2>
+            <h6 class="text-danger text-center">
+              يرجى الانتباه ! في حالة حذف الحساب سيتم حذف جميع الاعلانات والبنرات الخاصة بك
+            </h6>
           </div>
 
           <div class="modal-body">

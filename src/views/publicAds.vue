@@ -33,7 +33,7 @@
         <h3 class="main-tit-text lg">مُضاف بواسطة</h3>
       </div>
 
-      <div class="ads-detailes-info">
+      <div class="ads-detailes-info" v-if="advertisement.advertiser_name!==''">
         <div class="">
           <router-link class="ads-det-num" :to="'/profileView/'+advertisement.advertiser_id">
               <img class="user-img" :src="advertisement.advertiser_image" alt="" />
@@ -44,6 +44,11 @@
           <img :src="callImg" alt="" />
           <span class="number"> {{ advertisement.contact_method }} </span>
         </div>
+      </div>
+
+
+      <div v-else-if="advertisement.advertiser_name===''">
+        <span > من قبل الادارة </span>
       </div>
     </div>
   </div>
@@ -236,11 +241,11 @@ export default defineComponent({
     this.removeAd = true;
 
 
-    let id = this.$route.params.id
-    let catsAdsIds = localStorage.getItem('catsAdsIds');
-    if( !catsAdsIds.includes(id) ){
-      this.$router.push({name:'notFoundView'})
-    }
+    // let id = this.$route.params.id
+    // let catsAdsIds = localStorage.getItem('catsAdsIds');
+    // if( !catsAdsIds.includes(id) ){
+    //   this.$router.push({name:'notFoundView'})
+    // }
     
 
   }
